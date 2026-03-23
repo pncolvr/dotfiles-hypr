@@ -1,0 +1,96 @@
+# #!/bin/sh
+# https://wiki.hypr.land/IPC/#events-list
+# we can reimplement this without the additional layer, the link above is our main guide
+reload_waybar_custom_windows() {
+  # reload waybar custom/windows
+  pkill -RTMIN+1 waybar
+}
+
+sleep_and_set_tiled() {
+  sleep $1
+  hyprctl dispatch settiled address:"0x$2"
+}
+
+sleep_and_pin() {
+  previous_window=$(hyprctl -j clients | jq -r 'sort_by(.focusHistoryID) | .[1]')
+  previous_pinned=$(echo "$previous_window" | jq -r '.pinned // false')
+  
+  sleep $1
+  
+  if [[ "$previous_pinned" == "true" ]]; then
+    hyprctl dispatch pin address:"0x$2"
+  fi
+}
+
+event_openwindow() {
+    # WINDOWADDRESS WORKSPACENAME WINDOWCLASS WINDOWTITLE
+    
+    case "$WINDOWCLASS" in
+        "discord")
+            sleep_and_set_tiled 0.3 $WINDOWADDRESS
+            ;;
+        "com.freerdp.client.sdl3")
+            sleep_and_set_tiled 3 $WINDOWADDRESS
+            ;;
+        "code")
+            if [[ "$WINDOWTITLE" == "Visual Studio Code" ]]; then
+              sleep_and_pin 0 $WINDOWADDRESS
+            fi
+            ;;
+        "qutebrowser-twitch-chat") hyprctl dispatch layoutmsg mfact exact 0.85;;
+    esac
+    reload_waybar_custom_windows
+}
+
+event_changefloatingmode() {
+    # WINDOWADDRESS FLOATING
+    wininfo=$(hyprctl -j clients | jq -r ".[] | select(.address==\"0x$WINDOWADDRESS\")")
+    class=$(echo "$wininfo" | jq -r '.class')
+
+    if [[ "$class" == "code" && "$FLOATING" == "1" ]]; then
+        hyprctl dispatch resizewindowpixel exact 900 500,address:"0x$WINDOWADDRESS"
+        hyprctl dispatch centerwindow address:"0x$WINDOWADDRESS"
+    fi
+}
+
+event_activewindowv2() {
+  # WINDOWADDRESS
+  reload_waybar_custom_windows
+  ~/Projects/scripts/utils/streamdeck/handler.sh & disown
+}
+
+event_workspacev2() {
+  # WORKSPACEID WORKSPACENAME
+  reload_waybar_custom_windows
+}
+
+event_focusedmon() {
+  # MONNAME WORKSPACENAME
+  reload_waybar_custom_windows
+}
+
+event_screencast() {
+  # STATE OWNER
+  TEMP_DIR="${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}"
+  SCREENCAST_FILE="$TEMP_DIR/screencast_status"
+  echo "$STATE" > "$SCREENCAST_FILE"
+}
+
+event_fullscreen() {
+  # ENTER (0 if leaving fullscreen, 1 if entering)
+  case $ENTER in
+    0) ~/Projects/scripts/utils/swaync/ask-dnd.sh fullscreen-left & disown;;
+    1) ~/Projects/scripts/utils/swaync/ask-dnd.sh fullscreen-entered & disown;;
+  esac
+}
+
+# event_closewindow() {
+#   # WINDOWADDRESS
+#   reload_waybar_custom_windows
+#   active_workspace_id=$(hyprctl -j activeworkspace | jq -r '.id')
+#   workspace_window_count=$(hyprctl -j clients | jq --argjson workspace_id "$active_workspace_id" '[.[] | select(.workspace.id == $workspace_id)] | length')
+#   if [[ "$workspace_window_count" == "0" ]]; then
+#     hyprctl dispatch focusurgentorlast
+#     hyprctl dispatch focuscurrentorlast
+#   fi
+# }
