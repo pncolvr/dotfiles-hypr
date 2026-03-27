@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 
-workspace=$(echo "$0" | xargs realpath | xargs dirname)
-source "$workspace"/common/utils.sh
-
-pictures_folder=~/Pictures/Screenshots
+WORKSPACE=$(echo "$0" | xargs realpath | xargs dirname | xargs dirname)
+source "$WORKSPACE"/_common/utils.sh
+source "$(get_env_file "$0")"
+# set the following variables on the .env file
+# SCREENSHOT_FOLDER=
 
 function pick() {
-  rofi -dmenu -case-smart -sort -sorting-method fzf -p ""
+    rofi -dmenu -case-smart -sort -sorting-method fzf -p ""
 }
 
 function capture_screenshot() {
-    local method=${1:-region}
+    local method=$1
     timeout 30 hyprshot --freeze --silent --clipboard-only --raw --mode "$method"
 }
 
@@ -19,11 +20,12 @@ function screenshot() {
     local filename
     local file
     file=$(date '+%Y-%m-%d_%H:%M:%S').png
-    filename="$pictures_folder/$file"
+    filename="$SCREENSHOT_FOLDER/$file"
+
     capture_screenshot "$method" | satty --filename - --output-filename "$filename"
 
     if [[ -f "$filename" ]]; then
-        openFileExplorer "$filename"
+        open_file_explorer "$filename"
     fi
 }
 
@@ -40,7 +42,6 @@ function detect_qrcode() {
 }
 
 function detect_text() {
-    echo "Capturing region for OCR text detection..."
     local ocr_result
 
     ocr_result=$(capture_screenshot region | tesseract stdin stdout -l por 2>/dev/null)

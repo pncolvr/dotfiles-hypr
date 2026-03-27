@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-TEMP_DIR="${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}"
+WORKSPACE=$(echo "$0" | xargs realpath | xargs dirname)
+source "$WORKSPACE"/_common/utils.sh
 
-function isRunning() {
+function is_running() {
     procInfo=$(hyprctl clients -j | jq -r --arg app "org.qutebrowser.qutebrowser" '.[] | select(.class == $app) | .pid')
     if [[ -z "$procInfo" ]]; then
         echo false
@@ -11,7 +12,7 @@ function isRunning() {
     fi
 }
 
-if [[ "$(isRunning)" == true ]]; then
+if [[ "$(is_running)" == true ]]; then
     # shellcheck source=/home/pncolvr/Projects/scripts/rofi/web/common/utils.sh
     source "$HOME"/Projects/scripts/rofi/web/common/utils.sh
 
@@ -22,7 +23,7 @@ if [[ "$(isRunning)" == true ]]; then
         bookmarks["$name"]="$url"
     done < "$HOME"/.config/qutebrowser/bookmarks/urls
 
-    bookmarksFile="$TEMP_DIR/qutebrowser_bookmarks"
+    bookmarksFile=$(get_temp_file_named "qutebrowser_bookmarks")
     save_assoc_array "bookmarks" "$bookmarksFile"
 
     "$HOME"/Projects/scripts/rofi/web/common/handle.sh "$bookmarksFile" "open/search" "default" true

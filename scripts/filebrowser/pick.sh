@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
+WORKSPACE=$(echo "$0" | xargs realpath | xargs dirname | xargs dirname)
+source "$WORKSPACE"/_common/utils.sh
 
 # shellcheck source=/home/pncolvr/Projects/scripts/rofi/web/common/utils.sh
 source "$HOME"/Projects/scripts/rofi/web/common/utils.sh
-source "$HOME/.config/hypr/screen/common/utils.sh"
 
+#todo: move to json
 declare -A paths
 
 paths["Computer"]="computer:///"
@@ -25,7 +27,7 @@ paths["Mirabilis"]="/mnt/Mirabilis"
 paths["SobeckStash"]="/mnt/SobeckStash"
 
 
-if [[ $1 == "include-work" ]]; then
+if [[ $1 != "work" ]]; then
     workFolder="$HOME/Projects/bizdocs"
     paths["Bizdocs"]="$workFolder"
     paths["Bizdocs docs test"]="$workFolder/docs/docsteste/"
@@ -35,13 +37,12 @@ if [[ $1 == "include-work" ]]; then
     paths["Bizdocs rheia downloads"]="$workFolder/repos/rheia/SQLFiles/scripts/downloads/"
 fi
 
-TEMP_DIR="${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}"
-file="$TEMP_DIR"/files_shortcuts
+file=$(get_temp_file_named "files_shortcuts")
 
 save_assoc_array "paths" "$file"
 
 chosen=$("$HOME"/Projects/scripts/rofi/web/common/handle.sh "$file" "open" output)
 
 if [[ -n $chosen ]]; then 
-    openFileExplorer "$chosen"
+    open_file_explorer "$chosen"
 fi

@@ -6,6 +6,3 @@ pkill hyprpaper
 hyprpaper & disown
 
 killall shellevents -USR1
-
-pkill pypr
-pypr & disown

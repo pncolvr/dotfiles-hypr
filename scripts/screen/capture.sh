@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
-workspace=$(echo "$0" | xargs realpath | xargs dirname)
-source "$workspace"/common/utils.sh
 
-videos_folder=~/Videos/Recordings
-TEMP_DIR="${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}"
+WORKSPACE=$(echo "$0" | xargs realpath | xargs dirname | xargs dirname)
+source "$WORKSPACE"/_common/utils.sh
+source "$(get_env_file "$0")"
+# set the following variables on the .env file
+# VIDEOS_FOLDER=
+# HEADPHONES=
+# MIC=
 
-function handleCaptureOutput() {
+LOOPBACK_ID_FILE="$(get_temp_file_named loopback_id)"
+SCREENCAST_STATUS_FILE="$(get_temp_file_named screencast_status)"
+
+function handle_capture_output() {
     outputs=$(hyprctl monitors -j | jq --raw-output '.[] | .name')
     output=$(printf '%s\n' "${outputs[@]}" | sort | rofi -dmenu -i -p "")
     if [[ -n "$output" ]]; then
@@ -13,46 +19,42 @@ function handleCaptureOutput() {
     fi
 }
 
-function handleCaptureRegion() {
+function handle_capture_region() {
     capture "" "$(slurp -d)"
 }
 
-headphones="alsa_output.usb-Logitech_PRO_X_2_LIGHTSPEED_0000000000000000-00.analog-stereo.monitor"
-mic="alsa_input.usb-Logitech_PRO_X_2_LIGHTSPEED_0000000000000000-00.mono-fallback"
-function handleAudioChoice() {
+function handle_audio_choice() {
     include=$(echo "none|both|desktop|mic" | rofi -sep '|' -dmenu -i -p "")
     case "$include" in
         none) echo -n "";;
-        desktop) echo -n "$headphones";;
-        mic) echo -n "$mic";;
+        desktop) echo -n "$HEADPHONES";;
+        mic) echo -n "$MIC";;
         both) 
-            loadLoopback
-            echo -n "$headphones";;
+            load_loopback
+            echo -n "$HEADPHONES";;
         *) exit 1;;
     esac
 }
 
-loopback_id_file="$TEMP_DIR/loopback.id"
-
-loadLoopback() {
-    : > "$loopback_id_file"
+function load_loopback() {
+    : > "$LOOPBACK_ID_FILE"
     local id
 
-    id=$(pactl load-module module-loopback) && echo "$id" >> "$loopback_id_file"
+    id=$(pactl load-module module-loopback) && echo "$id" >> "$LOOPBACK_ID_FILE"
 
     # Give PipeWire time to register nodes
     sleep 0.25
 }
 
-unloadLoopback() {
-    [[ -f "$loopback_id_file" ]] || return
+function unload_loopback() {
+    [[ -f "$LOOPBACK_ID_FILE" ]] || return
     while read -r mid; do
         [[ -n "$mid" ]] && pactl unload-module "$mid" >/dev/null 2>&1 || true
-    done < "$loopback_id_file"
-    rm -f "$loopback_id_file"
+    done < "$LOOPBACK_ID_FILE"
+    rm -f "$LOOPBACK_ID_FILE"
 }
 
-function requestFps () {
+function request_fps () {
     fps=$(echo "60|30|15" | rofi -sep '|' -dmenu -i -p "")
     case "$fps" in 
         60|30|15) echo "$fps";;
@@ -67,13 +69,13 @@ function capture () {
     local filename
     local file
     local params=" "
-    fps=$(requestFps)
+    fps=$(request_fps)
     [ -z "$fps" ] && exit 0
-    audio=$(handleAudioChoice)
+    audio=$(handle_audio_choice)
     [ -n "$output" ] && params+=" --output $output"
     [ -n "$region" ] && params+=" --geometry \"$region\""
     file=$(date '+%Y-%m-%d_%H:%M:%S').mp4
-    filename="$videos_folder/$file"
+    filename="$VIDEOS_FOLDER/$file"
 
     hyprctl notify -1 1000 "rgb(2E7D32)" "recording starting" > /dev/null 2>&1
     sleep 1.1
@@ -94,8 +96,8 @@ function capture () {
     command+=" -f \"$filename\""
 
     echo "$command"
-    cast_status=$(cat "$TEMP_DIR/screencast_status")
-    echo "1" > "$TEMP_DIR/screencast_status"
+    cast_status=$(cat "$SCREENCAST_STATUS_FILE")
+    echo "1" > "$SCREENCAST_STATUS_FILE"
     eval "$command"
     status=$?
     echo "$status"
@@ -103,29 +105,29 @@ function capture () {
         hyprctl notify -1 3000 "rgb(FF0000)" "recording error" > /dev/null 2>&1
     fi
 
-    unloadLoopback
-    echo "$cast_status" > "$TEMP_DIR/screencast_status"
+    unload_loopback
+    echo "$cast_status" > "$SCREENCAST_STATUS_FILE"
     # systemctl --user restart pipewire pipewire-pulse
     hyprctl notify -1 1000 "rgb(2E7D32)" "recording stopped" > /dev/null 2>&1
-    openFileExplorer "$filename"
+    open_file_explorer "$filename"
 }
 
-function handleCapture() {
+function handle_capture() {
     chosen=$(echo "output|region" | rofi -sep '|' -dmenu -i -p "")
     case $chosen in
-        *output*) handleCaptureOutput;;
-        *region*) handleCaptureRegion;;
+        *output*) handle_capture_output;;
+        *region*) handle_capture_region;;
         *)exit 0;;
     esac
 }
 
-function handleStop() {
+function handle_stop() {
     pkill -SIGINT wf-recorder
 }
 
 if ! pgrep -xi "wf-recorder" > /dev/null
 then
-    handleCapture
+    handle_capture
 else
-    handleStop
+    handle_stop
 fi

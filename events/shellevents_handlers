@@ -56,7 +56,7 @@ event_changefloatingmode() {
 event_activewindowv2() {
   # WINDOWADDRESS
   reload_waybar_custom_windows
-  ~/Projects/scripts/utils/streamdeck/handler.sh & disown
+  ~/.config/hypr/scripts/streamdeck/handler.sh & disown
 }
 
 event_workspacev2() {

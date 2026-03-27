@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 SLIDESHOW_DIRECTORY="$1"
+
 function random () {
     close
     img=$(find "$SLIDESHOW_DIRECTORY" -maxdepth 2 -type f | shuf -n 1)
