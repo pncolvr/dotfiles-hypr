@@ -10,22 +10,25 @@ function get_possible_options () {
         echo "\"$2\"=\"$("$HOME"/Projects/scripts/utils/browser/url-clean.sh "$3")\"" > "$1"
     else 
         cp "$TWITCH_FILE" "$1"
-        browser_active_session=~/.local/share/qutebrowser/sessions/_autosave.yml
-        if [[ -f "$browser_active_session" ]]; then
-            yq '
-            .windows[].tabs[].history[]
-                | select(.active == true)
-                | select(
-                (
-                    (.url | test("^https?://(www\\.)?youtube\\.com/.*watch")) and
-                    (.url | test("[?&]v=[^&]+"))
-                ) or
-                (.url | test("^https?://(www\\.)?twitch\\.tv/[^/?#]+$"))
-                )
-                | "\(.title)=\(.url)"' "$browser_active_session" \
-            | sed -E 's/=/"="/' \
-            | perl -MHTML::Entities -pe 'decode_entities($_);' >> "$1"
-        fi
+        # disabling for now add:🎬 later
+        # printf '"%s"="%s"\n' "🟣 $user" "https://www.twitch.tv/$user" >> "$ONLINE_FILE"
+        # 
+        # browser_active_session=~/.local/share/qutebrowser/sessions/_autosave.yml
+        # if [[ -f "$browser_active_session" ]]; then
+        #     yq '
+        #     .windows[].tabs[].history[]
+        #         | select(.active == true)
+        #         | select(
+        #         (
+        #             (.url | test("^https?://(www\\.)?youtube\\.com/.*watch")) and
+        #             (.url | test("[?&]v=[^&]+"))
+        #         ) or
+        #         (.url | test("^https?://(www\\.)?twitch\\.tv/[^/?#]+$"))
+        #         )
+        #         | "\(.title)=\(.url)"' "$browser_active_session" \
+        #     | sed -E 's/=/"="/' \
+        #     | perl -MHTML::Entities -pe 'decode_entities($_);' >> "$1"
+        # fi
     fi
 }
 

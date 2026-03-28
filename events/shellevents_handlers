@@ -121,11 +121,12 @@ event_fullscreen() {
   esac
 }
 
-event_closewindow() {
-  # WINDOWADDRESS
-  reload_waybar_custom_windows
-  workspace_window_count=$(hyprctl activeworkspace -j | jq -r '.windows')
-  if [[ "$workspace_window_count" == "0" ]]; then
-    hyprctl dispatch focuscurrentorlast
-  fi
-}
+# good in theory
+# event_closewindow() {
+#   # WINDOWADDRESS
+#   reload_waybar_custom_windows
+#   workspace_window_count=$(hyprctl activeworkspace -j | jq -r '.windows')
+#   if [[ "$workspace_window_count" == "0" ]]; then
+#     hyprctl dispatch focuscurrentorlast
+#   fi
+# }
