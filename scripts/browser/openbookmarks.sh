@@ -13,8 +13,8 @@ function is_running() {
 }
 
 if [[ "$(is_running)" == true ]]; then
-    # shellcheck source=/home/pncolvr/Projects/scripts/rofi/web/common/utils.sh
-    source "$HOME"/Projects/scripts/rofi/web/common/utils.sh
+    
+    source "$HOME"/.config/rofi/scripts/_common/utils.sh
 
     declare -A bookmarks
 
@@ -26,7 +26,7 @@ if [[ "$(is_running)" == true ]]; then
     bookmarksFile=$(get_temp_file_named "qutebrowser_bookmarks")
     save_assoc_array "bookmarks" "$bookmarksFile"
 
-    "$HOME"/Projects/scripts/rofi/web/common/handle.sh "$bookmarksFile" "open/search" "default" true
+    "$HOME"/.config/rofi/scripts/_common/handle.sh "$bookmarksFile" "open/search" "default" true
 else
     qutebrowser & disown
 fi

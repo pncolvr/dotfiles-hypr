@@ -3,8 +3,7 @@
 WORKSPACE=$(echo "$0" | xargs realpath | xargs dirname | xargs dirname)
 source "$WORKSPACE"/_common/utils.sh
 
-# shellcheck source=/home/pncolvr/Projects/scripts/rofi/web/common/utils.sh
-source "$HOME"/Projects/scripts/rofi/web/common/utils.sh
+source "$HOME"/.config/rofi/scripts/_common/utils.sh
 
 #todo: move to json
 declare -A paths
@@ -41,7 +40,7 @@ file=$(get_temp_file_named "files_shortcuts")
 
 save_assoc_array "paths" "$file"
 
-chosen=$("$HOME"/Projects/scripts/rofi/web/common/handle.sh "$file" "open" output)
+chosen=$("$HOME"/.config/rofi/scripts/_common/handle.sh "$file" "open" output)
 
 if [[ -n $chosen ]]; then 
     open_file_explorer "$chosen"

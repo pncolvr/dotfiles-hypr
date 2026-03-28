@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# shellcheck source=/home/pncolvr/Projects/scripts/rofi/windows/common/utils.sh
-source "$HOME"/Projects/scripts/rofi/windows/common/utils.sh
+source "$HOME"/.config/rofi/scripts/_common/utils.sh
 
 TWITCH_FILE="$(get_temp_file_named twitch_online)"
 OPTIONS_FILE="$(get_temp_file_named local_player_options)"
@@ -154,7 +153,7 @@ get_possible_options $OPTIONS_FILE "$1" "$2"
 count=$(cat "$OPTIONS_FILE" | wc -l)
 
 if [[ -s "$OPTIONS_FILE" && "$count" -gt 0 ]]; then 
-    chosen=$("$HOME"/Projects/scripts/rofi/web/common/handle.sh "$OPTIONS_FILE" "open" output)
+    chosen=$("$HOME"/.config/rofi/scripts/_common/handle.sh "$OPTIONS_FILE" "open" output)
     code=$!
     if [[ -n $chosen && "$code" -ne 1 ]]; then 
         pause_player chromium.instance

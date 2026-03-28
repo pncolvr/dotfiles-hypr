@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# shellcheck source=$HOME/Projects/scripts/rofi/web/common/utils.sh
-source "$HOME"/Projects/scripts/rofi/web/common/utils.sh
+source "$HOME"/.config/rofi/scripts/_common/utils.sh
 
 get_title() {
     local file="$1"
@@ -63,7 +62,7 @@ if $pick; then
     fi
     
     file="$user_tmp"
-    chosen=$("$HOME"/Projects/scripts/rofi/web/common/handle.sh "$file" "open" output)
+    chosen=$("$HOME"/.config/rofi/scripts/_common/handle.sh "$file" "open" output)
     if [[ -n $chosen ]]; then
         zathura "$chosen" &
     fi
