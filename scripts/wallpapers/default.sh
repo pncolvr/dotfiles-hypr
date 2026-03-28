@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-swww query || swww-daemon
+awww query || awww-daemon
 
 # Define wallpapers per monitor
-swww img ~/Pictures/runtime/wallpaper1 --outputs DP-1
-swww img ~/Pictures/runtime/wallpaper2 --outputs HDMI-A-1
+awww img ~/Pictures/runtime/wallpaper1 --outputs DP-1
+# currently not used, for later
+# awww img ~/Pictures/runtime/wallpaper2 --outputs HDMI-A-1 
 
