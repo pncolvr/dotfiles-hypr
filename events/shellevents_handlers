@@ -11,14 +11,41 @@ sleep_and_set_tiled() {
   hyprctl dispatch settiled address:"0x$2"
 }
 
-sleep_and_pin() {
-  previous_window=$(hyprctl -j clients | jq -r 'sort_by(.focusHistoryID) | .[1]')
+if_parent_pinned_pin() {
+  previous_window=$(hyprctl clients -j | jq -r 'sort_by(.focusHistoryID) | .[1]')
   previous_pinned=$(echo "$previous_window" | jq -r '.pinned // false')
   
-  sleep $1
-  
   if [[ "$previous_pinned" == "true" ]]; then
-    hyprctl dispatch pin address:"0x$2"
+    hyprctl dispatch pin address:"0x$1"
+  fi
+}
+
+if_floating_move_to_mouse() {
+  local window_address="0x$1"
+  local window_info is_floating win_w win_h monitor_id monitor_info 
+  local monitor_x monitor_y monitor_w monitor_h cursor_x cursor_y position_x position_y
+  local min_x min_y max_x max_y
+  window_info=$(hyprctl clients -j | jq -r --arg address "$window_address" '.[] | select(.address==$address)')
+  is_floating=$(echo "$window_info" | jq -r '.floating')
+  if [[ "$is_floating" == "true" ]]; then
+    read win_w win_h monitor_id <<< "$(echo "$window_info" | jq -r '[.size[0], .size[1], .monitor] | @tsv')"
+    monitor_info=$(hyprctl monitors -j | jq ".[] | select(.id==$monitor_id)")
+    read monitor_x monitor_y monitor_w monitor_h <<< "$(echo "$monitor_info" | jq -r '[.x, .y, .width, .height] | @tsv')"
+    read cursor_x cursor_y < <(hyprctl cursorpos | awk -F, '{print $1, $2}')
+
+    position_x=$((cursor_x - win_w / 2))
+    position_y=$((cursor_y - win_h / 2))
+    min_x=$((monitor_x + 10))
+    min_y=$((monitor_y + 30)) #because of bar
+    max_x=$((monitor_x + monitor_w - win_w - 10))
+    max_y=$((monitor_y + monitor_h - win_h - 10))
+
+    if (( position_x < min_x )); then position_x=$min_x; fi
+    if (( position_y < min_y )); then position_y=$min_y; fi
+    if (( position_x > max_x )); then position_x=$max_x; fi
+    if (( position_y > max_y )); then position_y=$max_y; fi
+
+    hyprctl dispatch movewindowpixel exact $position_x $position_y,address:"$window_address"
   fi
 }
 
@@ -26,33 +53,34 @@ event_openwindow() {
     # WINDOWADDRESS WORKSPACENAME WINDOWCLASS WINDOWTITLE
     reload_waybar_custom_windows
     case "$WINDOWCLASS" in
-        "discord")
-            sleep_and_set_tiled 0.3 $WINDOWADDRESS
-            ;;
-        "com.freerdp.client.sdl3")
-            sleep_and_set_tiled 3 $WINDOWADDRESS
-            ;;
-        "code")
-            if [[ "$WINDOWTITLE" == "Visual Studio Code" ]]; then
-              sleep_and_pin 0 $WINDOWADDRESS
-            fi
-            ;;
-        "qutebrowser-twitch-chat")
-            hyprctl dispatch layoutmsg mfact exact 0.85
-            ;;
+      "discord")
+        sleep_and_set_tiled 0.3 $WINDOWADDRESS
+        ;;
+      "com.freerdp.client.sdl3")
+        sleep_and_set_tiled 3 $WINDOWADDRESS
+        ;;
+      "code")
+        if [[ "$WINDOWTITLE" == "Visual Studio Code" ]]; then
+          if_parent_pinned_pin $WINDOWADDRESS
+          if_floating_move_to_mouse $WINDOWADDRESS
+        fi
+        ;;
+      "qutebrowser-twitch-chat")
+        hyprctl dispatch layoutmsg mfact exact 0.85
+        ;;
     esac
 }
 
-event_changefloatingmode() {
-    # WINDOWADDRESS FLOATING
-    wininfo=$(hyprctl -j clients | jq -r ".[] | select(.address==\"0x$WINDOWADDRESS\")")
-    class=$(echo "$wininfo" | jq -r '.class')
+# event_changefloatingmode() {
+#     # WINDOWADDRESS FLOATING
+#     wininfo=$(hyprctl clients -j | jq -r ".[] | select(.address==\"0x$WINDOWADDRESS\")")
+#     class=$(echo "$wininfo" | jq -r '.class')
 
-    if [[ "$class" == "code" && "$FLOATING" == "1" ]]; then
-        hyprctl dispatch resizewindowpixel exact 900 500,address:"0x$WINDOWADDRESS"
-        hyprctl dispatch centerwindow address:"0x$WINDOWADDRESS"
-    fi
-}
+#     if [[ "$class" == "code" && "$FLOATING" == "1" ]]; then
+#         hyprctl dispatch resizewindowpixel exact 900 500,address:"0x$WINDOWADDRESS"
+#         hyprctl dispatch centerwindow address:"0x$WINDOWADDRESS"
+#     fi
+# }
 
 event_activewindowv2() {
   # WINDOWADDRESS
@@ -93,13 +121,11 @@ event_fullscreen() {
   esac
 }
 
-# event_closewindow() {
-#   # WINDOWADDRESS
-#   reload_waybar_custom_windows
-#   active_workspace_id=$(hyprctl -j activeworkspace | jq -r '.id')
-#   workspace_window_count=$(hyprctl -j clients | jq --argjson workspace_id "$active_workspace_id" '[.[] | select(.workspace.id == $workspace_id)] | length')
-#   if [[ "$workspace_window_count" == "0" ]]; then
-#     hyprctl dispatch focusurgentorlast
-#     hyprctl dispatch focuscurrentorlast
-#   fi
-# }
+event_closewindow() {
+  # WINDOWADDRESS
+  reload_waybar_custom_windows
+  workspace_window_count=$(hyprctl activeworkspace -j | jq -r '.windows')
+  if [[ "$workspace_window_count" == "0" ]]; then
+    hyprctl dispatch focuscurrentorlast
+  fi
+}
