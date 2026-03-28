@@ -82,6 +82,7 @@ while true; do
     "urgent") WINDOWADDRESS="$1" event_urgent ;;
     "minimized") WINDOWADDRESS="$1" MINIMIZED="$2" event_minimized ;;
     "screencast") STATE="$1" OWNER="$2" event_screencast ;;
+    "screencastv2") STATE="$1" OWNER="$2" MONITOR="$3" event_screencastv2 ;;
     "togglegroup") STATE="$1" WINDOWADDRESSSES=${@:2} event_togglegroup ;;
     "moveintogroup") WINDOWADDRESS="$1" event_moveintogroup ;;
     "moveoutofgroup") WINDOWADDRESS="$1" event_moveoutofgroup ;;

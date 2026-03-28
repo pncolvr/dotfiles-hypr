@@ -132,6 +132,10 @@ event_screencast() {
   : # STATE OWNER
 }
 
+event_screencastv2() {
+  : # STATE OWNER MONITOR
+}
+
 event_togglegroup() {
   : # STATE WINDOWADDRESSSES
 }

@@ -24,7 +24,7 @@ sleep_and_pin() {
 
 event_openwindow() {
     # WINDOWADDRESS WORKSPACENAME WINDOWCLASS WINDOWTITLE
-    
+    reload_waybar_custom_windows
     case "$WINDOWCLASS" in
         "discord")
             sleep_and_set_tiled 0.3 $WINDOWADDRESS
@@ -37,9 +37,10 @@ event_openwindow() {
               sleep_and_pin 0 $WINDOWADDRESS
             fi
             ;;
-        "qutebrowser-twitch-chat") hyprctl dispatch layoutmsg mfact exact 0.85;;
+        "qutebrowser-twitch-chat")
+            hyprctl dispatch layoutmsg mfact exact 0.85
+            ;;
     esac
-    reload_waybar_custom_windows
 }
 
 event_changefloatingmode() {
@@ -69,10 +70,18 @@ event_focusedmon() {
   reload_waybar_custom_windows
 }
 
-event_screencast() {
-  # STATE OWNER
-  TEMP_DIR="${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}"
-  SCREENCAST_FILE="$TEMP_DIR/screencast_status"
+# event_screencast() {
+#   # STATE OWNER
+#   TEMP_DIR="${XDG_RUNTIME_DIR:-/tmp}"
+#   SCREENCAST_FILE="$TEMP_DIR/screencast_status_$(id -u)"
+#   echo "$STATE" > "$SCREENCAST_FILE"
+# }
+
+event_screencastv2() {
+  # STATE OWNER MONITOR
+
+  TEMP_DIR="${XDG_RUNTIME_DIR:-/tmp}"
+  SCREENCAST_FILE="$TEMP_DIR/screencast_status_$(id -u)"
   echo "$STATE" > "$SCREENCAST_FILE"
 }
 
