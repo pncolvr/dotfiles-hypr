@@ -2,7 +2,15 @@
 
 source "$HOME"/.config/rofi/scripts/_common/utils.sh
 
-get_title() {
+OUTPUT_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/books_${USER}"
+TEMPLATE_JSON='{
+    "prompt": "",
+    "action": "output",
+    "allowTyped": false,
+    "sort": true
+}'
+
+function get_title() {
     local file="$1"
     local filename
     local ext
@@ -23,23 +31,26 @@ get_title() {
     echo "$title"
 }
 
-build_cache() {
+function build_cache() {
     echo "Building cache..."
     mapfile -t files < <(find "$HOME/Books" -type f \( -iname '*.pdf' -o -iname '*.epub' \))
-    declare -A books
+    json_items=()
     for file in "${files[@]}"; do
         title=$(get_title "$file")
-        echo "Found file '$file' with title: '$title'"
-        books["$title"]="$file"
+        json_items+=("$(jq -cn --arg title "$title" --arg result "$file" '{title: $title, result: $result}')")
     done
-    save_assoc_array "books" "$user_tmp"
-    echo "Cache saved: $user_tmp"
+
+    items_json=$(printf '%s\n' "${json_items[@]}" | jq -s '.')
+    final_json=$(jq -n --argjson items "$items_json" --argjson template "$TEMPLATE_JSON" '$template + {items: $items}')
+
+    echo "$final_json" > "$OUTPUT_FILE"
+    echo "Cache saved: $OUTPUT_FILE"
 }
 
-user_tmp="${XDG_CACHE_HOME:-$HOME/.cache}/books_${USER}"
 
 rebuild_cache=false
 pick=false
+
 for arg in "$@"; do
     case "$arg" in
         --rebuild-cache)
@@ -56,14 +67,12 @@ if $rebuild_cache; then
 fi
 
 if $pick; then
-    # If cache file doesn't exist, build it first
-    if [[ ! -f "$user_tmp" ]]; then
+    if [[ ! -f "$OUTPUT_FILE" ]]; then
         build_cache
     fi
     
-    file="$user_tmp"
-    chosen=$("$HOME"/.config/rofi/scripts/_common/handle.sh "$file" "open" output)
+    chosen=$("$HOME"/.config/rofi/scripts/_common/handle.sh "$OUTPUT_FILE")
     if [[ -n $chosen ]]; then
-        zathura "$chosen" &
+        zathura "$chosen" > /dev/null 2>&1 & disown
     fi
 fi

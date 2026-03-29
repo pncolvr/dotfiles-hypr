@@ -3,45 +3,22 @@
 WORKSPACE=$(echo "$0" | xargs realpath | xargs dirname | xargs dirname)
 source "$WORKSPACE"/_common/utils.sh
 
-source "$HOME"/.config/rofi/scripts/_common/utils.sh
-
-#todo: move to json
-declare -A paths
-
-paths["Computer"]="computer:///"
-paths["Desktop"]="$HOME/Desktop"
-paths["Downloads"]="$HOME/Downloads"
-paths["Books"]="$HOME/Books"
-paths["Documents"]="$HOME/Documents"
-paths["Local/share"]="$HOME/.local/share"
-paths["Music"]="$HOME/Music"
-paths["Pictures"]="$HOME/Pictures"
-paths["Steam compatdata"]="$HOME/.local/share/Steam/steamapps/compatdata/"
-paths["Trash"]="trash:///"
-paths["Videos"]="$HOME/Videos"
-paths["Home"]="$HOME"
-paths["Tardis"]="/mnt/Tardis"
-paths["Trantor"]="/mnt/Trantor"
-paths["Mirabilis"]="/mnt/Mirabilis"
-paths["SobeckStash"]="/mnt/SobeckStash"
-
+file=$(get_env_file "$0")
 
 if [[ $1 != "work" ]]; then
-    workFolder="$HOME/Projects/bizdocs"
-    paths["Bizdocs"]="$workFolder"
-    paths["Bizdocs docs test"]="$workFolder/docs/docsteste/"
-    paths["Bizdocs downloads"]="$workFolder/downloads"
-    paths["Bizdocs repos"]="$workFolder/repos"
-    #shellcheck disable=2034
-    paths["Bizdocs rheia downloads"]="$workFolder/repos/rheia/SQLFiles/scripts/downloads/"
+    temp_file=$(get_temp_file_named "pick_combined")
+    jq '{
+        prompt,
+        action,
+        allowTyped,
+        sort,
+        items: (.items + (.extraItems // []))
+    }' "$file" > "$temp_file"
+    file="$temp_file"
 fi
 
-file=$(get_temp_file_named "files_shortcuts")
-
-save_assoc_array "paths" "$file"
-
-chosen=$("$HOME"/.config/rofi/scripts/_common/handle.sh "$file" "open" output)
+chosen=$("$HOME"/.config/rofi/scripts/_common/handle.sh "$file")
 
 if [[ -n $chosen ]]; then 
-    open_file_explorer "$chosen"
+    open_file_explorer $(realpath "$chosen")
 fi

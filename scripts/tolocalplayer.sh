@@ -7,28 +7,58 @@ OPTIONS_FILE="$(get_temp_file_named local_player_options)"
 
 function get_possible_options () {
     if [[ -n $2 && -n $3 ]]; then
-        echo "\"$2\"=\"$("$HOME"/Projects/scripts/utils/browser/url-clean.sh "$3")\"" > "$1"
+        handle_single_option "$2" "$3" "$1"
     else 
         cp "$TWITCH_FILE" "$1"
-        # disabling for now add:🎬 later
-        # printf '"%s"="%s"\n' "🟣 $user" "https://www.twitch.tv/$user" >> "$ONLINE_FILE"
-        # 
-        # browser_active_session=~/.local/share/qutebrowser/sessions/_autosave.yml
-        # if [[ -f "$browser_active_session" ]]; then
-        #     yq '
-        #     .windows[].tabs[].history[]
-        #         | select(.active == true)
-        #         | select(
-        #         (
-        #             (.url | test("^https?://(www\\.)?youtube\\.com/.*watch")) and
-        #             (.url | test("[?&]v=[^&]+"))
-        #         ) or
-        #         (.url | test("^https?://(www\\.)?twitch\\.tv/[^/?#]+$"))
-        #         )
-        #         | "\(.title)=\(.url)"' "$browser_active_session" \
-        #     | sed -E 's/=/"="/' \
-        #     | perl -MHTML::Entities -pe 'decode_entities($_);' >> "$1"
-        # fi
+        get_qutebrowser_options "$1"
+    fi
+}
+
+function handle_single_option() {
+    local title="$1"
+    local url="$2"
+    local output_file="$3"
+    local clean_url=$("$HOME"/Projects/scripts/utils/browser/url-clean.sh "$url")
+    local json='{
+        "prompt": "",
+        "action": "output",
+        "allowTyped": false,
+        "sort": false,
+        "items": [
+            {
+                "title": "'"$title"'",
+                "result": "'"$clean_url"'"
+            }
+        ]
+    }'
+    echo "$json" > "$output_file"
+}
+
+function get_qutebrowser_options () {
+    local json_file=$1
+    local auto_save_file
+    auto_save_file=~/.local/share/qutebrowser/sessions/_autosave.yml
+    if [[ -f "$auto_save_file" ]]; then
+        mapfile -t options < <(yq '.windows[].tabs[].history[]
+                | select(.active == true)
+                | select(
+                    (.url | test("youtube.com")) and
+                    ((.url | test("v=")) or (.url | test("shorts")))
+                )
+                | [.title, .url] | join(";")' "$auto_save_file")
+        json_items=()
+        for line in "${options[@]}"; do
+            line="${line%\"}"
+            line="${line#\"}"
+            IFS=';' read -r title url <<< "$line"
+            title="${title% - YouTube}"
+            title="$(echo "$title" | sed -E 's/^\([0-9]+\) //')"
+            title=" $title"
+            json_items+=("$(jq -cn --arg title "$title" --arg result "$url" '{title: $title, result: $result}')")
+        done
+        items_json=$(printf '%s\n' "${json_items[@]}" | jq -s '.')
+        local temp_final_json=$(get_temp_file_named "qutebrowser_options")
+        jq --argjson newItems "$items_json" '.items += $newItems' "$json_file" > "$temp_final_json" && mv "$temp_final_json" "$json_file"
     fi
 }
 
@@ -153,10 +183,10 @@ function force_close_previous_of_same_type() {
 
 
 get_possible_options $OPTIONS_FILE "$1" "$2"
-count=$(cat "$OPTIONS_FILE" | wc -l)
+count=$(cat "$OPTIONS_FILE" | wc -l) # todo count items in json instead of lines
 
 if [[ -s "$OPTIONS_FILE" && "$count" -gt 0 ]]; then 
-    chosen=$("$HOME"/.config/rofi/scripts/_common/handle.sh "$OPTIONS_FILE" "open" output)
+    chosen=$("$HOME"/.config/rofi/scripts/_common/handle.sh "$OPTIONS_FILE" "open" "output" false "nosort" 2> >(log_error))
     code=$!
     if [[ -n $chosen && "$code" -ne 1 ]]; then 
         pause_player chromium.instance
