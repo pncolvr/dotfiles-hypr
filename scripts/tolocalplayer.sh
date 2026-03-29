@@ -183,7 +183,7 @@ function force_close_previous_of_same_type() {
 
 
 get_possible_options $OPTIONS_FILE "$1" "$2"
-count=$(cat "$OPTIONS_FILE" | wc -l) # todo count items in json instead of lines
+count=$(jq '.items | length' "$OPTIONS_FILE")
 
 if [[ -s "$OPTIONS_FILE" && "$count" -gt 0 ]]; then 
     chosen=$("$HOME"/.config/rofi/scripts/_common/handle.sh "$OPTIONS_FILE" "open" "output" false "nosort" 2> >(log_error))
