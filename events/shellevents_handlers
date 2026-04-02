@@ -67,6 +67,7 @@ event_openwindow() {
         ;;
       "qutebrowser-twitch-chat")
         hyprctl dispatch layoutmsg mfact exact 0.85
+        hyprctl dispatch focuswindow class:mpv-twitch
         ;;
     esac
 }
