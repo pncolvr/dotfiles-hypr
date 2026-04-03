@@ -75,6 +75,7 @@ function capture () {
     [ -n "$output" ] && params+=" --output $output"
     [ -n "$region" ] && params+=" --geometry \"$region\""
     file=$(date '+%Y-%m-%d_%H:%M:%S').mp4
+    mkdir -p "$VIDEOS_FOLDER"
     filename="$VIDEOS_FOLDER/$file"
 
     hyprctl notify -1 1000 "rgb(2E7D32)" "recording starting" > /dev/null 2>&1
