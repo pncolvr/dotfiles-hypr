@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-WORKSPACE=$(echo "$0" | xargs realpath | xargs dirname | xargs dirname)
+WORKSPACE=$(echo "${BASH_SOURCE[0]:-0}" | xargs realpath | xargs dirname | xargs dirname)
 source "$WORKSPACE"/_common/utils.sh
-source "$(get_env_file "$0")"
+source "$(get_env_file "${BASH_SOURCE[0]:-0}")"
 # set the following variables on the .env file
 # SCREENSHOT_FOLDER=
 
@@ -67,5 +67,5 @@ case "$method" in
     region|output|window) screenshot "$method";;
     qrcode) detect_qrcode;;
     ocr) detect_text;;
-    *) echo "Usage: $0 {region|output|window|qrcode|ocr}" && exit 1;;
+    *) echo "Usage: ${BASH_SOURCE[0]:-0} {region|output|window|qrcode|ocr}" && exit 1;;
 esac

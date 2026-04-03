@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-WORKSPACE=$(echo "$0" | xargs realpath | xargs dirname | xargs dirname)
+WORKSPACE=$(echo "${BASH_SOURCE[0]:-0}" | xargs realpath | xargs dirname | xargs dirname)
 source "$WORKSPACE"/_common/utils.sh
 
-source "$(get_env_file "$0")"
+source "$(get_env_file "${BASH_SOURCE[0]:-0}")"
 TMP_FILE="$(get_temp_file_named streamdeck_last_page)"
 # set the following variables on the .env file for the stream deck serial number you want
 # SERIAL_NUMBER=

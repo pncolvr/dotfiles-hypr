@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-WORKSPACE=$(echo "$0" | xargs realpath | xargs dirname | xargs dirname)
+WORKSPACE=$(echo "${BASH_SOURCE[0]:-0}" | xargs realpath | xargs dirname | xargs dirname)
 source "$WORKSPACE"/_common/utils.sh
 
-file=$(get_env_file "$0")
+file=$(get_env_file "${BASH_SOURCE[0]:-0}")
 
 if [[ $1 != "work" ]]; then
     temp_file=$(get_temp_file_named "pick_combined")

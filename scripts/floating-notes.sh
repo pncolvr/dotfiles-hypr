@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-WORKSPACE=$(echo "$0" | xargs realpath | xargs dirname)
+WORKSPACE=$(echo "${BASH_SOURCE[0]:-0}" | xargs realpath | xargs dirname)
 source "$WORKSPACE"/_common/utils.sh
 
 ACTIVE_WORKSPACE=$(hyprctl activeworkspace -j)

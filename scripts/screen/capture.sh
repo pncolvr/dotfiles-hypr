@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-WORKSPACE=$(echo "$0" | xargs realpath | xargs dirname | xargs dirname)
+WORKSPACE=$(echo "${BASH_SOURCE[0]:-0}" | xargs realpath | xargs dirname | xargs dirname)
 source "$WORKSPACE"/_common/utils.sh
-source "$(get_env_file "$0")"
+source "$(get_env_file "${BASH_SOURCE[0]:-0}")"
 # set the following variables on the .env file
 # VIDEOS_FOLDER=
 # HEADPHONES=

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-workspace=$(echo "$0" | xargs realpath | xargs dirname)
+workspace=$(echo "${BASH_SOURCE[0]:-0}" | xargs realpath | xargs dirname)
 folder="$1"
 find_cmd=(
     find "$folder" -type f \( \

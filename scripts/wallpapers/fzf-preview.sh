@@ -10,7 +10,7 @@
 # - https://iterm2.com/utilities/imgcat
 
 if [[ $# -ne 1 ]]; then
-  >&2 echo "usage: $0 FILENAME[:LINENO][:IGNORED]"
+  >&2 echo "usage: ${BASH_SOURCE[0]:-0} FILENAME[:LINENO][:IGNORED]"
   exit 1
 fi
 
