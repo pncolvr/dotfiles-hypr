@@ -1,17 +1,28 @@
 #!/usr/bin/env bash
 WORKSPACE=$(echo "${BASH_SOURCE[0]:-0}" | xargs realpath | xargs dirname)
+
 source "$WORKSPACE"/_common/utils.sh
+source $(get_env_file "${BASH_SOURCE[0]:-0}")
+# creaet env file with:
+# NOTES_WORK_PATH=
+# NOTES_PERSONAL_PATH=
 
 ACTIVE_WORKSPACE=$(hyprctl activeworkspace -j)
 WORKSPACE_ID=$(echo "$ACTIVE_WORKSPACE" | jq -r '.id')
 CLASS="code"
 
-RAND_NAME="$CLASS-temp-$(date +%s)-$RANDOM"
-FILE="$(get_temp_file_named "$RAND_NAME")"
+case "$1" in
+    random)
+        FILE=$(get_temp_file_named "$CLASS-temp-$(date +%s)-$RANDOM");;
+    work)
+        FILE=$NOTES_WORK_PATH;;
+    personal)
+        FILE=$NOTES_PERSONAL_PATH;;
+esac
 
 code --new-window "$FILE"
-
-WINDOW_ADDRESS=$(wait_for_window "$CLASS" "$RAND_NAME")
+TITLE=$(basename "$FILE")
+WINDOW_ADDRESS=$(wait_for_window "$CLASS" "$TITLE")
 CURSOR_POSITION=$(calculate_cursor_move_to_position "$ACTIVE_WORKSPACE" "0.865" "0.47")
 
 if [[ -n "$WINDOW_ADDRESS" ]]; then

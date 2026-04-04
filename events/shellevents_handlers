@@ -6,6 +6,10 @@ reload_waybar_custom_windows() {
   pkill -RTMIN+1 waybar
 }
 
+reload_waybar_submap() {
+  pkill -RTMIN+4 waybar
+}
+
 sleep_and_set_tiled() {
   sleep $1
   hyprctl dispatch settiled address:"0x$2"
@@ -117,9 +121,14 @@ event_screencastv2() {
 event_fullscreen() {
   # ENTER (0 if leaving fullscreen, 1 if entering)
   case $ENTER in
-    0) ~/Projects/scripts/utils/swaync/ask-dnd.sh fullscreen-left & disown;;
-    1) ~/Projects/scripts/utils/swaync/ask-dnd.sh fullscreen-entered & disown;;
+    0) ~/.config/hypr/scripts/ask-dnd.sh fullscreen-left & disown;;
+    1) ~/.config/hypr/scripts/ask-dnd.sh fullscreen-entered & disown;;
   esac
+}
+
+event_submap() {
+  # SUBMAPNAME
+  reload_waybar_submap
 }
 
 # good in theory
