@@ -18,7 +18,7 @@ function handle_single_option() {
     local title="$1"
     local url="$2"
     local output_file="$3"
-    local clean_url=$("$HOME"/Projects/scripts/utils/browser/url-clean.sh "$url")
+    local clean_url=$("$ZDOTDIR"/scripts/utils/browser/url-clean.sh "$url")
     local json='{
         "prompt": "",
         "action": "output",
