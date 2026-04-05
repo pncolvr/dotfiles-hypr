@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 source "$HOME"/.config/rofi/scripts/_common/utils.sh
-
+source "$HOME"/.config/qutebrowser/scripts/url/_common.sh
 TWITCH_FILE="$(get_temp_file_named twitch_online)"
 OPTIONS_FILE="$(get_temp_file_named local_player_options)"
 
@@ -18,7 +18,7 @@ function handle_single_option() {
     local title="$1"
     local url="$2"
     local output_file="$3"
-    local clean_url=$("$ZDOTDIR"/scripts/utils/browser/url-clean.sh "$url")
+    local clean_url=$(clean "$url")
     local json='{
         "prompt": "",
         "action": "output",
