@@ -53,20 +53,52 @@ function calculate_cursor_move_to_position() {
     echo -n "$cursor_x $cursor_y"
 }
 
+function log() {
+    _internal_log 7 "$@"
+}
+
+function log_error() {
+    _internal_log 4 "$@"
+}
+
+function _internal_log() {
+    local priority
+    local emitError
+    priority=$1
+    shift
+    if [ -n "$1" ]; then
+        IN="$1"
+    else
+        read IN
+    fi
+    case $priority in
+        1|2|3|4) emitError="--stderr";;
+        5|6|7) emitError="";;
+    esac
+    logger "$emitError" --priority "$priority" --tag $(basename "${BASH_SOURCE[0]:-0}") $IN
+}
+
 function wait_for_window() {
     local class
     class=$1
-    local title
-    title=$2
     local window_address
+    local existing_windows_address
     window_address=""
+    existing_windows_address=$(hyprctl clients -j | jq -r --arg class "$class" \
+            '[.[] | select(.class == $class)] | last |.address')
+    log "existing: $existing_windows_address"
     while [[ -z "$window_address" && $SECONDS -lt 60 ]]; do
         sleep 0.3
-        window_address=$(hyprctl clients -j | jq -r --arg class "$class" --arg title "$title" \
-            '.[] | select(.class == $class) | select(.title | test($title)) | .address')
+        window_address=$(hyprctl clients -j | jq -r --arg class "$class" \
+            '[.[] | select(.class == $class)] | last | .address')
+        log "found $window_address"
+        if [[ "$existing_windows_address" == "$window_address"  ]]; then
+            log "still the same"
+            window_address=""
+        fi
     done
     if [[ -n "$window_adress" ]]; then
-        notify-send --urgency critical "unable to find window" "$title @ $class"
+        notify-send --urgency critical "unable to find window" "$class"
     fi
     echo "$window_address"
 }

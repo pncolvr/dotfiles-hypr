@@ -22,10 +22,10 @@ esac
 
 code --new-window "$FILE"
 TITLE=$(basename "$FILE")
-WINDOW_ADDRESS=$(wait_for_window "$CLASS" "$TITLE")
-CURSOR_POSITION=$(calculate_cursor_move_to_position "$ACTIVE_WORKSPACE" "0.865" "0.47")
+WINDOW_ADDRESS=$(wait_for_window "$CLASS")
 
 if [[ -n "$WINDOW_ADDRESS" ]]; then
+    CURSOR_POSITION=$(calculate_cursor_move_to_position "$ACTIVE_WORKSPACE" "0.865" "0.47")
     hyprctl --batch \
         "dispatch moveoutofgroup address:$WINDOW_ADDRESS ; \
         dispatch togglefloating address:$WINDOW_ADDRESS ; \
@@ -34,5 +34,5 @@ if [[ -n "$WINDOW_ADDRESS" ]]; then
         dispatch movetoworkspace $WORKSPACE_ID,address:$WINDOW_ADDRESS ; \
         dispatch pin address:$WINDOW_ADDRESS ; \
         dispatch movecursor $CURSOR_POSITION" \
-        > /dev/null 2>&1
+        > >(log) 2> >(log_error) 2>&1
 fi
