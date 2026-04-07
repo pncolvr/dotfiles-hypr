@@ -105,12 +105,9 @@ function handle_close_source() {
 }
 
 function handle_open_twitch() {
-    chat="https://www.twitch.tv/popout/$(get_channel "$1")/chat?popout="
-    qutebrowser --desktop-file-name qutebrowser-twitch-chat \
-        --target window \
-        -C ~/.config/qutebrowser/config.py \
-        -B ~/.local/share/qutebrowser-twitch-chat \
-        "$chat" > >(log) 2> >(log_error) & disown
+    local chat_url
+    chat_url="https://www.twitch.tv/popout/$(get_channel "$1")/chat?popout="
+    "$ZDOTDIR"/scripts/default-browser/default-browser.sh "qutebrowser-twitch-chat" "$chat_url"
 }
 
 function handle_close_twitch() {
