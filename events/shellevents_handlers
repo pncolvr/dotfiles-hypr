@@ -69,6 +69,11 @@ event_openwindow() {
           if_floating_move_to_mouse $WINDOWADDRESS
         fi
         ;;
+      "yad")
+        if [[ "$WINDOWTITLE" == "qrencode" ]]; then
+          if_floating_move_to_mouse $WINDOWADDRESS
+        fi
+        ;;
       "qutebrowser-twitch-chat")
         hyprctl dispatch layoutmsg mfact exact 0.85
         hyprctl dispatch focuswindow class:mpv-twitch
