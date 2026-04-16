@@ -65,6 +65,7 @@ if_floating_move_to_mouse() {
 event_openwindow() {
     # WINDOWADDRESS WORKSPACENAME WINDOWCLASS WINDOWTITLE
     reload_waybar_custom_windows
+    reload_waybar_status
     case "$WINDOWCLASS" in
       "discord")
         sleep_and_set_tiled 0.3 $WINDOWADDRESS
@@ -89,6 +90,19 @@ event_openwindow() {
         ;;
     esac
 }
+
+event_closewindow() {
+  # WINDOWADDRESS
+  reload_waybar_status
+  # notify-send "$WINDOWADDRESS"
+  # good in theory
+  # reload_waybar_custom_windows
+  # workspace_window_count=$(hyprctl activeworkspace -j | jq -r '.windows')
+  # if [[ "$workspace_window_count" == "0" ]]; then
+  #   hyprctl dispatch focuscurrentorlast
+  # fi
+}
+
 
 # event_changefloatingmode() {
 #     # WINDOWADDRESS FLOATING
@@ -144,27 +158,3 @@ event_submap() {
   # SUBMAPNAME
   reload_waybar_submap
 }
-
-# good in theory
-# event_closewindow() {
-#   # WINDOWADDRESS
-#   reload_waybar_custom_windows
-#   workspace_window_count=$(hyprctl activeworkspace -j | jq -r '.windows')
-#   if [[ "$workspace_window_count" == "0" ]]; then
-#     hyprctl dispatch focuscurrentorlast
-#   fi
-# }
-
-
-event_openwindow() {
-  # WINDOWADDRESS WORKSPACENAME WINDOWCLASS WINDOWTITLE
-  # notify-send "$WINDOWCLASS $WINDOWTITLE"
-  reload_waybar_status
-}
-
-event_closewindow() {
-  # WINDOWADDRESS
-  reload_waybar_status
-  # notify-send "$WINDOWADDRESS"
-}
-
