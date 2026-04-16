@@ -23,6 +23,7 @@ function handle_single_option() {
         "prompt": "",
         "action": "output",
         "allowTyped": false,
+        "allowMultipleSelection": false,
         "sort": false,
         "items": [
             {
