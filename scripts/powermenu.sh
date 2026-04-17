@@ -16,3 +16,5 @@ case $chosen in
     *Bios*) hypr_shutdown 'Restarting to bios...' 'systemctl reboot --firmware-setup';;
     *) echo "none" && exit 0;;
 esac
+
+$ZDOTDIR/scripts/status-manager.sh --log-system-event shutdown
