@@ -1,6 +1,12 @@
 # #!/bin/sh
 # https://wiki.hypr.land/IPC/#events-list
 # we can reimplement this without the additional layer, the link above is our main guide
+
+reload_waybar () {
+  reload_waybar_custom_windows
+  reload_waybar_status
+  reload_waybar_submap
+}
 reload_waybar_custom_windows() {
   # reload waybar custom/windows
   pkill -RTMIN+1 waybar
@@ -64,8 +70,7 @@ if_floating_move_to_mouse() {
 
 event_openwindow() {
     # WINDOWADDRESS WORKSPACENAME WINDOWCLASS WINDOWTITLE
-    reload_waybar_custom_windows
-    reload_waybar_status
+    reload_waybar
     case "$WINDOWCLASS" in
       "discord")
         sleep_and_set_tiled 0.3 $WINDOWADDRESS
@@ -93,7 +98,7 @@ event_openwindow() {
 
 event_closewindow() {
   # WINDOWADDRESS
-  reload_waybar_status
+  reload_waybar
   # notify-send "$WINDOWADDRESS"
   # good in theory
   # reload_waybar_custom_windows
@@ -117,18 +122,18 @@ event_closewindow() {
 
 event_activewindowv2() {
   # WINDOWADDRESS
-  reload_waybar_custom_windows
+  reload_waybar
   ~/.config/hypr/scripts/streamdeck/handler.sh & disown
 }
 
 event_workspacev2() {
   # WORKSPACEID WORKSPACENAME
-  reload_waybar_custom_windows
+  reload_waybar
 }
 
 event_focusedmon() {
   # MONNAME WORKSPACENAME
-  reload_waybar_custom_windows
+  reload_waybar
 }
 
 # event_screencast() {
@@ -140,7 +145,7 @@ event_focusedmon() {
 
 event_screencastv2() {
   # STATE OWNER MONITOR
-
+  reload_waybar
   TEMP_DIR="${XDG_RUNTIME_DIR:-/tmp}"
   SCREENCAST_FILE="$TEMP_DIR/screencast_status_$(id -u)"
   echo "$STATE" > "$SCREENCAST_FILE"
@@ -148,6 +153,7 @@ event_screencastv2() {
 
 event_fullscreen() {
   # ENTER (0 if leaving fullscreen, 1 if entering)
+  reload_waybar
   case $ENTER in
     0) ~/.config/hypr/scripts/ask-dnd.sh fullscreen-left & disown;;
     1) ~/.config/hypr/scripts/ask-dnd.sh fullscreen-entered & disown;;
@@ -156,5 +162,5 @@ event_fullscreen() {
 
 event_submap() {
   # SUBMAPNAME
-  reload_waybar_submap
+  reload_waybar
 }
