@@ -17,4 +17,4 @@ case $chosen in
     *) echo "none" && exit 0;;
 esac
 
-$ZDOTDIR/scripts/status-manager.sh --log-system-event shutdown
+$ZDOTDIR/scripts/status/manager.sh --log-system-event shutdown
