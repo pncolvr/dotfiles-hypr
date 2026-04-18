@@ -123,7 +123,7 @@ event_closewindow() {
 event_activewindowv2() {
   # WINDOWADDRESS
   reload_waybar
-  ~/.config/hypr/scripts/streamdeck/handler.sh & disown
+  # ~/.config/hypr/scripts/streamdeck/handler.sh & disown
 }
 
 event_workspacev2() {
