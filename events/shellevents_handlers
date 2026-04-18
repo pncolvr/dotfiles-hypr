@@ -68,6 +68,16 @@ if_floating_move_to_mouse() {
   fi
 }
 
+kill_if_uxplay() {
+  local address, class, title
+  class=uxplay
+  title="OpenGL Renderer"
+  address=$(hyprctl clients -j | jq -r --arg class "$class" --arg title "$title" '.[] | select(.class==$class and .title==$title) | .address')
+  if [[ -z "$address" ]] && pgrep -u "$USER" -x "$class" > /dev/null; then
+    killall "$class"
+  fi
+}
+
 event_openwindow() {
     # WINDOWADDRESS WORKSPACENAME WINDOWCLASS WINDOWTITLE
     reload_waybar
@@ -98,6 +108,7 @@ event_openwindow() {
 
 event_closewindow() {
   # WINDOWADDRESS
+  kill_if_uxplay
   reload_waybar
   # notify-send "$WINDOWADDRESS"
   # good in theory
