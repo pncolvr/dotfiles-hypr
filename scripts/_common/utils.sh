@@ -102,3 +102,14 @@ function wait_for_window() {
     fi
     echo "$window_address"
 }
+
+function copy_to_clipboard_and_notify() {
+    local text="$1"
+    notify "$text"
+    echo -n "$text" | wl-copy
+}
+
+function notify() {
+    local text="$1"
+    notify-send --expire-time=2000 "$text copied to clipboard" --transient
+}
