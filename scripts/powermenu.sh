@@ -21,7 +21,10 @@ function log_inactive() {
     $ZDOTDIR/scripts/status/manager.sh --log-system-event inactive
 }
 
-chosen=$(echo -n " Reboot| Lock| Logout| Shutdown| Bios| Cancel" | rofi -sep '|' -dmenu -case-smart -sort -sorting-method fzf -p "")
+chosen="$1"
+if [[ -z "$chosen" ]]; then
+    chosen=$(echo -n " Reboot| Lock| Logout| Shutdown| Bios| Cancel" | rofi -sep '|' -dmenu -case-smart -sort -sorting-method fzf -p "")
+fi
 
 case $chosen in
     *Reboot*) hypr_shutdown 'Restarting...' 'systemctl reboot';;
