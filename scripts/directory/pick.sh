@@ -3,21 +3,22 @@
 WORKSPACE=$(echo "${BASH_SOURCE[0]:-0}" | xargs realpath | xargs dirname | xargs dirname)
 source "$WORKSPACE"/_common/utils.sh
 
-file=$(get_env_file "${BASH_SOURCE[0]:-0}")
+FILE=$(get_env_file "${BASH_SOURCE[0]:-0}")
+STATUS=$($ZDOTDIR/scripts/status/manager.sh --check)
 
-if [[ $1 != "work" ]]; then
-    temp_file=$(get_temp_file_named "pick_combined")
+if [[ "$STATUS" == "work" ]]; then
+    TEMP_FILE=$(get_temp_file_named "pick_combined")
     jq '{
         prompt,
         action,
         allowTyped,
         sort,
         items: (.items + (.extraItems // []))
-    }' "$file" > "$temp_file"
-    file="$temp_file"
+    }' "$FILE" > "$TEMP_FILE"
+    FILE="$TEMP_FILE"
 fi
 
-chosen=$("$HOME"/.config/rofi/scripts/_common/handle.sh "$file")
+chosen=$("$HOME"/.config/rofi/scripts/_common/handle.sh "$FILE")
 
 if [[ -n $chosen ]]; then 
     open_file_explorer $(realpath "$chosen")
