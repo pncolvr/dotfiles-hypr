@@ -20,6 +20,14 @@ fi
 
 chosen=$("$HOME"/.config/rofi/scripts/_common/handle.sh "$FILE")
 
-if [[ -n $chosen ]]; then 
-    open_file_explorer $(realpath "$chosen")
+if [[ -n $chosen ]]; then
+    read -r type path < <(jq -r '[.type, (.path // "")] | @tsv' <<< "$chosen")
+
+    if [[ $type == "directory" ]]; then
+        [[ $path == ~* ]] && path="${path/#\~/$HOME}"
+        # path="${path//\$HOME/$HOME}"
+        path="$(realpath "$path")"
+    fi
+
+    open_file_explorer "$path"
 fi
