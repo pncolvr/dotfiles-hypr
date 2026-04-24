@@ -5,16 +5,10 @@
 reload_waybar () {
   reload_waybar_custom_windows
   reload_waybar_status
-  reload_waybar_submap
 }
 reload_waybar_custom_windows() {
   # reload waybar custom/windows
   pkill -RTMIN+1 waybar
-}
-
-reload_waybar_submap() {
-  # reload waybar custom/submap
-  pkill -RTMIN+4 waybar
 }
 
 reload_waybar_status() {
