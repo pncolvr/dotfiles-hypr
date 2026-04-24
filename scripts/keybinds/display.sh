@@ -78,6 +78,15 @@ function yad_title() {
     echo -n "Submap: $submap"
 }
 
+function usage () {
+    echo "Usage: $0 [command] [argument]"
+    echo ""
+    echo "Commands:"
+    echo "  $0 --submap 'submap name' Shows the keybinds of a specific submap."
+    echo "  $0 --keybinds             Lists all keybinds, not submap ones."
+    echo "  $0 --help                 Show this usage message."
+}
+
 case $1 in 
     --submap) 
         if [[ $# -ne 2 ]]; then
@@ -86,5 +95,11 @@ case $1 in
         fi
         show_submap "$2";;
     --keybinds) show_keybinds;;
+    --help)
+        usage
+        ;;
+    *)
+        usage
+        exit 1
 esac
 
