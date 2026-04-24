@@ -187,6 +187,6 @@ event_submap() {
 
   case $SUBMAPNAME in 
     "") kill_submap_yad;;
-    *) ~/.config/hypr/scripts/submap/display.sh "$SUBMAPNAME"
+    *) ~/.config/hypr/scripts/keybinds/display.sh --submap "$SUBMAPNAME"
   esac
 }
