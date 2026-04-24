@@ -45,13 +45,13 @@ function show_keybinds() {
     local items
     local title screen_height
 
-    mapfile -t items < <(get_items "$submap")
+    mapfile -t items < <(get_items)
 
     title="Keybinds"
 
     screen_height=$(hyprctl monitors -j | jq '.[] | select(.focused==true) | .height')
 
-    show_yad_list "$title" 800 $(( screen_height - 100 )) "${items[@]}"
+    show_yad_list "$title" 800 $(( screen_height - 400 )) "${items[@]}"
 }
 
 function show_yad_list() {
