@@ -4,7 +4,7 @@ FILE="$HOME/.config/hypr/config.d/keybinds.conf"
 
 grep -E '^[[:space:]]*bind' "$FILE" \
 | sed -E '
-    s/^[[:space:]]*bind[a-z]*[[:space:]]*=[[:space:]]*//
+    s/^[[:space:]]*bind([e|r|l|c|g|o|n|m|t|i|s|d|p|u|k]?)*[[:space:]]*=[[:space:]]*//
     s/\$mainMod/SUPER/g
 
     s/[[:space:]]+/ /g
