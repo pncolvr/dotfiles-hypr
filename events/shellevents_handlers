@@ -82,6 +82,18 @@ kill_if_uxplay() {
   fi
 }
 
+kill_submap_yad() {
+  local address title
+  title="Submap:"
+  address=$(hyprctl clients -j | jq -r \
+    --arg title "$title" \
+    '.[] | select(.class=="yad" and (.title | startswith($title))) | .address')
+
+  if [[ -n "$address" ]]; then
+    hyprctl dispatch closewindow address:"$address"
+  fi
+}
+
 event_openwindow() {
     # WINDOWADDRESS WORKSPACENAME WINDOWCLASS WINDOWTITLE
     reload_waybar
@@ -178,4 +190,9 @@ event_fullscreen() {
 event_submap() {
   # SUBMAPNAME
   reload_waybar
+
+  case $SUBMAPNAME in 
+    "") kill_submap_yad;;
+    *) ~/.config/hypr/scripts/submap/display.sh "$SUBMAPNAME"
+  esac
 }
