@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 WORKSPACE=$(dirname "${BASH_SOURCE[0]:-0}")
 
+SCRIPT_PARAMS="$*"
+
 function get_items() {
     local submap="$1"
     if [[ -n "$submap" ]]; then
@@ -9,31 +11,25 @@ function get_items() {
         mapfile -t lines < <("$WORKSPACE/parser.sh")
     fi
 
-    local items=()
-    local line key action
-
-    for line in "${lines[@]}"; do
-        IFS=';' read -r key action <<< "$line"
-        [[ -z "$key" ]] && continue
-        items+=( "$key" "$action" )
-    done
-
-    printf '%s\n' "${items[@]}"
+    printf '%s\n' "${lines[@]}"
 }
 
 function show_submap() {
     local submap="$1"
-    local items
-    local title rows height max_height screen_height
+    local items=()
+    local title rows height max_height screen_height results
+    local line key action
 
-    mapfile -t items < <(get_items "$submap")
+    while IFS=';' read -r key action; do
+        items+=( "$key" "$action" )
+    done <  <(get_items "$submap")
 
-    title=$(yad_title "$submap")
+    title="Submap: $submap"
 
     rows=$(( ${#items[@]} / 2 ))
     screen_height=$(hyprctl monitors -j | jq '.[] | select(.focused==true) | .height')
 
-    height=$(( 45 + 25 * rows ))
+    height=$(( 20 + 25 * rows ))
     max_height=$(( screen_height - 50 ))
 
     (( height > max_height )) && height=$max_height
@@ -42,16 +38,22 @@ function show_submap() {
 }
 
 function show_keybinds() {
-    local items
     local title screen_height
-
-    mapfile -t items < <(get_items)
+    ensure_inside_terminal
+    mapfile -t results < <(get_items)
 
     title="Keybinds"
 
     screen_height=$(hyprctl monitors -j | jq '.[] | select(.focused==true) | .height')
+    items=$( printf "%s\n" "${results[@]}" | sed 's/;/\t/')
+    show_fzf_keybinds "$title" "${items[@]}"
+}
 
-    show_yad_list "$title" 800 $(( screen_height - 400 )) "${items[@]}"
+function ensure_inside_terminal() {
+    if [[ -z "$FZF_LAUNCHER" ]]; then
+        exec ghostty --title=Keybinds \
+            -e bash -c "FZF_LAUNCHER=1 $0 $SCRIPT_PARAMS"
+    fi
 }
 
 function show_yad_list() {
@@ -66,6 +68,8 @@ function show_yad_list() {
         --column="Key" \
         --column="Action" \
         --no-buttons \
+        --no-headers \
+        --no-selection \
         --undecorated \
         --width="$width" \
         --height="$height" \
@@ -73,9 +77,23 @@ function show_yad_list() {
         "${items[@]}" & disown
 }
 
-function yad_title() {
-    local submap="$1"
-    echo -n "Submap: $submap"
+function show_fzf_keybinds() {
+    local title="$1"
+    shift 1
+
+    printf "%s\n" "$@" | \
+    fzf \
+        --prompt="$title > " \
+        --delimiter=$'\t' \
+        --with-nth=1,2 \
+        --layout=reverse \
+        --height=100% \
+        --border \
+        --info=inline \
+        --ansi \
+        --preview 'echo -e "\033[1mKey:\033[0m {1}\n\033[1mAction:\033[0m {2}"' \
+        --preview-window=down:3:wrap \
+        --bind "enter:execute-silent(echo {2} | wl-copy)+abort"
 }
 
 function usage () {

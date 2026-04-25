@@ -67,9 +67,9 @@ if_floating_move_to_mouse() {
 }
 
 kill_if_uxplay() {
-  local address, class, title
-  class=uxplay
-  title="OpenGL Renderer"
+  local address
+  local class=uxplay
+  local title="OpenGL Renderer"
   address=$(hyprctl clients -j | jq -r --arg class "$class" --arg title "$title" '.[] | select(.class==$class and .title==$title) | .address')
   if [[ -z "$address" ]] && pgrep -u "$USER" -x "$class" > /dev/null; then
     killall "$class"
