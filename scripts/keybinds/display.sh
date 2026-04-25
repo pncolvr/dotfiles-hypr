@@ -44,7 +44,6 @@ function show_keybinds() {
 
     title="Keybinds"
 
-    screen_height=$(hyprctl monitors -j | jq '.[] | select(.focused==true) | .height')
     items=$( printf "%s\n" "${results[@]}" | sed 's/;/\t/')
     show_fzf_keybinds "$title" "${items[@]}"
 }
