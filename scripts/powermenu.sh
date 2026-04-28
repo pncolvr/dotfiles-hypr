@@ -1,20 +1,28 @@
 #!/usr/bin/env bash
 
-function hypr_shutdown() {
-    local message="$1"
-    local cmd="$2"
+function bios() {
     log_inactive
-    hyprshutdown --top-label "$message" --post-cmd "$cmd"
+    systemctl reboot --firmware-setup
 }
 
-function lock () {
+function reboot() {
+    log_inactive
+    systemctl reboot
+}
+
+function shutdown() {
+    log_inactive
+    systemctl poweroff
+}
+
+function lock() {
     log_inactive
     loginctl lock-session
 }
 
 function logout() {
     log_inactive
-    hyprshutdown --top-label "Logging out..."
+    hyprctl dispatch exit
 }
 
 function log_inactive() {
@@ -27,11 +35,10 @@ if [[ -z "$chosen" ]]; then
 fi
 
 case $chosen in
-    *Reboot*) hypr_shutdown 'Restarting...' 'systemctl reboot';;
+    *Reboot*) reboot;;
     *Lock*) lock;;
     *Logout*) logout;;
-    *Shutdown*) hypr_shutdown 'Shutting down...' 'systemctl poweroff';;
-    *Bios*) hypr_shutdown 'Restarting to bios...' 'systemctl reboot --firmware-setup';;
+    *Shutdown*) shutdown;;
+    *Bios*) bios;;
     *) echo "none" && exit 0;;
 esac
-
