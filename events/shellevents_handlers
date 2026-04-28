@@ -77,17 +77,27 @@ kill_if_uxplay() {
 }
 
 kill_submap_yad() {
-  local address title
-  title="Submap:"
-  address=$(hyprctl clients -j | jq -r \
-    --arg title "$title" \
-    '.[] | select(.class=="yad" and (.title | startswith($title))) | .address')
+  (
+    title="Submap:"
 
-  if [[ -n "$address" ]]; then
-    hyprctl dispatch closewindow address:"$address"
-  fi
+    get_address() {
+      hyprctl clients -j | jq -r \
+        --arg title "$title" \
+        '.[] | select(.class=="yad" and (.title | startswith($title))) | .address'
+    }
+
+    for _ in 1 2; do
+      address=$(get_address)
+
+      if [[ -n "$address" ]]; then
+        hyprctl dispatch closewindow "address:$address"
+        exit 0
+      fi
+
+      sleep 0.5
+    done
+  ) & disown
 }
-
 event_openwindow() {
     # WINDOWADDRESS WORKSPACENAME WINDOWCLASS WINDOWTITLE
     reload_waybar

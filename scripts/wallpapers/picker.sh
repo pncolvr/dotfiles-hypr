@@ -11,8 +11,9 @@ find_cmd=(
 
 while true; do
     selected="$("${find_cmd[@]}" | \
-        fzf --prompt="Select image (Alt+1/2 to set wallpaper) > " \
+        fzf --prompt="(Alt+1/2 to set wallpaper) > " \
             --preview "bash $workspace/fzf-preview.sh {}" \
+            --layout=reverse \
             --preview-window=right,50%,wrap \
             --bind "alt-1:execute-silent('$workspace/set.sh' 1 '{}')" \
             --bind "alt-2:execute-silent('$workspace/set.sh' 2 '{}')" \
