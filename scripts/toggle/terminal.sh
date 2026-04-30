@@ -12,6 +12,6 @@ if [[ -n "$WINDOW_ADDRESS" ]]; then
     hyprctl dispatch closewindow address:"$WINDOW_ADDRESS"
 else
     ghostty --title="$TITLE" & disown
-    CURSOR_POSITION=$(calculate_cursor_move_to_position "$ACTIVE_WORKSPACE" "0.5" "0.8")
+    CURSOR_POSITION=$(calculate_cursor_move_to_position "$ACTIVE_WORKSPACE" "0.5" "0.25")
     hyprctl dispatch movecursor "$CURSOR_POSITION"
 fi
