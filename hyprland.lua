@@ -31,7 +31,8 @@ hl.config({
     },
     misc = {
         disable_hyprland_logo = true,
-        background_color = theme.inactiveColor
+        background_color = theme.inactiveColor,
+        vrr = 0 -- 0 - off, 1 - on, 2 - fullscreen only, 3 - fullscreen with video or game content type
     },
     ecosystem = {
         no_donation_nag = true

@@ -4,7 +4,7 @@ WORKSPACE=$(echo "${BASH_SOURCE[0]:-0}" | xargs realpath | xargs dirname | xargs
 source "$WORKSPACE"/_common/utils.sh
 
 FILE=$(get_env_file "${BASH_SOURCE[0]:-0}")
-STATUS=$($ZDOTDIR/scripts/status/manager.sh --check)
+STATUS=$($ZDOTDIR/scripts/status/manager.sh --get)
 
 if [[ "$STATUS" == "work" ]]; then
     TEMP_FILE=$(get_temp_file_named "pick_combined")
