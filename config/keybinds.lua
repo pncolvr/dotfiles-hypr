@@ -80,10 +80,10 @@ hl.bind(mainMod .. " + l",  hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + k",  hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + j",  hl.dsp.focus({ direction = "down" }))
 
-hl.bind(mainMod .. " + h",  hl.dsp.up({ direction = "left" }))
-hl.bind(mainMod .. " + l",  hl.dsp.up({ direction = "right" }))
-hl.bind(mainMod .. " + k",  hl.dsp.up({ direction = "up" }))
-hl.bind(mainMod .. " + j",  hl.dsp.up({ direction = "down" }))
+hl.bind(mainMod .. " + h",  hl.dsp.move({ direction = "left" }))
+hl.bind(mainMod .. " + l",  hl.dsp.move({ direction = "right" }))
+hl.bind(mainMod .. " + k",  hl.dsp.move({ direction = "up" }))
+hl.bind(mainMod .. " + j",  hl.dsp.move({ direction = "down" }))
 
 -- submaps
 hl.bind(mainMod .. " + ALT + R", hl.dsp.submap("resize"))
