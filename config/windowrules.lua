@@ -5,6 +5,16 @@
 hl.workspace_rule({ workspace = "2", layout = "master" })
 
 -- --------------------------------------------------------------------------
+-- variables 
+-- --------------------------------------------------------------------------
+local terminalClass = "com.mitchellh.ghostty"
+local editorClass = "code"
+local dialogClass = "yad"
+local steamClass = "steam"
+
+local moveWindowToCursor = "(cursor_x-(window_w*0.5)) (max(25, cursor_y-(window_h*0.5)))"
+
+-- --------------------------------------------------------------------------
 -- window rules 
 -- --------------------------------------------------------------------------
 
@@ -20,7 +30,7 @@ end
 hl.window_rule({
     name = "browser_workspace",
     match = { class = "org.qutebrowser.qutebrowser" },
-    workspace = 1
+    workspace = "1"
 })
 
 hl.window_rule({
@@ -47,27 +57,27 @@ hl.window_rule({
 
 hl.window_rule({
     name = "code_workspace",
-    match = { class = "code", float = false },
+    match = { class = editorClass, float = false },
     group = "set code",
-    workspace = 4
+    workspace = "4"
 })
 
 hl.window_rule({
     name = "code_dialogs_move_to_mouse",
-    match = { class = "code", float = false },
-    move = "(cursor_x-(window_w*0.5)) (max(25, cursor_y-(window_h*0.5)))"
+    match = { class = editorClass, float = true },
+    move = moveWindowToCursor
 })
 
 hl.window_rule({
     name = "yad_move_to_mouse",
-    match = { class = "yad", title = "qrencode" },
+    match = { class = dialogClass, title = "qrencode" },
     float = true,
-    move = "(cursor_x-(window_w*0.5)) (max(25, cursor_y-(window_h*0.5)))"
+    move = moveWindowToCursor
 })
 
 hl.window_rule({
     name = "yad_submap",
-    match = { class = "yad", title = "^(Submap:.*)$" },
+    match = { class = dialogClass, title = "^(Submap:.*)$" },
     float = true,
     pin = true,
     no_initial_focus = true,
@@ -76,26 +86,26 @@ hl.window_rule({
 
 hl.window_rule({
     name = "fzf_keybinds",
-    match = { class = "^(com%.mitchellh%.ghostty)$", title = "Keybinds" },
+    match = { class = terminalClass, title = "Keybinds" },
     float = true,
     size = "(monitor_w*0.4) (monitor_h*0.8)"
 })
 
 hl.window_rule({
     name = "game_workspace",
-    match = { class = "^(steam|heroic|org%.prismlauncher%.PrismLauncher)$" },
+    match = { class = "^(".. steamClass .. "|heroic|org\\.prismlauncher\\.PrismLauncher)$" },
     workspace = "5"
 })
 
 hl.window_rule({
     name = "tools_workspace",
-    match = { class = "^(Bazecor|bruno|com%.shellyorg%.shelly)$" },
+    match = { class = "^(Bazecor|bruno|com\\.shellyorg\\.shelly)$" },
     workspace = "6"
 })
 
 hl.window_rule({
     name = "reading_workspace",
-    match = { class = "^(org%.pwmt%.zathura)$" },
+    match = { class = "^(org\\.pwmt\\.zathura)$" },
     workspace = "7"
 })
 
@@ -116,13 +126,13 @@ hl.window_rule({
 
 hl.window_rule({
     name = "center_steam_login",
-    match = { class = "steam", title = "^(Sign in to Steam)$", float = true },
+    match = { class = steamClass, title = "^(Sign in to Steam)$", float = true },
     center = true
 })
 
 hl.window_rule({
     name = "center_windows_no_title",
-    match = { class = "^(xdg-desktop-portal-gtk|org%.pulseaudio%.pavucontrol|com%.github%.hluk%.copyq|hyprland-share-picker|imv|io%.github%.Qalculate%.qalculate-qt|com%.gabm%.satty|engrampa)$" },
+    match = { class = "^(xdg-desktop-portal-gtk|org\\.pulseaudio\\.pavucontrol|hyprland-share-picker|imv|io\\.github\\.Qalculate\\.qalculate-qt|com\\.gabm\\.satty|engrampa)$" },
     float = true,
     center = true,
     size = "900 700"
@@ -130,30 +140,23 @@ hl.window_rule({
 
 hl.window_rule({
     name = "center_copyq",
-    match = { class = "^(com%.github%.hluk%.copyq)$" },
+    match = { class = "com.github.hluk.copyq" },
     float = true,
     center = true,
-    pin = true
+    pin = true,
+    size = "900 700"
 })
 
 hl.window_rule({
     name = "position_uxplay",
-    match = { class = "^(uxplay)$" },
+    match = { class = "uxplay" },
     float = true,
     move = "(monitor_w*0.78) (monitor_h*0.12)"
 })
 
 hl.window_rule({
-    name = "center_windows_hidden",
-    match = { class = "Bitwarden" },
-    float = true,
-    center = true,
-    no_screen_share = true
-})
-
-hl.window_rule({
     name = "position_dropdown_term",
-    match = { class = "^(com%.mitchellh%.ghostty)$", title = "dropdown-term" },
+    match = { class = terminalClass, title = "dropdown-term" },
     float = true,
     pin = true,
     move = "(monitor_w*0.025) (monitor_h*0.03)",
@@ -162,13 +165,13 @@ hl.window_rule({
 
 hl.window_rule({
     name = "position_musicplayer",
-    match = { class = "^(com%.mitchellh%.ghostty)$", title = "musicplayer" },
+    match = { class = terminalClass, title = "musicplayer" },
     float = true
 })
 
 hl.window_rule({
     name = "position_wallpapers",
-    match = { class = "^(com%.mitchellh%.ghostty)$", title = "wallpapers" },
+    match = { class = terminalClass, title = "wallpapers" },
     float = true,
     center = true,
     size = "(monitor_w*0.6) (monitor_h*0.5)"
@@ -176,7 +179,7 @@ hl.window_rule({
 
 hl.window_rule({
     name = "position_passwords",
-    match = { class = "^(com%.mitchellh%.ghostty)$", title = "passwords" },
+    match = { class = terminalClass, title = "passwords" },
     float = true,
     center = true,
     pin = true,
@@ -186,7 +189,7 @@ hl.window_rule({
 
 hl.window_rule({
     name = "center_webapps",
-    match = { class = "^(qutebrowser-webapp|.*-.*%.(com|org|tv).*|vivaldi-localhost__.*)$" },
+    match = { class = "^(qutebrowser-webapp|.*-.*\\.(com|org|tv).*|vivaldi-localhost__.*)$" },
     float = true,
     center = true,
     size = "1500 900"
@@ -208,7 +211,7 @@ hl.window_rule({
 
 hl.window_rule({
     name = "drag_drop",
-    match = { class = "^(it%.catboy%.ripdrag)$" },
+    match = { class = "it.catboy.ripdrag" },
     pin = true
 })
 
