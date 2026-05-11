@@ -49,7 +49,7 @@ hl.window_rule({
 
 hl.window_rule({
     name = "comms_workspace",
-    match = { class = "^(discord|teams-for-linux|signal)$" },
+    match = { class = "^(discord|vesktop|teams-for-linux|signal)$" },
     group = "set comms",
     workspace = "3",
     no_screen_share = true

@@ -33,7 +33,7 @@ if_parent_pinned_pin() {
   previous_pinned=$(echo "$previous_window" | jq -r '.pinned // false')
   
   if [[ "$previous_pinned" == "true" ]]; then
-    hyprctl dispatch 'hl.dsp.window.pin({ window = "address:0x'"$1"'" })'
+    hyprctl dispatch 'hl.dsp.window.pin({ window = "address:'"$1"'" })'
   fi
 }
 
@@ -106,9 +106,9 @@ event_openwindow() {
       "discord")
         sleep_and_set_tiled 5 $WINDOWADDRESS
         ;;
-      # "com.freerdp.client.sdl3")
-      #   sleep_and_set_tiled 3 $WINDOWADDRESS
-      #   ;;
+      "com.freerdp.client.sdl3")
+        sleep_and_set_tiled 3 $WINDOWADDRESS
+        ;;
       "code")
         if [[ "$WINDOWTITLE" == "Visual Studio Code" ]]; then
           if_parent_pinned_pin $WINDOWADDRESS
@@ -149,8 +149,8 @@ event_screencastv2() {
   SCREENCAST_FILE="$TEMP_DIR/screencast_status_$(id -u)"
   echo "$STATE" > "$SCREENCAST_FILE"
   case "$STATE" in 
-    0) hyprctl keyword animations:enabled 1;;
-    1) hyprctl keyword animations:enabled 0;;
+    0) hyprctl eval 'hl.config({animations = { enabled = true}})';;
+    1) hyprctl eval 'hl.config({animations = { enabled = false}})';;
   esac
   reload_waybar_screencast
 }

@@ -7,6 +7,7 @@ local theme = require("themes.mocha")
 
 require("config.autostart")
 require("config.env")
+-- we can remove this line or add private env variables there
 require("config.envprivate")
 require("config.monitors")
 require("config.submaps")
