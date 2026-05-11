@@ -99,7 +99,7 @@ hl.window_rule({
 
 hl.window_rule({
     name = "tools_workspace",
-    match = { class = "^(Bazecor|bruno|com\\.shellyorg\\.shelly)$" },
+    match = { class = "^(Bazecor|bruno|gimp|com\\.shellyorg\\.shelly)$" },
     workspace = "6"
 })
 

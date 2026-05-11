@@ -56,11 +56,14 @@ hl.bind("ALT + SHIFT + TAB", hl.dsp.exec_cmd(rofi .. "/windows/any.sh"))
 hl.bind(mainMod .. " + TAB",         hl.dsp.exec_cmd(waybar .. "/windows/list move-next"))
 hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.exec_cmd(waybar .. "/windows/list move-previous"))
 
+hl.bind(mainMod .. " + U",         hl.dsp.focus({ urgent_or_last = true }))
+
+hl.bind(mainMod .. " + V",         hl.dsp.exec_cmd("copyq show"))
+
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("ghostty --title=passwords -e ".. home .."/Projects/helpers/totp/handler.sh"))
 
 hl.bind(mainMod .. " + X",         hl.dsp.exec_cmd(scripts .. "/toggle/animations.sh"))
 
-hl.bind(mainMod .. " + Y",         hl.dsp.focus({ urgent_or_last = true }))
 hl.bind(mainMod .. " + SHIFT + Y", hl.dsp.focus({ last = true }))
 
 hl.bind(mainMod .. " + Z",         hl.dsp.exec_cmd(scripts .. "/zoom.sh --more"))
