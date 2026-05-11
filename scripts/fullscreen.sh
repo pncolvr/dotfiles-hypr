@@ -8,5 +8,8 @@
 #     notify-send "Window unpinned" "Unpinned active window before fullscreen."
 # fi
 
-hyprctl dispatch fullscreen "$1" >/dev/null 2>&1
+case $1 in 
+    fullscreen|maximized) hyprctl dispatch 'hl.dsp.window.fullscreen({ mode = "'$1'", action = "toggle"})' >/dev/null 2>&1;;
+esac
+
 pkill -RTMIN+1 waybar >/dev/null 2>&1

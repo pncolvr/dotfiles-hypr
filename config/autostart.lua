@@ -2,7 +2,7 @@ local home = os.getenv("HOME")
 local xdg  = os.getenv("XDG_RUNTIME_DIR")
 local sig  = os.getenv("HYPRLAND_INSTANCE_SIGNATURE")
 local shellevents = string.format(
-  "socat -u UNIX-CONNECT:%s/hypr/%s/.socket2.sock EXEC:%s/.config/hypr/events/shellevents %s/.config/hypr/events/shellevents_handlers,nofork",
+  'socat -u UNIX-CONNECT:%s/hypr/%s/.socket2.sock "EXEC:%s/.config/hypr/events/shellevents %s/.config/hypr/events/shellevents_handlers,nofork"',
   xdg, sig, home, home
 )
 

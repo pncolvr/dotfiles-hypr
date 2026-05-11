@@ -20,8 +20,8 @@ hl.bind(mainMod .. " + E",         hl.dsp.exec_cmd(rofi .. "/web/webapps.sh"))
 hl.bind(mainMod .. " + ESCAPE",                 hl.dsp.exec_cmd(scripts .. "/powermenu.sh"))
 hl.bind(mainMod .. " + SHIFT + ESCAPE",         hl.dsp.exec_cmd(waybar ..  "/notifications toggle"))
 
-hl.bind(mainMod .. " + F",         hl.dsp.exec_cmd(scripts .. "/fullscreen.sh"))
-hl.bind(mainMod .. " + SHIFT + F", hl.dsp.exec_cmd(scripts .. "/fullscreen.sh 1"))
+hl.bind(mainMod .. " + F",         hl.dsp.exec_cmd(scripts .. "/fullscreen.sh fullscreen"))
+hl.bind(mainMod .. " + SHIFT + F", hl.dsp.exec_cmd(scripts .. "/fullscreen.sh maximized"))
 
 hl.bind(mainMod .. " + G",         hl.dsp.exec_cmd(rofi .. "/web/github.sh"))
 
@@ -32,15 +32,15 @@ hl.bind(mainMod .. " + M",         hl.dsp.exec_cmd(scripts .. "/toggle/noscreens
 
 hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd(rofi .. "/web/n8n.sh"))
 
-hl.bind(mainMod .. " + P",         hl.dsp.exec_cmd(rofi .. "/web/code.sh"))
+hl.bind(mainMod .. " + P",         hl.dsp.exec_cmd(rofi .. "/code.sh"))
 
 hl.bind(mainMod .. " + PRINT",     hl.dsp.exec_cmd(scripts .. "/screen/shot.sh"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd(scripts .. "/screen/shot.sh region"))
 hl.bind(mainMod .. " + SHIFT + PRINT", hl.dsp.exec_cmd(scripts .. "/screen/shot.sh window"))
 hl.bind("PRINT", hl.dsp.exec_cmd(scripts .. "/screen/shot.sh output"))
 
-hl.bind(mainMod .. " + Q",         hl.dsp.exec_cmd("hyprctl kill"))
-hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.kill())
+hl.bind(mainMod .. " + Q",         hl.dsp.exec_cmd("hyprctl kill") )
+hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close())
 
 hl.bind(mainMod .. " + R",         hl.dsp.exec_cmd(scripts .. "/screen/capture.sh"))
 hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd(scripts .. "/reload.sh"))
@@ -64,7 +64,7 @@ hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("ghostty --title=passwords -e ".. hom
 
 hl.bind(mainMod .. " + X",         hl.dsp.exec_cmd(scripts .. "/toggle/animations.sh"))
 
-hl.bind(mainMod .. " + SHIFT + Y", hl.dsp.focus({ last = true }))
+hl.bind(mainMod .. " + Y", hl.dsp.focus({ last = true }))
 
 hl.bind(mainMod .. " + Z",         hl.dsp.exec_cmd(scripts .. "/zoom.sh --more"))
 hl.bind(mainMod .. " + ALT + Z",   hl.dsp.exec_cmd(scripts .. "/zoom.sh --less"))
@@ -83,10 +83,13 @@ hl.bind(mainMod .. " + l",  hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + k",  hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + j",  hl.dsp.focus({ direction = "down" }))
 
-hl.bind(mainMod .. " + h",  hl.dsp.move({ direction = "left" }))
-hl.bind(mainMod .. " + l",  hl.dsp.move({ direction = "right" }))
-hl.bind(mainMod .. " + k",  hl.dsp.move({ direction = "up" }))
-hl.bind(mainMod .. " + j",  hl.dsp.move({ direction = "down" }))
+hl.bind(mainMod .. " + h",  hl.dsp.window.move({direction = "left"}))
+hl.bind(mainMod .. " + l",  hl.dsp.window.move({ direction = "right" }))
+hl.bind(mainMod .. " + k",  hl.dsp.window.move({ direction = "up" }))
+hl.bind(mainMod .. " + j",  hl.dsp.window.move({ direction = "down" }))
+
+hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true } )
+hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true } )
 
 -- submaps
 hl.bind(mainMod .. " + ALT + R", hl.dsp.submap("resize"))
@@ -106,5 +109,5 @@ hl.bind("XF86Eject",      hl.dsp.exec_cmd("playerctl amixer set Master toggle"),
 for i = 1, 10 do
     local key = i % 10
     hl.bind(mainMod .. " + " .. key,             hl.dsp.focus({ workspace = i}))
-    hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i }))
+    hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i, follow = false}))
 end

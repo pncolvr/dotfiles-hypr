@@ -18,21 +18,31 @@ case "$1" in
         FILE=$NOTES_WORK_PATH;;
     personal)
         FILE=$NOTES_PERSONAL_PATH;;
+    *) exit;;
 esac
 
 code --new-window "$FILE"
 TITLE=$(basename "$FILE")
 WINDOW_ADDRESS=$(wait_for_window "$CLASS")
 
+
+
+
 if [[ -n "$WINDOW_ADDRESS" ]]; then
-    CURSOR_POSITION=$(calculate_cursor_move_to_position "$ACTIVE_WORKSPACE" "0.865" "0.47")
-    hyprctl --batch \
-        "dispatch moveoutofgroup address:$WINDOW_ADDRESS ; \
-        dispatch togglefloating address:$WINDOW_ADDRESS ; \
-        dispatch resizewindowpixel exact 25% 66%,address:$WINDOW_ADDRESS ; \
-        dispatch movewindowpixel exact 74% 14%,address:$WINDOW_ADDRESS ; \
-        dispatch movetoworkspace $WORKSPACE_ID,address:$WINDOW_ADDRESS ; \
-        dispatch pin address:$WINDOW_ADDRESS ; \
-        dispatch movecursor $CURSOR_POSITION" \
-        > >(log) 2> >(log_error) 2>&1
+    read mon_w mon_h < <(hyprctl -j monitors | jq -r '.[] | select(.focused) | "\(.width) \(.height)"')
+    resize_x=$(( mon_w * 25 / 100 ))
+    resize_y=$(( mon_h * 66 / 100 ))
+    move_x=$(( mon_w * 74 / 100 ))
+    move_y=$(( mon_h * 14 / 100 ))
+
+    hyprctl eval "
+    local w = 'address:$WINDOW_ADDRESS'
+        hl.dispatch(hl.dsp.window.move({ out_of_group = true, window = w }))
+        hl.dispatch(hl.dsp.window.float({ action = 'enable', window = w }))
+        hl.dispatch(hl.dsp.window.resize({ x = $resize_x, y = $resize_y, window = w }))
+        hl.dispatch(hl.dsp.window.move({ x = $move_x, y = $move_y, window = w }))
+        hl.dispatch(hl.dsp.window.move({ workspace = $WORKSPACE_ID, window = w }))
+        hl.dispatch(hl.dsp.window.pin({ window = w }))
+    " > >(log) 2> >(log_error) 2>&1
+    move_cursor_to_position "$ACTIVE_WORKSPACE" "0.865" "0.47"
 fi

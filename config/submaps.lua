@@ -4,17 +4,17 @@ local rofi    = home .. "/.config/rofi/scripts"
 local waybar  = home .. "/.config/waybar/scripts"
 
 hl.define_submap("resize", function()
-    hl.bind("l", hl.resize({ x = 10, y = 0, relative = true}), { repeating = true })
-    hl.bind("h", hl.resize({ x = -10, y = 0, relative = true}), { repeating = true })
-    hl.bind("k", hl.resize({ x = 0, y = 10, relative = true}), { repeating = true })
-    hl.bind("j", hl.resize({ x = 0, y = -10, relative = true}), { repeating = true })
+    hl.bind("l", hl.dsp.window.resize({ x = 10, y = 0, relative = true}), { repeating = true })
+    hl.bind("h", hl.dsp.window.resize({ x = -10, y = 0, relative = true}), { repeating = true })
+    hl.bind("k", hl.dsp.window.resize({ x = 0, y = 10, relative = true}), { repeating = true })
+    hl.bind("j", hl.dsp.window.resize({ x = 0, y = -10, relative = true}), { repeating = true })
 
     hl.bind("escape", hl.dsp.submap("reset"))
     hl.bind("catchall", hl.dsp.submap("reset"))
 end)
 
 
-hl.define_submap("notes", function()
+hl.define_submap("notes", "reset", function()
     hl.bind("t", hl.dsp.exec_cmd(scripts .. "/floating-notes.sh random"))
     hl.bind("w", hl.dsp.exec_cmd(scripts .. "/floating-notes.sh work"))
     hl.bind("p", hl.dsp.exec_cmd(scripts .. "/floating-notes.sh personal"))
@@ -23,7 +23,7 @@ hl.define_submap("notes", function()
     hl.bind("catchall", hl.dsp.submap("reset"))
 end)
 
-hl.define_submap("tools", function()
+hl.define_submap("tools", "reset", function()
     hl.bind("c", hl.dsp.exec_cmd("hyprpicker -an"))
     hl.bind("d", hl.dsp.exec_cmd(scripts .. "/tools/currentdate.sh"))
     hl.bind("e", hl.dsp.exec_cmd(scripts .. "/tools/encode-qrcode.sh"))

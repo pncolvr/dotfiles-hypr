@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-hyprctl dispatch pin active >/dev/null 2>&1
+hyprctl dispatch 'hl.dsp.window.pin()'
 pkill -RTMIN+1 waybar

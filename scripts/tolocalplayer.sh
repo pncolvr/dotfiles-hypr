@@ -75,7 +75,7 @@ function pause_player() {
 }
 
 function move_to_media_workspace() {
-    hyprctl dispatch workspace 2 > >(log) 2> >(log_error)
+    hyprctl dispatch 'hl.dsp.focus({ workspace = 2}))' > >(log) 2> >(log_error)
 }
 
 function get_source() {
@@ -112,8 +112,8 @@ function handle_open_twitch() {
 }
 
 function handle_close_twitch() {
-    hyprctl dispatch closewindow class:qutebrowser-twitch-chat > >(log) 2> >(log_error) 2>&1
-    hyprctl dispatch closewindow class:mpv-twitch > >(log) 2> >(log_error) 2>&1
+    hyprctl dispatch 'hl.dsp.window.close({ window = "class:qutebrowser-twitch-chat"})'  > >(log) 2> >(log_error) 2>&1
+    hyprctl dispatch 'hl.dsp.window.close({ window = "class:mpv-twitch"})' > >(log) 2> >(log_error) 2>&1
 }
 
 function get_channel() {
@@ -175,7 +175,7 @@ function force_close_previous_of_same_type() {
         mpv-twitch) 
             handle_close_twitch;;
         mpv-youtube)
-            hyprctl dispatch closewindow class:mpv-youtube > >(log) 2> >(log_error);;
+            hyprctl dispatch 'hl.dsp.window.close({ window = "class:mpv-youtube"})'  > >(log) 2> >(log_error) 2>&1
     esac 
 }
 
