@@ -103,7 +103,7 @@ hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = tr
 hl.bind("XF86AudioStop",  hl.dsp.exec_cmd("playerctl --all-players stop"),   { locked = true })
 
 hl.bind("XF86AudioMute",  hl.dsp.exec_cmd(waybar .. "/mic toggle"),   { locked = true })
-hl.bind("XF86Eject",      hl.dsp.exec_cmd("playerctl amixer set Master toggle"),   { locked = true })
+hl.bind("XF86Eject", hl.dsp.exec_cmd("amixer set Master toggle"), { locked = true })
 
 -- workspaces
 for i = 1, 10 do
