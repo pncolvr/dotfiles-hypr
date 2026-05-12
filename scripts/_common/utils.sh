@@ -9,7 +9,7 @@ function open_file_explorer () {
     else 
         pcmanfm-qt "$file"
     fi
-    hyprctl dispatch focuswindow class:pcmanfm-qt
+    hyprctl dispatch 'hl.dsp.focus({ window = "class:pcmanfm-qt" })'
 }
 
 function get_temp_dir() {
@@ -28,7 +28,7 @@ function get_env_file() {
     echo "$(dirname "$path")/$filename.env"
 }
 
-function calculate_cursor_move_to_position() {
+function move_cursor_to_position() {
     local active_workspace
     active_workspace=$1
     local x_percent
@@ -49,8 +49,7 @@ function calculate_cursor_move_to_position() {
     screen_height=$(echo "$screen_resolution" | tail -n1)
     cursor_x=$(echo "$screen_width * $x_percent / 1" | bc | cut -d. -f1)
     cursor_y=$(echo "$screen_height * $y_percent / 1" | bc | cut -d. -f1)
-
-    echo -n "$cursor_x $cursor_y"
+    hyprctl 'dispatch hl.dsp.cursor.move({ x='$cursor_x',y='$cursor_y'})'
 }
 
 function log() {

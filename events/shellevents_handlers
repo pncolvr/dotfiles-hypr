@@ -7,12 +7,10 @@ reload_waybar () {
   reload_waybar_status
 }
 reload_waybar_custom_windows() {
-  # reload waybar custom/windows
   pkill -RTMIN+1 waybar
 }
 
 reload_waybar_status() {
-  # reload waybar custom/status
   (
     sleep 1
     pkill -RTMIN+5 waybar
@@ -24,8 +22,10 @@ reload_waybar_screencast() {
 }
 
 sleep_and_set_tiled() {
-  sleep $1
-  hyprctl dispatch settiled address:"0x$2"
+  (
+    sleep $1
+    hyprctl dispatch 'hl.dsp.window.float({ action = "disable", window = "address:0x'"$1"'" })'
+  ) & disown
 }
 
 if_parent_pinned_pin() {
@@ -33,7 +33,7 @@ if_parent_pinned_pin() {
   previous_pinned=$(echo "$previous_window" | jq -r '.pinned // false')
   
   if [[ "$previous_pinned" == "true" ]]; then
-    hyprctl dispatch pin address:"0x$1"
+    hyprctl dispatch 'hl.dsp.window.pin({ window = "address:'"$1"'" })'
   fi
 }
 
@@ -53,7 +53,7 @@ if_floating_move_to_mouse() {
     position_x=$((cursor_x - win_w / 2))
     position_y=$((cursor_y - win_h / 2))
     min_x=$((monitor_x + 10))
-    min_y=$((monitor_y + 30)) #because of bar
+    min_y=$((monitor_y + 30))
     max_x=$((monitor_x + monitor_w - win_w - 10))
     max_y=$((monitor_y + monitor_h - win_h - 10))
 
@@ -62,7 +62,7 @@ if_floating_move_to_mouse() {
     if (( position_x > max_x )); then position_x=$max_x; fi
     if (( position_y > max_y )); then position_y=$max_y; fi
 
-    hyprctl dispatch movewindowpixel exact $position_x $position_y,address:"$window_address"
+    hyprctl dispatch 'hl.dsp.window.move({ window = "address:'"$window_address"'", x = '"$position_x"', y = '"$position_y"', exact = true })'
   fi
 }
 
@@ -90,7 +90,7 @@ kill_submap_yad() {
       address=$(get_address)
 
       if [[ -n "$address" ]]; then
-        hyprctl dispatch closewindow "address:$address"
+        hyprctl dispatch 'hl.dsp.window.close({ window = "address:'"$address"'"})'
         exit 0
       fi
 
@@ -98,12 +98,13 @@ kill_submap_yad() {
     done
   ) & disown
 }
+
 event_openwindow() {
     # WINDOWADDRESS WORKSPACENAME WINDOWCLASS WINDOWTITLE
     reload_waybar
     case "$WINDOWCLASS" in
       "discord")
-        sleep_and_set_tiled 0.3 $WINDOWADDRESS
+        sleep_and_set_tiled 5 $WINDOWADDRESS
         ;;
       "com.freerdp.client.sdl3")
         sleep_and_set_tiled 3 $WINDOWADDRESS
@@ -120,74 +121,40 @@ event_openwindow() {
         fi
         ;;
       "qutebrowser-twitch-chat")
-        hyprctl dispatch layoutmsg mfact exact 0.85
-        hyprctl dispatch focuswindow class:mpv-twitch
+        hyprctl dispatch 'hl.dsp.focus({ window = "class:mpv-twitch" })'
         ;;
     esac
 }
 
 event_closewindow() {
-  # WINDOWADDRESS
   kill_if_uxplay
   reload_waybar
-  # notify-send "$WINDOWADDRESS"
-  # good in theory
-  # reload_waybar_custom_windows
-  # workspace_window_count=$(hyprctl activeworkspace -j | jq -r '.windows')
-  # if [[ "$workspace_window_count" == "0" ]]; then
-  #   hyprctl dispatch focuscurrentorlast
-  # fi
 }
 
-
-# event_changefloatingmode() {
-#     # WINDOWADDRESS FLOATING
-#     wininfo=$(hyprctl clients -j | jq -r ".[] | select(.address==\"0x$WINDOWADDRESS\")")
-#     class=$(echo "$wininfo" | jq -r '.class')
-
-#     if [[ "$class" == "code" && "$FLOATING" == "1" ]]; then
-#         hyprctl dispatch resizewindowpixel exact 900 500,address:"0x$WINDOWADDRESS"
-#         hyprctl dispatch centerwindow address:"0x$WINDOWADDRESS"
-#     fi
-# }
-
 event_activewindowv2() {
-  # WINDOWADDRESS
   reload_waybar
-  # ~/.config/hypr/scripts/streamdeck/handler.sh & disown
 }
 
 event_workspacev2() {
-  # WORKSPACEID WORKSPACENAME
   reload_waybar
 }
 
 event_focusedmon() {
-  # MONNAME WORKSPACENAME
   reload_waybar
 }
 
-# event_screencast() {
-#   # STATE OWNER
-#   TEMP_DIR="${XDG_RUNTIME_DIR:-/tmp}"
-#   SCREENCAST_FILE="$TEMP_DIR/screencast_status_$(id -u)"
-#   echo "$STATE" > "$SCREENCAST_FILE"
-# }
-
 event_screencastv2() {
-  # STATE OWNER MONITOR
   TEMP_DIR="${XDG_RUNTIME_DIR:-/tmp}"
   SCREENCAST_FILE="$TEMP_DIR/screencast_status_$(id -u)"
   echo "$STATE" > "$SCREENCAST_FILE"
   case "$STATE" in 
-    0) hyprctl keyword animations:enabled 1;;
-    1) hyprctl keyword animations:enabled 0;;
+    0) hyprctl eval 'hl.config({animations = { enabled = true}})';;
+    1) hyprctl eval 'hl.config({animations = { enabled = false}})';;
   esac
   reload_waybar_screencast
 }
 
 event_fullscreen() {
-  # ENTER (0 if leaving fullscreen, 1 if entering)
   reload_waybar
   case $ENTER in
     0) ~/.config/hypr/scripts/ask-dnd.sh fullscreen-left & disown;;
@@ -196,7 +163,6 @@ event_fullscreen() {
 }
 
 event_submap() {
-  # SUBMAPNAME
   reload_waybar
 
   case $SUBMAPNAME in 
@@ -206,6 +172,5 @@ event_submap() {
 }
 
 event_urgent() {
-  # WINDOWADDRESS
-  hyprctl dispatch focuswindow address:"0x$WINDOWADDRESS"
+  hyprctl dispatch 'hl.dsp.focus({ window = "address:0x'"$WINDOWADDRESS"'" })'
 }

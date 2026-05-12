@@ -6,9 +6,9 @@ SCRIPT_PARAMS="$*"
 function get_items() {
     local submap="$1"
     if [[ -n "$submap" ]]; then
-        mapfile -t lines < <("$WORKSPACE/submap/parser.sh" "$submap")
+        mapfile -t lines < <("$WORKSPACE/submaps.sh" "$submap")
     else
-        mapfile -t lines < <("$WORKSPACE/parser.sh")
+        mapfile -t lines < <("$WORKSPACE/keybinds.sh")
     fi
 
     printf '%s\n' "${lines[@]}"
@@ -34,7 +34,7 @@ function show_submap() {
 
     (( height > max_height )) && height=$max_height
 
-    show_yad_list "$title" 300 "$height" "${items[@]}"
+    show_yad_list "$title" 360 "$height" "${items[@]}"
 }
 
 function show_keybinds() {
