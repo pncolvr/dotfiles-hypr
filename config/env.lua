@@ -9,3 +9,6 @@ hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 
 -- path 
 hl.env("PATH", "/bin:/usr/bin:/usr/local/bin:$HOME/.local/bin")
+
+-- https://github.com/ghostty-org/ghostty/discussions/8899
+hl.env("GTK_IM_MODULE", "simple")

@@ -50,8 +50,8 @@ hl.bind(mainMod .. " + SHIFT + RETURN", hl.dsp.exec_cmd("ghostty"))
 
 hl.bind(mainMod .. " + T",         hl.dsp.exec_cmd(scripts .. "/directory/pick.sh"))
 
-hl.bind("ALT + TAB",         hl.dsp.exec_cmd(rofi .. "/windows/currentworkspace.sh"))
-hl.bind("ALT + SHIFT + TAB", hl.dsp.exec_cmd(rofi .. "/windows/any.sh"))
+hl.bind("ALT + TAB",         hl.dsp.exec_cmd(rofi .. "/windows/any.sh"))
+hl.bind("ALT + SHIFT + TAB", hl.dsp.exec_cmd(rofi .. "/windows/currentworkspace.sh"))
 
 hl.bind(mainMod .. " + TAB",         hl.dsp.exec_cmd(waybar .. "/windows/list move-next"))
 hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.exec_cmd(waybar .. "/windows/list move-previous"))
@@ -72,8 +72,9 @@ hl.bind(mainMod .. " + SHIFT + Z", hl.dsp.exec_cmd(scripts .. "/zoom.sh --reset"
 
 hl.bind(mainMod .. " + code:21", hl.dsp.exec_cmd("qalculate-qt"))
 
-hl.bind(mainMod .. " + SPACE",         hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + SPACE",         hl.dsp.window.move({ out_of_group = true}))
+hl.bind(mainMod .. " + SPACE",         hl.dsp.window.float({ action = "toggle" }))
+
 hl.bind(mainMod .. " + SHIFT + SPACE", hl.dsp.window.center())
 
 -- focus navigation

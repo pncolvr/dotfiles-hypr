@@ -121,7 +121,6 @@ event_openwindow() {
         fi
         ;;
       "qutebrowser-twitch-chat")
-        hyprctl dispatch 'hl.config({ master = { mfact = 0.85 } })'
         hyprctl dispatch 'hl.dsp.focus({ window = "class:mpv-twitch" })'
         ;;
     esac

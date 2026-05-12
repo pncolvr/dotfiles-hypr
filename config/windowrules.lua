@@ -21,7 +21,6 @@ local moveWindowToCursor = "(cursor_x-(window_w*0.5)) (max(25, cursor_y-(window_
 local groupWorkspaces = {3, 4, 10}
 for _, ws in ipairs(groupWorkspaces) do
   hl.window_rule({
-    name  = "dont_group",
     match = { workspace = tostring(ws) },
     group = "barred",
   })

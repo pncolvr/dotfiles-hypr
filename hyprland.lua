@@ -86,6 +86,9 @@ hl.config({
         preserve_split = true,
         force_split = 2
     },
+    master = {
+        mfact = 0.85,
+    },
     input = {
         kb_layout = "us",
         kb_variant = "intl",
@@ -124,4 +127,4 @@ hl.animation({ leaf = "global",        enabled = true,  speed = 1,   bezier = "d
 -- hl.animation({ leaf = "workspaces",    enabled = true,  speed = 1.94, bezier = "almostLinear", style = "fade" })
 -- hl.animation({ leaf = "workspacesIn",  enabled = true,  speed = 1.21, bezier = "almostLinear", style = "fade" })
 -- hl.animation({ leaf = "workspacesOut", enabled = true,  speed = 1.94, bezier = "almostLinear", style = "fade" })
--- hl.animation({ leaf = "zoomFactor",    enabled = true,  speed = 7,    bezier = "quick" })
+hl.animation({ leaf = "zoomFactor",    enabled = true,  speed = 3,    bezier = "quick" })
