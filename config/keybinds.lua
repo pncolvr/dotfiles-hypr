@@ -1,16 +1,15 @@
 local home = os.getenv("HOME")
 local scripts = home .. "/.config/hypr/scripts"
 local rofi    = home .. "/.config/rofi/scripts"
-local waybar  = home .. "/.config/waybar/scripts"
 
 local mainMod = "SUPER"
 -- general
 hl.bind(mainMod .. " + SHIFT + PERIOD",  hl.dsp.exec_cmd(scripts .. "/directory/books-pick.sh --pick"))
-hl.bind(mainMod .. " + SHIFT + SLASH",   hl.dsp.exec_cmd(scripts .. "/toggle/keybinds.sh"))
+hl.bind(mainMod .. " + SHIFT + SLASH",   hl.dsp.exec_cmd("ghostty --title=Keybinds -e " .. scripts .. "/keybinds/display.sh --keybinds"))
 hl.bind(mainMod .. " + SHIFT + A",       hl.dsp.exec_cmd(rofi ..    "/web/azure.sh --pick"))
 
 hl.bind(mainMod .. " + B",         hl.dsp.exec_cmd(scripts .. "/browser/openbookmarks.sh"))
-hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd(scripts .. "/browser/start-work.sh"))
+hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("xdg-open https://www.monday.com"))
 
 hl.bind(mainMod .. " + D",         hl.dsp.exec_cmd("rofi -show drun"))
 hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd(rofi .. "/remotes/pick.sh"))
@@ -18,10 +17,10 @@ hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd(rofi .. "/remotes/pick.sh"))
 hl.bind(mainMod .. " + E",         hl.dsp.exec_cmd(rofi .. "/web/webapps.sh"))
 
 hl.bind(mainMod .. " + ESCAPE",                 hl.dsp.exec_cmd(scripts .. "/powermenu.sh"))
-hl.bind(mainMod .. " + SHIFT + ESCAPE",         hl.dsp.exec_cmd(waybar ..  "/notifications toggle"))
+hl.bind(mainMod .. " + SHIFT + ESCAPE",         hl.dsp.exec_cmd("qs ipc call notifications toggle"))
 
-hl.bind(mainMod .. " + F",         hl.dsp.exec_cmd(scripts .. "/fullscreen.sh fullscreen"))
-hl.bind(mainMod .. " + SHIFT + F", hl.dsp.exec_cmd(scripts .. "/fullscreen.sh maximized"))
+hl.bind(mainMod .. " + F",         hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle"}))
+hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle"}))
 
 hl.bind(mainMod .. " + G",         hl.dsp.exec_cmd(rofi .. "/web/github.sh"))
 
@@ -53,8 +52,8 @@ hl.bind(mainMod .. " + T",         hl.dsp.exec_cmd(scripts .. "/directory/pick.s
 hl.bind("ALT + TAB",         hl.dsp.exec_cmd(rofi .. "/windows/any.sh"))
 hl.bind("ALT + SHIFT + TAB", hl.dsp.exec_cmd(rofi .. "/windows/currentworkspace.sh"))
 
-hl.bind(mainMod .. " + TAB",         hl.dsp.exec_cmd(waybar .. "/windows/list move-next"))
-hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.exec_cmd(waybar .. "/windows/list move-previous"))
+hl.bind(mainMod .. " + TAB",         hl.dsp.exec_cmd("qs ipc call windows next"))
+hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.exec_cmd("qs ipc call windows prev"))
 
 hl.bind(mainMod .. " + U",         hl.dsp.focus({ urgent_or_last = true }))
 
@@ -103,7 +102,7 @@ hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = tr
 hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true })
 hl.bind("XF86AudioStop",  hl.dsp.exec_cmd("playerctl --all-players stop"),   { locked = true })
 
-hl.bind("XF86AudioMute",  hl.dsp.exec_cmd(waybar .. "/mic toggle"),   { locked = true })
+hl.bind("XF86AudioMute",  hl.dsp.exec_cmd("pactl set-source-mute @DEFAULT_SOURCE@ toggle"),   { locked = true })
 hl.bind("XF86Eject", hl.dsp.exec_cmd("amixer set Master toggle"), { locked = true })
 
 -- workspaces

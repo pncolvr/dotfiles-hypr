@@ -15,8 +15,8 @@ while true; do
             --preview "bash $workspace/fzf-preview.sh {}" \
             --layout=reverse \
             --preview-window=right,50%,wrap \
-            --bind "alt-1:execute-silent('$workspace/set.sh' 1 '{}')" \
-            --bind "alt-2:execute-silent('$workspace/set.sh' 2 '{}')" \
+            --bind "alt-1:execute-silent(bash '$workspace/set.sh' 1 '{}')" \
+            --bind "alt-2:execute-silent(bash '$workspace/set.sh' 2 '{}')" \
             --bind 'esc:abort' \
             --bind 'ctrl-c:abort')"
 

@@ -11,7 +11,7 @@ local terminalClass = "com.mitchellh.ghostty"
 local editorClass = "code"
 local dialogClass = "yad"
 local steamClass = "steam"
-
+local comms = "^(discord|vesktop|teams-for-linux|signal)$"
 local moveWindowToCursor = "(cursor_x-(window_w*0.5)) (max(25, cursor_y-(window_h*0.5)))"
 
 -- --------------------------------------------------------------------------
@@ -48,11 +48,17 @@ hl.window_rule({
 
 hl.window_rule({
     name = "comms_workspace",
-    match = { class = "^(discord|vesktop|teams-for-linux|signal)$" },
+    match = { class = comms },
     group = "set comms",
     workspace = "3",
+})
+
+local commAppsHidden = hl.window_rule({
+    name = "comms_hide",
+    match = { class = comms },
     no_screen_share = true
 })
+commAppsHidden:set_enabled(false)
 
 hl.window_rule({
     name = "code_workspace",
@@ -61,17 +67,17 @@ hl.window_rule({
     workspace = "4"
 })
 
-hl.window_rule({
-    name = "code_dialogs_move_to_mouse",
-    match = { class = editorClass, float = true },
-    move = moveWindowToCursor
-})
+-- hl.window_rule({
+--     name = "code_dialogs_move_to_mouse",
+--     match = { class = editorClass, float = true },
+--     move = moveWindowToCursor
+-- })
 
 hl.window_rule({
     name = "yad_move_to_mouse",
     match = { class = dialogClass, title = "qrencode" },
     float = true,
-    move = moveWindowToCursor
+    -- move = moveWindowToCursor
 })
 
 hl.window_rule({
@@ -182,9 +188,15 @@ hl.window_rule({
     float = true,
     center = true,
     pin = true,
-    no_screen_share = true,
     size = "(monitor_w*0.6) (monitor_h*0.8)"
 })
+
+local vaultHidden = hl.window_rule({
+    name = "hide_passwords",
+    match = { class = terminalClass, title = "passwords" },
+    no_screen_share = true,
+})
+vaultHidden:set_enabled(false)
 
 hl.window_rule({
     name = "center_webapps",
@@ -224,13 +236,12 @@ hl.window_rule({
 -- layer rules 
 -- --------------------------------------------------------------------------
 
--- local notificationsLayer = hl.layer_rule({
-hl.layer_rule({
+local notificationsHidden = hl.layer_rule({
     name  = "hide_notifications",
     match = { namespace = "swaync-notification-window" },
     no_screen_share = true,
 })
--- notificationsLayer:set_enabled(true)
+notificationsHidden:set_enabled(false)
 
 -- --------------------------------------------------------------------------
 -- smart gaps (black magic)
@@ -249,3 +260,20 @@ hl.window_rule({
     border_size = 0,
     rounding    = 0,
 })
+
+-- --------------------------------------------------------------------------
+-- dynamic rules
+-- --------------------------------------------------------------------------
+
+hl.on("screenshare.state", function (active, type, name)
+    notificationsHidden:set_enabled(active)
+    commAppsHidden:set_enabled(active)
+    vaultHidden:set_enabled(active)
+end)
+
+-- hl.on("keybinds.submap", function (name)
+--     local active = name ~= ""
+--     notificationsHidden:set_enabled(active)
+--     commAppsHidden:set_enabled(active)
+--     vaultHidden:set_enabled(active)
+-- end)

@@ -13,6 +13,7 @@ require("config.monitors")
 require("config.submaps")
 require("config.windowrules")
 require("config.keybinds")
+require("config.events")
 
 
 hl.config({
@@ -34,6 +35,9 @@ hl.config({
         disable_hyprland_logo = true,
         background_color = theme.inactiveColor,
         vrr = 0 -- 0 - off, 1 - on, 2 - fullscreen only, 3 - fullscreen with video or game content type
+    },
+    binds = {
+        allow_pin_fullscreen = true
     },
     ecosystem = {
         no_donation_nag = true
@@ -63,6 +67,7 @@ hl.config({
             text_color_inactive = theme.text,
         },
         insert_after_current = false,
+        merge_groups_on_drag = true,
         col = {
             border_active = theme.activeColor,
             border_inactive = theme.inactiveColor,
