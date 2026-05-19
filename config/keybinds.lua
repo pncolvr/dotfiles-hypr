@@ -108,6 +108,7 @@ hl.bind("XF86Eject", hl.dsp.exec_cmd("amixer set Master toggle"), { locked = tru
 -- workspaces
 for i = 1, 10 do
     local key = i % 10
+    hl.bind(mainMod .. " + ALT + " .. key, hl.dsp.exec_cmd("qs ipc call windows focus ".. key))
     hl.bind(mainMod .. " + " .. key,             hl.dsp.focus({ workspace = i}))
     hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i, follow = false}))
 end
