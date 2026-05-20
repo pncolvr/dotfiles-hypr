@@ -104,10 +104,12 @@ hl.on("window.open", function(w)
     end
 end)
 
+-- hl.on("config.reloaded", function ()
+    
+-- end)
+
 -- hl.on("keybinds.submap", function(s)
 --     if not is_empty(s) then
---         hl.dispatch(hl.dsp.exec_cmd("~/.config/hypr/scripts/keybinds/display.sh --submap " .. s))
---     else
---         try_kill_window_with_class_and_title("yad", "Submap:")
+--         hl.dispatch(hl.dsp.exec_cmd("ghostty --title=Keybinds -e ~/.config/hypr/scripts/keybinds/display.sh --submap " .. s))
 --     end
 -- end)
