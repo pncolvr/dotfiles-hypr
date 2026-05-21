@@ -71,6 +71,22 @@ local function force_tile(w)
     hl.dispatch(hl.dsp.window.float({ action="disable", window = "address:" .. w.address }))
 end
 
+function Open_floating_note(path)
+    local mon = hl.get_active_monitor()
+    if not mon then return end
+
+    Pending_floating_note = {
+        workspace_id = hl.get_active_workspace().id,
+        resize_x     = math.floor(mon.width * 0.25),
+        resize_y     = math.floor(mon.height * 0.66),
+        move_x       = math.floor(mon.width * 0.74),
+        move_y       = math.floor(mon.height * 0.14),
+        cursor_x     = math.floor(mon.width * 0.865),
+        cursor_y     = math.floor(mon.height * 0.47),
+    }
+    hl.dispatch(hl.dsp.exec_cmd("code --new-window " .. path))
+end
+
 local windowOpen = {
     ["qutebrowser-twitch-chat"] = function(w)
         hl.dispatch(hl.dsp.focus({ window = "class:mpv-twitch" }))
@@ -81,7 +97,18 @@ local windowOpen = {
         end
     end,
     ["code"] = function (w)
-        if w.title == "Visual Studio Code" then
+        if  Pending_floating_note then
+            local d = Pending_floating_note
+            Pending_floating_note = nil
+            local addr = "address:" .. w.address
+            hl.dispatch(hl.dsp.window.move({ out_of_group = true, window = addr }))
+            hl.dispatch(hl.dsp.window.float({ action = "enable", window = addr }))
+            hl.dispatch(hl.dsp.window.resize({ x = d.resize_x, y = d.resize_y, window = addr }))
+            hl.dispatch(hl.dsp.window.move({ workspace = d.workspace_id, window = addr }))
+            hl.dispatch(hl.dsp.window.move({ x = d.move_x, y = d.move_y, window = addr }))
+            hl.dispatch(hl.dsp.window.pin({ window = addr }))
+            hl.dispatch(hl.dsp.cursor.move({ x = d.cursor_x, y = d.cursor_y }))
+        else
             if_parent_pinned_pin(w)
             if_floating_move_to_mouse(w)
         end
@@ -89,6 +116,7 @@ local windowOpen = {
     ["discord"] = force_tile,
     ["com.freerdp.client.sdl3"] = force_tile
 }
+
 
 hl.on("window.urgent", function (w)
     hl.dispatch(hl.dsp.focus({  window = "address:" .. w.address  }))
@@ -103,6 +131,12 @@ hl.on("window.open", function(w)
         windowOpen[w.class](w)
     end
 end)
+
+function HideApplications (active)
+    NotificationsHidden:set_enabled(active)
+    CommAppsHidden:set_enabled(active)
+    VaultHidden:set_enabled(active)
+end
 
 -- hl.on("config.reloaded", function ()
     

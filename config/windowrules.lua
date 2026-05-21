@@ -53,12 +53,12 @@ hl.window_rule({
     workspace = "3",
 })
 
-local commAppsHidden = hl.window_rule({
+CommAppsHidden = hl.window_rule({
     name = "comms_hide",
     match = { class = comms },
     no_screen_share = true
 })
-commAppsHidden:set_enabled(false)
+CommAppsHidden:set_enabled(false)
 
 hl.window_rule({
     name = "code_workspace",
@@ -191,12 +191,12 @@ hl.window_rule({
     size = "(monitor_w*0.6) (monitor_h*0.8)"
 })
 
-local vaultHidden = hl.window_rule({
+VaultHidden = hl.window_rule({
     name = "hide_passwords",
     match = { class = terminalClass, title = "passwords" },
     no_screen_share = true,
 })
-vaultHidden:set_enabled(false)
+VaultHidden:set_enabled(false)
 
 hl.window_rule({
     name = "center_webapps",
@@ -236,12 +236,12 @@ hl.window_rule({
 -- layer rules 
 -- --------------------------------------------------------------------------
 
-local notificationsHidden = hl.layer_rule({
+NotificationsHidden = hl.layer_rule({
     name  = "hide_notifications",
     match = { namespace = "swaync-notification-window" },
     no_screen_share = true,
 })
-notificationsHidden:set_enabled(false)
+NotificationsHidden:set_enabled(false)
 
 -- --------------------------------------------------------------------------
 -- smart gaps (black magic)
@@ -265,11 +265,12 @@ hl.window_rule({
 -- dynamic rules
 -- --------------------------------------------------------------------------
 
-hl.on("screenshare.state", function (active, type, name)
-    notificationsHidden:set_enabled(active)
-    commAppsHidden:set_enabled(active)
-    vaultHidden:set_enabled(active)
-end)
+
+-- hl.on("screenshare.state", function (active, type, name)
+--     notificationsHidden:set_enabled(active)
+--     commAppsHidden:set_enabled(active)
+--     vaultHidden:set_enabled(active)
+-- end)
 
 -- hl.on("keybinds.submap", function (name)
 --     local active = name ~= ""
