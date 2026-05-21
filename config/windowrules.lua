@@ -137,7 +137,7 @@ hl.window_rule({
 
 hl.window_rule({
     name = "center_windows_no_title",
-    match = { class = "^(xdg-desktop-portal-gtk|org\\.pulseaudio\\.pavucontrol|hyprland-share-picker|imv|io\\.github\\.Qalculate\\.qalculate-qt|com\\.gabm\\.satty|engrampa)$" },
+    match = { class = "^(xdg-desktop-portal-gtk|org\\.pulseaudio\\.pavucontrol|hyprland-share-picker|imv|io\\.github\\.Qalculate\\.qalculate-qt|com\\.gabm\\.satty|engrampa|xarchiver)$" },
     float = true,
     center = true,
     size = "900 700"

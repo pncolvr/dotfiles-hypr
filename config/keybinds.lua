@@ -35,8 +35,8 @@ hl.bind(mainMod .. " + P",         hl.dsp.exec_cmd(rofi .. "/code.sh"),         
 
 hl.bind(mainMod .. " + PRINT",         hl.dsp.exec_cmd(scripts .. "/screen/shot.sh"),                { desc = "screenshot" })
 hl.bind(mainMod .. " + SHIFT + S",     hl.dsp.exec_cmd(scripts .. "/screen/shot.sh region"),         { desc = "screenshot region" })
-hl.bind(mainMod .. " + SHIFT + PRINT", hl.dsp.exec_cmd(scripts .. "/screen/shot.sh window"),         { desc = "screenshot window" })
-hl.bind("PRINT",                        hl.dsp.exec_cmd(scripts .. "/screen/shot.sh output"),         { desc = "screenshot output" })
+hl.bind("SHIFT + PRINT",               hl.dsp.exec_cmd(scripts .. "/screen/shot.sh window"),         { desc = "screenshot window" })
+hl.bind("PRINT",                       hl.dsp.exec_cmd(scripts .. "/screen/shot.sh output"),         { desc = "screenshot output" })
 
 hl.bind(mainMod .. " + Q",         hl.dsp.exec_cmd("hyprctl kill"),                                  { desc = "kill (pick)" })
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close(),                                            { desc = "close window" })
