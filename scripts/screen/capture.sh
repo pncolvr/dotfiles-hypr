@@ -24,7 +24,7 @@ function handle_capture_region() {
 }
 
 function handle_audio_choice() {
-    include=$(echo "none|both|desktop|mic" | rofi -sep '|' -dmenu -i -p "")
+    include=$(printf "none\nboth\ndesktop\nmic" | rofi -dmenu -i -p "")
     case "$include" in
         none) echo -n "";;
         desktop) echo -n "$HEADPHONES";;
@@ -55,7 +55,7 @@ function unload_loopback() {
 }
 
 function request_fps () {
-    fps=$(echo "60|30|15" | rofi -sep '|' -dmenu -i -p "")
+    fps=$(printf "60\n30\n15" | rofi -dmenu -i -p "")
     case "$fps" in 
         60|30|15) echo "$fps";;
         *) exit 1;;
@@ -114,7 +114,7 @@ function capture () {
 }
 
 function handle_capture() {
-    chosen=$(echo "output|region" | rofi -sep '|' -dmenu -i -p "")
+    chosen=$(printf "output\nregion" | rofi -dmenu -i -p "")
     case $chosen in
         *output*) handle_capture_output;;
         *region*) handle_capture_region;;
