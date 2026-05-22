@@ -1,5 +1,5 @@
 return {
-    inactiveColor = "rgba(000000ff)",
-    activeColor = "rgb(6272a4)",
-    text = "rgb(cdd6f4)"
+    inactiveColor = "#000000",
+    activeColor = "#6272a4",
+    text = "#d8dadc"
 }
