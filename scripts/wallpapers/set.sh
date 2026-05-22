@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 monitor="$1"
-shift
+status="$2"
+shift 2
 path="$*"
 
 case $monitor in 
@@ -10,8 +11,8 @@ case $monitor in
     *)echo "not supported" && exit 1;;
 esac
 
-target="$HOME/Pictures/runtime/wallpaper$monitor"
+target="$HOME/Pictures/.runtime/wallpaper_${status}_$monitor"
 
 ln -sf "$path" "$target"
 
-awww img "$target" --outputs "$m" --transition-type any --transition-duration 0.5
+awww img "$target" --outputs "$m" --transition-type any --transition-duration 2

@@ -179,6 +179,7 @@ hl.window_rule({
     match = { class = terminalClass, title = "wallpapers" },
     float = true,
     center = true,
+    pin = true,
     size = "(monitor_w*0.6) (monitor_h*0.5)"
 })
 
