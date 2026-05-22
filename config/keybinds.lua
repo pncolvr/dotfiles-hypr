@@ -69,7 +69,7 @@ hl.bind(mainMod .. " + Z",         hl.dsp.exec_cmd(scripts .. "/zoom.sh --more")
 hl.bind(mainMod .. " + ALT + Z",   hl.dsp.exec_cmd(scripts .. "/zoom.sh --less"),                    { desc = "zoom out" })
 hl.bind(mainMod .. " + SHIFT + Z", hl.dsp.exec_cmd(scripts .. "/zoom.sh --reset"),                   { desc = "zoom reset" })
 
-hl.bind(mainMod .. " + code:21", hl.dsp.exec_cmd("qalculate-qt"),                                    { desc = "calculator" })
+hl.bind(mainMod .. " + EQUAL",   hl.dsp.exec_cmd("qalculate-qt"),                                    { desc = "calculator" })
 
 hl.bind(mainMod .. " + SPACE",         hl.dsp.window.move({ out_of_group = true}),                   { desc = "move out of group" })
 hl.bind(mainMod .. " + SPACE",         hl.dsp.window.float({ action = "toggle" }),                   { desc = "toggle float" })
