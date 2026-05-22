@@ -34,10 +34,10 @@ function detect_qrcode() {
     qr_result=$(capture_screenshot region | zbarimg --raw -q - 2>/dev/null)
 
     if [[ -n "$qr_result" ]]; then
-        notify-send "$qr_result"
+        notify-send --urgency low "$qr_result"
         echo "$qr_result" | wl-copy
     else
-        notify-send "No QR code found in selected region"
+        notify-send --urgency low "No QR code found in selected region"
     fi
 }
 
@@ -46,11 +46,11 @@ function detect_text() {
 
     ocr_result=$(capture_screenshot region | tesseract stdin stdout -l por 2>/dev/null)
     if [[ -n "$ocr_result" ]]; then
-        notify-send "$ocr_result"
+        notify-send --urgency low "$ocr_result"
         echo "$ocr_result" | wl-copy
         echo "$ocr_result"
     else
-        notify-send "No readable text found in selected region"
+        notify-send --urgency low "No readable text found in selected region"
     fi
 }
 

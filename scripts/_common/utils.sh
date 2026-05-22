@@ -110,5 +110,5 @@ function copy_to_clipboard_and_notify() {
 
 function notify() {
     local text="$1"
-    notify-send --expire-time=2000 "$text copied to clipboard" --transient
+    notify-send --urgency low "$text copied to clipboard" --transient
 }
