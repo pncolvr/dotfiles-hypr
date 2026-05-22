@@ -12,6 +12,7 @@ function pick() {
 
 function capture_screenshot() {
     local method=$1
+    sleep 0.3 # allow helper stuff to be removed from screen
     timeout 30 hyprshot --freeze --silent --clipboard-only --raw --mode "$method"
 }
 
