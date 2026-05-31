@@ -102,13 +102,20 @@ function wait_for_window() {
     echo "$window_address"
 }
 
-function copy_to_clipboard_and_notify() {
-    local text="$1"
-    notify "$text"
-    echo -n "$text" | wl-copy
-}
+# function copy_to_clipboard_and_notify() {
+#     local text="$1"
+#     notify "$text"
+#     echo -n "$text" | wl-copy
+# }
 
-function notify() {
+# function notify() {
+#     local text="$1"
+#     notify-send --urgency low "$text copied to clipboard" --transient
+# }
+
+function paste_to_focused() {
     local text="$1"
-    notify-send --urgency low "$text copied to clipboard" --transient
+    printf '%s' "$text" | wl-copy
+    sleep 0.1
+    ydotool key 29:1 47:1 47:0 29:0
 }

@@ -5,6 +5,7 @@ find_cmd=(
     find "$folder" -type f \( \
         -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o \
         -iname '*.webp' -o -iname '*.bmp' -o -iname '*.gif' -o \
+        -iname '*.gif' -o -iname '*.mp4' -o -iname '*.gif' -o \
         -iname '*.tiff' \)
 )
 

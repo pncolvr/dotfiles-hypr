@@ -22,7 +22,7 @@ hl.define_submap("notes", "reset", function()
 end)
 
 hl.define_submap("tools", "reset", function()
-    hl.bind("c", hl.dsp.exec_cmd("hyprpicker -an"),                       { desc = "color picker" })
+    hl.bind("c", hl.dsp.exec_cmd(scripts .. "/tools/colour-picker.sh"),     { desc = "color picker" })
     hl.bind("b", hl.dsp.exec_cmd('ghostty -e btop'),   { desc = "system monitor" })
     hl.bind("d", hl.dsp.exec_cmd(scripts .. "/tools/currentdate.sh"),     { desc = "current date" })
     hl.bind("e", hl.dsp.exec_cmd(scripts .. "/tools/encode-qrcode.sh"),   { desc = "encode qrcode" })

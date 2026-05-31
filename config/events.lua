@@ -124,6 +124,7 @@ end)
 
 hl.on("screenshare.state", function (active, type, name)
     hl.config({animations = { enabled = not active}})
+    -- HideApplications(active)
 end)
 
 hl.on("window.open", function(w)

@@ -5,4 +5,4 @@ WORKSPACE=$(cd -- "$SCRIPT_DIR/../.." && pwd)
 source "$WORKSPACE"/_common/utils.sh
 
 id=$("$SCRIPT_DIR"/create.cs)
-copy_to_clipboard_and_notify "$id"
+paste_to_focused "$id"

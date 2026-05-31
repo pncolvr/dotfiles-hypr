@@ -149,6 +149,7 @@ hl.window_rule({
     float = true,
     center = true,
     pin = true,
+    no_initial_focus = false,
     size = "900 700"
 })
 
