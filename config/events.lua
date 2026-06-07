@@ -117,8 +117,32 @@ local windowOpen = {
     ["com.freerdp.client.sdl3"] = force_tile
 }
 
+-- shared "auto focus" toggle, also read by the default-browser script (zsh)
+local AutoFocusStateFile = (os.getenv("XDG_RUNTIME_DIR") or "/tmp") .. "/hypr-autofocus"
+
+local function auto_focus_enabled()
+    local f = io.open(AutoFocusStateFile, "r")
+    if not f then return true end
+    local state = f:read("l")
+    f:close()
+    return state ~= "0"
+end
+
+function ToggleUrgentFocus()
+    local enabled = not auto_focus_enabled()
+    local f = io.open(AutoFocusStateFile, "w")
+    if f then
+        f:write(enabled and "1" or "0")
+        f:close()
+    end
+    hl.notification.create({
+        text = "Auto focus " .. (enabled and "enabled" or "disabled"),
+        timeout = 2000
+    })
+end
 
 hl.on("window.urgent", function (w)
+    if not auto_focus_enabled() then return end
     hl.dispatch(hl.dsp.focus({  window = "address:" .. w.address  }))
 end)
 

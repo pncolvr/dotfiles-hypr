@@ -12,8 +12,7 @@ local editorClass = "code"
 local dialogClass = "yad"
 local steamClass = "steam"
 local comms = "^(discord|vesktop|teams-for-linux|signal)$"
-local moveWindowToCursor = "(cursor_x-(window_w*0.5)) (max(25, cursor_y-(window_h*0.5)))"
-
+local commonWindowDimensionFloatCenter = "(monitor_w*0.35) (monitor_h*0.49)"
 -- --------------------------------------------------------------------------
 -- window rules 
 -- --------------------------------------------------------------------------
@@ -21,7 +20,7 @@ local moveWindowToCursor = "(cursor_x-(window_w*0.5)) (max(25, cursor_y-(window_
 local groupWorkspaces = {3, 4, 10}
 for _, ws in ipairs(groupWorkspaces) do
   hl.window_rule({
-    match = { workspace = tostring(ws) },
+    match = { workspace = ws },
     group = "barred",
   })
 end
@@ -29,7 +28,7 @@ end
 hl.window_rule({
     name = "browser_workspace",
     match = { class = "org.qutebrowser.qutebrowser" },
-    workspace = "1"
+    workspace = 1
 })
 
 hl.window_rule({
@@ -43,14 +42,20 @@ hl.window_rule({
     name = "mpv_rollback_tile_twitch",
     match = { class = "mpv-twitch" },
     float = false,
-    workspace = "2"
+    workspace = 2
+})
+
+hl.window_rule({
+    name = "iptv",
+    match = { class = "electron-backend", title = "IPTVnator"},
+    workspace = 2
 })
 
 hl.window_rule({
     name = "comms_workspace",
     match = { class = comms },
     group = "set comms",
-    workspace = "3",
+    workspace = 3
 })
 
 CommAppsHidden = hl.window_rule({
@@ -64,20 +69,13 @@ hl.window_rule({
     name = "code_workspace",
     match = { class = editorClass, float = false },
     group = "set code",
-    workspace = "4"
+    workspace = 4
 })
-
--- hl.window_rule({
---     name = "code_dialogs_move_to_mouse",
---     match = { class = editorClass, float = true },
---     move = moveWindowToCursor
--- })
 
 hl.window_rule({
     name = "yad_move_to_mouse",
     match = { class = dialogClass, title = "qrencode" },
     float = true,
-    -- move = moveWindowToCursor
 })
 
 hl.window_rule({
@@ -99,26 +97,32 @@ hl.window_rule({
 hl.window_rule({
     name = "game_workspace",
     match = { class = "^(".. steamClass .. "|heroic|org\\.prismlauncher\\.PrismLauncher)$" },
-    workspace = "5"
+    workspace = 5
 })
 
 hl.window_rule({
     name = "tools_workspace",
     match = { class = "^(Bazecor|bruno|gimp|com\\.shellyorg\\.shelly)$" },
-    workspace = "6"
+    workspace = 6
 })
 
 hl.window_rule({
     name = "reading_workspace",
     match = { class = "^(org\\.pwmt\\.zathura)$" },
-    workspace = "7"
+    workspace = 7
+})
+
+hl.window_rule({
+    name = "vivaldi_workspace",
+    match = {class = "vivaldi-stable" },
+    workspace = 9
 })
 
 hl.window_rule({
     name = "rdp_workspace",
     match = { class = "com.freerdp.client.sdl3" },
     group = "set rdp",
-    workspace = "10"
+    workspace = 10
 })
 
 hl.window_rule({
@@ -126,7 +130,7 @@ hl.window_rule({
     match = { modal = true },
     float = true,
     center = true,
-    size = "900 700"
+    size = commonWindowDimensionFloatCenter
 })
 
 hl.window_rule({
@@ -140,7 +144,7 @@ hl.window_rule({
     match = { class = "^(xdg-desktop-portal-gtk|org\\.pulseaudio\\.pavucontrol|hyprland-share-picker|imv|io\\.github\\.Qalculate\\.qalculate-qt|com\\.gabm\\.satty|engrampa|xarchiver)$" },
     float = true,
     center = true,
-    size = "900 700"
+    size = commonWindowDimensionFloatCenter
 })
 
 hl.window_rule({
@@ -150,7 +154,7 @@ hl.window_rule({
     center = true,
     pin = true,
     no_initial_focus = false,
-    size = "900 700"
+    size = commonWindowDimensionFloatCenter
 })
 
 hl.window_rule({
@@ -169,15 +173,16 @@ hl.window_rule({
     size = "(monitor_w*0.95) (monitor_h*0.47)"
 })
 
-hl.window_rule({
-    name = "position_musicplayer",
-    match = { class = terminalClass, title = "musicplayer" },
-    float = true
-})
+-- hl.window_rule({
+--     name = "position_musicplayer",
+--     match = { class = terminalClass, title = "musicplayer" },
+--     float = true,
+--     size = "(monitor_w*0.6) (monitor_h*0.5)"
+-- })
 
 hl.window_rule({
     name = "position_wallpapers",
-    match = { class = terminalClass, title = "wallpapers" },
+    match = { class = terminalClass, title = "wallpapers|musicplayer" },
     float = true,
     center = true,
     pin = true,

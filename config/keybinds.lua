@@ -63,7 +63,8 @@ hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("ghostty --title=passwords -e ".. hom
 
 hl.bind(mainMod .. " + X",         hl.dsp.exec_cmd(scripts .. "/toggle/animations.sh"),              { desc = "toggle animations" })
 
-hl.bind(mainMod .. " + Y", hl.dsp.focus({ last = true }),                                            { desc = "focus last window" })
+hl.bind(mainMod .. " + SHIFT + Y", hl.dsp.focus({ last = true }),                                    { desc = "focus last window" })
+hl.bind(mainMod .. " + Y", hl.dsp.focus({ workspace = "previous_per_monitor" }),                     { desc = "focus last workspace" })
 
 hl.bind(mainMod .. " + Z",         hl.dsp.exec_cmd(scripts .. "/zoom.sh --more"),                    { desc = "zoom in" })
 hl.bind(mainMod .. " + ALT + Z",   hl.dsp.exec_cmd(scripts .. "/zoom.sh --less"),                    { desc = "zoom out" })

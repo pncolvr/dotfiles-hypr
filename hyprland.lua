@@ -10,10 +10,10 @@ require("config.env")
 -- we can remove this line or add private env variables there
 require("config.envprivate")
 require("config.monitors")
+require("config.events")
 require("config.submaps")
 require("config.windowrules")
 require("config.keybinds")
-require("config.events")
 
 
 hl.config({

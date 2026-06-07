@@ -117,5 +117,6 @@ function paste_to_focused() {
     local text="$1"
     printf '%s' "$text" | wl-copy
     sleep 0.1
+    # shift insert
     ydotool key 29:1 47:1 47:0 29:0
 }
