@@ -84,7 +84,7 @@ hl.bind(mainMod .. " + l",  hl.dsp.focus({ direction = "right" }),         { des
 hl.bind(mainMod .. " + k",  hl.dsp.focus({ direction = "up" }),            { desc = "focus up" })
 hl.bind(mainMod .. " + j",  hl.dsp.focus({ direction = "down" }),          { desc = "focus down" })
 
-hl.bind(mainMod .. " + SHIFT + h",  hl.dsp.window.move({direction = "left"}),   { desc = "move window left" })
+hl.bind(mainMod .. " + SHIFT + h",  hl.dsp.window.move({ direction = "left"}),   { desc = "move window left" })
 hl.bind(mainMod .. " + SHIFT + l",  hl.dsp.window.move({ direction = "right" }), { desc = "move window right" })
 hl.bind(mainMod .. " + SHIFT + k",  hl.dsp.window.move({ direction = "up" }),   { desc = "move window up" })
 hl.bind(mainMod .. " + SHIFT + j",  hl.dsp.window.move({ direction = "down" }), { desc = "move window down" })
@@ -93,9 +93,10 @@ hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true, desc 
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true, desc = "resize window" })
 
 -- submaps
-hl.bind(mainMod .. " + ALT + R", hl.dsp.submap("resize"), { desc = "open submap: resize" })
-hl.bind(mainMod .. " + N",       hl.dsp.submap("notes"),  { desc = "open submap: notes" })
-hl.bind(mainMod .. " + PERIOD",  hl.dsp.submap("tools"),  { desc = "open submap: tools" })
+hl.bind(mainMod .. " + ALT + R", hl.dsp.submap("resize"),     { desc = "open submap: resize" })
+hl.bind(mainMod .. " + ALT + W", hl.dsp.submap("workspaces"), { desc = "open submap: workspaces" })
+hl.bind(mainMod .. " + N",       hl.dsp.submap("notes"),      { desc = "open submap: notes" })
+hl.bind(mainMod .. " + PERIOD",  hl.dsp.submap("tools"),      { desc = "open submap: tools" })
 
 -- multimedia
 hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"),                        { locked = true, desc = "play/pause" })

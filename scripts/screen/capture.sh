@@ -15,7 +15,7 @@ function handle_capture_output() {
     outputs=$(hyprctl monitors -j | jq --raw-output '.[] | .name')
     output=$(printf '%s\n' "${outputs[@]}" | sort | rofi -dmenu -i -p "")
     if [[ -n "$output" ]]; then
-        capture "$output" "$(selectRegion)"
+        capture "$output" ""
     fi
 }
 
@@ -65,6 +65,10 @@ function request_fps () {
 function capture () {
     local output=$1
     local region=$2
+
+    # Need at least one of output or region to know what to capture.
+    [[ -z "$output" && -z "$region" ]] && exit 0
+
     local audio
     local filename
     local file
@@ -82,8 +86,9 @@ function capture () {
     sleep 1.1
     command="wf-recorder $params \
         --codec hevc_nvenc \
-        --codec-param preset=llhq \
-        --codec-param rc=vbr_hq \
+        --codec-param preset=p7 \
+        --codec-param tune=hq \
+        --codec-param rc=vbr \
         --codec-param cq=21 \
         --codec-param rc-lookahead=32 \
         --codec-param bf=3 \

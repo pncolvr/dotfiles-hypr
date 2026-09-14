@@ -14,3 +14,6 @@ hl.env("PATH", "/bin:/usr/bin:/usr/local/bin:/usr/lib/qt6/bin:$HOME/.local/bin")
 
 -- https://github.com/ghostty-org/ghostty/discussions/8899
 hl.env("GTK_IM_MODULE", "simple")
+
+-- chrome dumb stuff
+hl.env("QTWEBENGINE_CHROMIUM_FLAGS", "--enable-features=AcceleratedVideoDecoder")

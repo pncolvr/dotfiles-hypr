@@ -2,7 +2,10 @@
 -- workspace rules 
 -- --------------------------------------------------------------------------
 
-hl.workspace_rule({ workspace = "2", layout = "master" })
+local groupWorkspaces = {1, 2, 9}
+for _, ws in ipairs(groupWorkspaces) do
+    hl.workspace_rule({ workspace = tostring(ws), layout = "master" })
+end
 
 -- --------------------------------------------------------------------------
 -- variables 

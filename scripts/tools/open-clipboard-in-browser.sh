@@ -2,10 +2,6 @@
 
 DEFAULT_BROWSER="$ZDOTDIR/scripts/default-browser/default-browser.sh"
 
-url=$(wl-paste --no-newline)
-# if [[ -z "$url" ]]; then
-#     notify-send --urgency low "clipboard is empty" --transient
-#     exit 1
-# fi
+entry=$(wl-paste --no-newline)
 
-"$DEFAULT_BROWSER" "$url"
+"$DEFAULT_BROWSER" "$entry"
