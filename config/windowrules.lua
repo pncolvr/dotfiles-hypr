@@ -11,7 +11,7 @@ end
 -- variables 
 -- --------------------------------------------------------------------------
 local terminalClass = "com.mitchellh.ghostty"
-local editorClass = "code"
+local editorClass = "com.microsoft.VSCode"
 local dialogClass = "yad"
 local steamClass = "steam"
 local comms = "^(discord|vesktop|teams-for-linux|signal)$"

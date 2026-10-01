@@ -96,7 +96,7 @@ local windowOpen = {
             if_floating_move_to_mouse(w)
         end
     end,
-    ["code"] = function (w)
+    ["com.microsoft.VSCode"] = function (w)
         if  Pending_floating_note then
             local d = Pending_floating_note
             Pending_floating_note = nil
@@ -161,6 +161,10 @@ function HideApplications (active)
     NotificationsHidden:set_enabled(active)
     CommAppsHidden:set_enabled(active)
     VaultHidden:set_enabled(active)
+end
+
+function ToggleAnimations (active)
+    hl.config({animations = { enabled = not active}})
 end
 
 -- hl.on("config.reloaded", function ()
