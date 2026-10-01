@@ -159,14 +159,10 @@ end)
 
 function HideApplications (active)
     NotificationsHidden:set_enabled(active)
+    hl.config({animations = { enabled = not active}})
     CommAppsHidden:set_enabled(active)
     VaultHidden:set_enabled(active)
 end
-
-function ToggleAnimations (active)
-    hl.config({animations = { enabled = not active}})
-end
-
 -- hl.on("config.reloaded", function ()
     
 -- end)
