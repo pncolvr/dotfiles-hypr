@@ -249,7 +249,7 @@ hl.window_rule({
 
 NotificationsHidden = hl.layer_rule({
     name  = "hide_notifications",
-    match = { namespace = "swaync-notification-window" },
+    match = { namespace = "quickshell-notifications" },
     no_screen_share = true,
 })
 NotificationsHidden:set_enabled(false)
