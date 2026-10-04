@@ -59,7 +59,7 @@ hl.bind(mainMod .. " + U",         hl.dsp.focus({ urgent_or_last = true }),     
 
 hl.bind(mainMod .. " + V",         hl.dsp.exec_cmd("copyq show"),                                    { desc = "clipboard manager" })
 
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("ghostty --title=passwords -e ".. home .."/Projects/helpers/totp/handler.sh"), { desc = "vault" })
+hl.bind(mainMod .. " + W",         hl.dsp.exec_cmd("bitwarden-desktop"),                                     { desc = "vault" })
 
 hl.bind(mainMod .. " + X",         hl.dsp.exec_cmd(scripts .. "/toggle/animations.sh"),              { desc = "toggle animations" })
 

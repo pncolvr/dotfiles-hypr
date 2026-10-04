@@ -11,6 +11,7 @@ end
 -- variables 
 -- --------------------------------------------------------------------------
 local terminalClass = "com.mitchellh.ghostty"
+local vaultClass = "Bitwarden"
 local editorClass = "com.microsoft.VSCode"
 local dialogClass = "yad"
 local steamClass = "steam"
@@ -194,7 +195,7 @@ hl.window_rule({
 
 hl.window_rule({
     name = "position_passwords",
-    match = { class = terminalClass, title = "passwords" },
+    match = { class = vaultClass },
     float = true,
     center = true,
     pin = true,
@@ -203,7 +204,7 @@ hl.window_rule({
 
 VaultHidden = hl.window_rule({
     name = "hide_passwords",
-    match = { class = terminalClass, title = "passwords" },
+    match = { class = vaultClass },
     no_screen_share = true,
 })
 VaultHidden:set_enabled(false)
