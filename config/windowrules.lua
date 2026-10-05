@@ -249,7 +249,7 @@ hl.window_rule({
 
 NotificationsHidden = hl.layer_rule({
     name  = "hide_notifications",
-    match = { namespace = "quickshell-notifications" },
+    match = { namespace = "quickshell-private" },
     no_screen_share = true,
 })
 NotificationsHidden:set_enabled(false)
