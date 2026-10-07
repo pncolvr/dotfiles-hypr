@@ -1,56 +1,56 @@
 local home = os.getenv("HOME")
 local scripts = home .. "/.config/hypr/scripts"
-local rofi    = home .. "/.config/rofi/scripts"
+local picker = "bash " .. home .. "/.config/quickshell/src/services/launcher/launcher.sh"
 
 local mainMod = "SUPER"
 -- general
-hl.bind(mainMod .. " + SHIFT + PERIOD",  hl.dsp.exec_cmd(scripts .. "/directory/books-pick.sh --pick"), { desc = "pick a book to read" })
+hl.bind(mainMod .. " + SHIFT + PERIOD",  hl.dsp.exec_cmd(picker .. " provider books --pick"), { desc = "pick a book to read" })
 hl.bind(mainMod .. " + SHIFT + SLASH",   hl.dsp.exec_cmd("ghostty --title=Keybinds -e " .. scripts .. "/keybinds/display.sh --keybinds"), { desc = "show keybinds" })
-hl.bind(mainMod .. " + SHIFT + A",       hl.dsp.exec_cmd(rofi ..    "/web/azure.sh --pick"),                                              { desc = "open azure" })
+hl.bind(mainMod .. " + SHIFT + A",       hl.dsp.exec_cmd(picker .. " provider azure --pick"),                                              { desc = "open azure" })
 
-hl.bind(mainMod .. " + B",         hl.dsp.exec_cmd(scripts .. "/browser/openbookmarks.sh"),          { desc = "open bookmarks" })
+hl.bind(mainMod .. " + B",         hl.dsp.exec_cmd(picker .. " provider bookmarks"),          { desc = "open bookmarks" })
 hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("xdg-open https://www.monday.com"),               { desc = "open monday.com" })
 
 hl.bind(mainMod .. " + D",         hl.dsp.exec_cmd("qs ipc call launcher apps"),                               { desc = "app launcher" })
-hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd(rofi .. "/remotes/pick.sh"),                      { desc = "pick remote" })
+hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd(picker .. " provider remotes"),                      { desc = "pick remote" })
 
-hl.bind(mainMod .. " + E",         hl.dsp.exec_cmd(rofi .. "/web/webapps.sh"),                       { desc = "open web app" })
+hl.bind(mainMod .. " + E",         hl.dsp.exec_cmd(picker .. " provider webapps"),                       { desc = "open web app" })
 
-hl.bind(mainMod .. " + ESCAPE",       hl.dsp.exec_cmd(scripts .. "/powermenu.sh"),                   { desc = "power menu" })
+hl.bind(mainMod .. " + ESCAPE",       hl.dsp.exec_cmd(picker .. " provider power"),                   { desc = "power menu" })
 hl.bind(mainMod .. " + SHIFT + ESCAPE", hl.dsp.exec_cmd("qs ipc call notifications toggle"),         { desc = "toggle notifications" })
 
 hl.bind(mainMod .. " + F",         hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle"}), { desc = "toggle fullscreen" })
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle"}),  { desc = "toggle maximized" })
 
-hl.bind(mainMod .. " + G",         hl.dsp.exec_cmd(rofi .. "/web/github.sh"),                        { desc = "open project on github" })
+hl.bind(mainMod .. " + G",         hl.dsp.exec_cmd(picker .. " provider github"),                        { desc = "open project on github" })
 
-hl.bind(mainMod .. " + I",         hl.dsp.exec_cmd(scripts .. "/tolocalplayer.sh"),                  { desc = "open twitch or youtube on mpv" })
+hl.bind(mainMod .. " + I",         hl.dsp.exec_cmd(picker .. " provider media"),                  { desc = "open twitch or youtube on mpv" })
 hl.bind(mainMod .. " + SHIFT + I", hl.dsp.exec_cmd(scripts .. "/rnd.sh " .. home .. "/Pictures/streamers/"), { desc = "random image" })
 
 hl.bind(mainMod .. " + M",         hl.dsp.exec_cmd(scripts .. "/toggle/noscreenshare.sh"),           { desc = "toggle screenshare" })
 
-hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd(rofi .. "/web/n8n.sh"),                          { desc = "open flow on n8n" })
+hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd(picker .. " provider n8n"),                          { desc = "open flow on n8n" })
 
-hl.bind(mainMod .. " + P",         hl.dsp.exec_cmd(rofi .. "/code.sh"),                              { desc = "open project code" })
+hl.bind(mainMod .. " + P",         hl.dsp.exec_cmd(picker .. " provider code"),                              { desc = "open project code" })
 
-hl.bind(mainMod .. " + PRINT",         hl.dsp.exec_cmd(scripts .. "/screen/shot.sh"),                { desc = "screenshot" })
-hl.bind(mainMod .. " + SHIFT + S",     hl.dsp.exec_cmd(scripts .. "/screen/shot.sh region"),         { desc = "screenshot region" })
-hl.bind("SHIFT + PRINT",               hl.dsp.exec_cmd(scripts .. "/screen/shot.sh window"),         { desc = "screenshot window" })
-hl.bind("PRINT",                       hl.dsp.exec_cmd(scripts .. "/screen/shot.sh output"),         { desc = "screenshot output" })
+hl.bind(mainMod .. " + PRINT",         hl.dsp.exec_cmd(picker .. " provider screenshot"),                { desc = "screenshot" })
+hl.bind(mainMod .. " + SHIFT + S",     hl.dsp.exec_cmd(picker .. " provider screenshot region"),         { desc = "screenshot region" })
+hl.bind("SHIFT + PRINT",               hl.dsp.exec_cmd(picker .. " provider screenshot window"),         { desc = "screenshot window" })
+hl.bind("PRINT",                       hl.dsp.exec_cmd(picker .. " provider screenshot output"),         { desc = "screenshot output" })
 
 hl.bind(mainMod .. " + Q",         hl.dsp.exec_cmd("hyprctl kill"),                                  { desc = "kill (pick)" })
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close(),                                            { desc = "close window" })
 
-hl.bind(mainMod .. " + R",         hl.dsp.exec_cmd(scripts .. "/screen/capture.sh"),                 { desc = "screen record" })
+hl.bind(mainMod .. " + R",         hl.dsp.exec_cmd(picker .. " provider recording"),                 { desc = "screen record" })
 hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd(scripts .. "/reload.sh"),                         { desc = "reload config" })
 
 hl.bind(mainMod .. " + RETURN",         hl.dsp.exec_cmd(scripts .. "/toggle/terminal.sh"),           { desc = "toggle floating terminal" })
 hl.bind(mainMod .. " + SHIFT + RETURN", hl.dsp.exec_cmd("ghostty"),                                  { desc = "new tiled terminal" })
 
-hl.bind(mainMod .. " + T",         hl.dsp.exec_cmd(scripts .. "/directory/pick.sh"),                 { desc = "pick directory" })
+hl.bind(mainMod .. " + T",         hl.dsp.exec_cmd(picker .. " provider directories"),                 { desc = "pick directory" })
 
-hl.bind("ALT + TAB",         hl.dsp.exec_cmd(rofi .. "/windows/any.sh"),                             { desc = "switch window" })
-hl.bind("ALT + SHIFT + TAB", hl.dsp.exec_cmd(rofi .. "/windows/currentworkspace.sh"),                { desc = "switch window (workspace)" })
+hl.bind("ALT + TAB",         hl.dsp.exec_cmd("qs ipc call launcher windows all"),                             { desc = "switch window" })
+hl.bind("ALT + SHIFT + TAB", hl.dsp.exec_cmd("qs ipc call launcher windows current"),                { desc = "switch window (workspace)" })
 
 hl.bind(mainMod .. " + TAB",         hl.dsp.exec_cmd("qs ipc call windows next"),                    { desc = "next window" })
 hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.exec_cmd("qs ipc call windows prev"),                    { desc = "prev window" })
