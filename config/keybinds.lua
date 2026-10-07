@@ -11,7 +11,7 @@ hl.bind(mainMod .. " + SHIFT + A",       hl.dsp.exec_cmd(rofi ..    "/web/azure.
 hl.bind(mainMod .. " + B",         hl.dsp.exec_cmd(scripts .. "/browser/openbookmarks.sh"),          { desc = "open bookmarks" })
 hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("xdg-open https://www.monday.com"),               { desc = "open monday.com" })
 
-hl.bind(mainMod .. " + D",         hl.dsp.exec_cmd("rofi -show drun"),                               { desc = "app launcher" })
+hl.bind(mainMod .. " + D",         hl.dsp.exec_cmd("qs ipc call launcher apps"),                               { desc = "app launcher" })
 hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd(rofi .. "/remotes/pick.sh"),                      { desc = "pick remote" })
 
 hl.bind(mainMod .. " + E",         hl.dsp.exec_cmd(rofi .. "/web/webapps.sh"),                       { desc = "open web app" })
@@ -25,7 +25,7 @@ hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "maximized"
 hl.bind(mainMod .. " + G",         hl.dsp.exec_cmd(rofi .. "/web/github.sh"),                        { desc = "open project on github" })
 
 hl.bind(mainMod .. " + I",         hl.dsp.exec_cmd(scripts .. "/tolocalplayer.sh"),                  { desc = "open twitch or youtube on mpv" })
-hl.bind(mainMod .. " + SHIFT + I", hl.dsp.exec_cmd(scripts .. "$scripts/rnd.sh " .. home .. "/Pictures/streamers/"), { desc = "random image" })
+hl.bind(mainMod .. " + SHIFT + I", hl.dsp.exec_cmd(scripts .. "/rnd.sh " .. home .. "/Pictures/streamers/"), { desc = "random image" })
 
 hl.bind(mainMod .. " + M",         hl.dsp.exec_cmd(scripts .. "/toggle/noscreenshare.sh"),           { desc = "toggle screenshare" })
 
@@ -57,7 +57,7 @@ hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.exec_cmd("qs ipc call windows prev")
 
 hl.bind(mainMod .. " + U",         hl.dsp.focus({ urgent_or_last = true }),                          { desc = "focus urgent/last" })
 
-hl.bind(mainMod .. " + V",         hl.dsp.exec_cmd("copyq show"),                                    { desc = "clipboard manager" })
+hl.bind(mainMod .. " + V",         hl.dsp.exec_cmd("qs ipc call launcher clipboard"),                                    { desc = "clipboard manager" })
 
 hl.bind(mainMod .. " + W",         hl.dsp.exec_cmd("bitwarden-desktop"),                                     { desc = "vault" })
 

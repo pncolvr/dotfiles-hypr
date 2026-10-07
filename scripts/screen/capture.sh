@@ -13,7 +13,7 @@ SCREENCAST_STATUS_FILE="$(get_temp_file_named screencast_status)"
 
 function handle_capture_output() {
     outputs=$(hyprctl monitors -j | jq --raw-output '.[] | .name')
-    output=$(printf '%s\n' "${outputs[@]}" | sort | rofi -dmenu -i -p "")
+    output=$(printf '%s\n' "${outputs[@]}" | sort | bash "$HOME/.config/quickshell/src/services/launcher/launcher.sh" --dmenu -i -p "")
     if [[ -n "$output" ]]; then
         capture "$output" ""
     fi
@@ -24,7 +24,7 @@ function handle_capture_region() {
 }
 
 function handle_audio_choice() {
-    include=$(printf "none\nboth\ndesktop\nmic" | rofi -dmenu -i -p "")
+    include=$(printf "none\nboth\ndesktop\nmic" | bash "$HOME/.config/quickshell/src/services/launcher/launcher.sh" --dmenu -i -p "")
     case "$include" in
         none) echo -n "";;
         desktop) echo -n "$HEADPHONES";;
@@ -55,7 +55,7 @@ function unload_loopback() {
 }
 
 function request_fps () {
-    fps=$(printf "60\n30\n15" | rofi -dmenu -i -p "")
+    fps=$(printf "60\n30\n15" | bash "$HOME/.config/quickshell/src/services/launcher/launcher.sh" --dmenu -i -p "")
     case "$fps" in 
         60|30|15) echo "$fps";;
         *) exit 1;;
@@ -119,7 +119,7 @@ function capture () {
 }
 
 function handle_capture() {
-    chosen=$(printf "output\nregion" | rofi -dmenu -i -p "")
+    chosen=$(printf "output\nregion" | bash "$HOME/.config/quickshell/src/services/launcher/launcher.sh" --dmenu -i -p "")
     case $chosen in
         *output*) handle_capture_output;;
         *region*) handle_capture_region;;

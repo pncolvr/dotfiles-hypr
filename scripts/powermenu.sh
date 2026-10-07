@@ -5,29 +5,25 @@ log_inactive() {
 }
 
 show_menu() {
-    # icon  label
     local entries=(
-        $''  Reboot
-        $''  Lock
-        $''  Logout
-        $''  Shutdown
-        $''  Bios
+        $'' Reboot
+        $'' Lock
+        $'' Logout
+        $'' Shutdown
+        $'' Bios
     )
-
-    local rows=()
-    local i
+    local rows=() i
     for ((i = 0; i < ${#entries[@]}; i += 2)); do
-        local icon=${entries[i]} label=${entries[i + 1]}
-        rows+=("<span size=\"x-large\">${icon}</span>\n${label}")
+        rows+=("$(jq -cn --arg glyph "${entries[i]}" --arg title "${entries[i + 1]}" \
+            '{title:$title, glyph:$glyph, result:$title}')")
     done
-
-    local IFS='|'
-    printf '%b' "${rows[*]}" \
-        | rofi -sep '|' -markup-rows -eh 4 -dmenu -case-smart -sort -sorting-method fzf \
-               -theme ~/.config/rofi/themes/custom-row.rasi -p ""
+    # Keep the original action order and render glyphs with the shell's icon font.
+    bash "$HOME/.config/quickshell/src/services/launcher/launcher.sh" --json <(
+        printf '%s\n' "${rows[@]}" | jq -s '{allowTyped:false, sort:false, smartCase:true, fuzzy:true, layout:"grid", items:.}'
+    )
 }
 
-chosen="$1"
+chosen="${1:-}"
 if [[ -z "$chosen" ]]; then
     chosen=$(show_menu)
 fi

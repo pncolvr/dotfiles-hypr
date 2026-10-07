@@ -289,3 +289,9 @@ hl.window_rule({
 --     commAppsHidden:set_enabled(active)
 --     vaultHidden:set_enabled(active)
 -- end)
+-- Launcher and clipboard contents are private even outside an active screencast.
+-- hl.layer_rule({
+--     name = "hide_quickshell_picker",
+--     match = { namespace = "quickshell-picker" },
+--     no_screen_share = true,
+-- })

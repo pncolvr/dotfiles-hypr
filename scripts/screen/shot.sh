@@ -7,7 +7,7 @@ source "$(get_env_file "${BASH_SOURCE[0]:-0}")"
 # SCREENSHOT_FOLDER=
 
 function pick() {
-    rofi -dmenu -case-smart -sort -sorting-method fzf -p ""
+    bash "$HOME/.config/quickshell/src/services/launcher/launcher.sh" --dmenu -case-smart -sort -sorting-method fzf -p ""
 }
 
 function capture_screenshot() {
