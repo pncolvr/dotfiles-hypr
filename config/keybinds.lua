@@ -16,6 +16,8 @@ hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd(picker .. " provider remotes"
 
 hl.bind(mainMod .. " + E",         hl.dsp.exec_cmd(picker .. " provider webapps"),                       { desc = "open web app" })
 
+hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("qs ipc call launcher expose current"), { desc = "window overview" })
+
 hl.bind(mainMod .. " + ESCAPE",       hl.dsp.exec_cmd(picker .. " provider power"),                   { desc = "power menu" })
 hl.bind(mainMod .. " + SHIFT + ESCAPE", hl.dsp.exec_cmd("qs ipc call notifications toggle"),         { desc = "toggle notifications" })
 
