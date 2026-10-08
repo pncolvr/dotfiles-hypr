@@ -46,8 +46,8 @@ hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close(),                       
 hl.bind(mainMod .. " + R",         hl.dsp.exec_cmd(picker .. " provider recording"),                 { desc = "screen record" })
 hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd(scripts .. "/reload.sh"),                         { desc = "reload config" })
 
-hl.bind(mainMod .. " + RETURN",         hl.dsp.exec_cmd(scripts .. "/toggle/terminal.sh"),           { desc = "toggle floating terminal" })
-hl.bind(mainMod .. " + SHIFT + RETURN", hl.dsp.exec_cmd("ghostty"),                                  { desc = "new tiled terminal" })
+hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd("ghostty"),                                  { desc = "new tiled terminal" })
+hl.bind(mainMod .. " + SHIFT + RETURN",         hl.dsp.exec_cmd(scripts .. "/toggle/terminal.sh"),           { desc = "toggle floating terminal" })
 
 hl.bind(mainMod .. " + T",         hl.dsp.exec_cmd(picker .. " provider directories"),                 { desc = "pick directory" })
 
