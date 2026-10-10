@@ -2,6 +2,30 @@ local home = os.getenv("HOME")
 local scripts = home .. "/.config/hypr/scripts"
 local picker = "bash " .. home .. "/.config/quickshell/src/services/launcher/launcher.sh"
 
+hl.define_submap("modules", "reset", function()
+    local modules = {
+        { "u", "updates", "updates" },
+        { "c", "clock", "clock and calendar" },
+        { "f", "files", "recent files" },
+        { "r", "timers", "timers" },
+        { "m", "mic", "microphone" },
+        { "v", "volume", "volume" },
+        { "s", "stats", "system stats" },
+        { "t", "twitch", "Twitch search" },
+        { "w", "status", "work status" },
+        { "p", "totp", "TOTP search" },
+        { "b", "batteries", "batteries" },
+        { "n", "notifications", "notifications" },
+        { "a", "tray", "app tray" },
+        { "h", "sharing", "screen sharing" },
+    }
+    for _, module in ipairs(modules) do
+        hl.bind(module[1], hl.dsp.exec_cmd("qs ipc call bar open " .. module[2]), { desc = module[3] })
+    end
+    hl.bind("escape", hl.dsp.submap("reset"))
+    hl.bind("catchall", hl.dsp.submap("reset"))
+end)
+
 hl.define_submap("resize", function()
     hl.bind("l", hl.dsp.window.resize({ x = 10,  y = 0,   relative = true}), { repeating = true, desc = "right" })
     hl.bind("h", hl.dsp.window.resize({ x = -10, y = 0,   relative = true}), { repeating = true, desc = "left" })
