@@ -162,10 +162,10 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    name = "position_uxplay",
-    match = { class = "uxplay" },
+    name = "position_scrcpy",
+    match = { class = "^(scrcpy)$", title = "^(Phone screen)$" },
     float = true,
-    move = "(monitor_w*0.78) (monitor_h*0.12)"
+    move = "(monitor_w*0.97-window_w) (monitor_h*0.12)"
 })
 
 hl.window_rule({
