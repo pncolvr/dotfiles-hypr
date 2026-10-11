@@ -101,6 +101,8 @@ hl.bind(mainMod .. " + N",       hl.dsp.submap("notes"),      { desc = "open sub
 hl.bind(mainMod .. " + PERIOD",  hl.dsp.submap("tools"),      { desc = "open submap: tools" })
 
 -- multimedia
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("pactl set-sink-volume @DEFAULT_SINK@ +5%"), { locked = true, desc = "volume up" })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("pactl set-sink-volume @DEFAULT_SINK@ -5%"), { locked = true, desc = "volume down" })
 hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"),                        { locked = true, desc = "play/pause" })
 hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),                              { locked = true, desc = "next track" })
 hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),                          { locked = true, desc = "prev track" })
