@@ -13,7 +13,6 @@ end
 local terminalClass = "com.mitchellh.ghostty"
 local vaultClass = "Bitwarden"
 local editorClass = "com.microsoft.VSCode"
-local dialogClass = "yad"
 local steamClass = "steam"
 local comms = "^(discord|vesktop|teams-for-linux|signal)$"
 local commonWindowDimensionFloatCenter = "(monitor_w*0.35) (monitor_h*0.49)"
@@ -74,21 +73,6 @@ hl.window_rule({
     match = { class = editorClass, float = false },
     group = "set code",
     workspace = 4
-})
-
-hl.window_rule({
-    name = "yad_move_to_mouse",
-    match = { class = dialogClass, title = "qrencode" },
-    float = true,
-})
-
-hl.window_rule({
-    name = "yad_submap",
-    match = { class = dialogClass, title = "^(Submap:.*)$" },
-    float = true,
-    pin = true,
-    no_initial_focus = true,
-    move = "(monitor_w-window_w-10) (35)"
 })
 
 hl.window_rule({
@@ -191,8 +175,8 @@ hl.window_rule({
 -- })
 
 hl.window_rule({
-    name = "position_wallpapers",
-    match = { class = terminalClass, title = "wallpapers|musicplayer" },
+    name = "position_musicplayer",
+    match = { class = terminalClass, title = "musicplayer" },
     float = true,
     center = true,
     pin = true,

@@ -91,11 +91,6 @@ local windowOpen = {
     ["qutebrowser-twitch-chat"] = function(w)
         hl.dispatch(hl.dsp.focus({ window = "class:mpv-twitch" }))
     end,
-    ["yad"] = function (w)
-        if w.title == "qrencode" then
-            if_floating_move_to_mouse(w)
-        end
-    end,
     ["com.microsoft.VSCode"] = function (w)
         if  Pending_floating_note then
             local d = Pending_floating_note
