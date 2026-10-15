@@ -117,6 +117,12 @@ hl.window_rule({
 })
 
 hl.window_rule({
+    name = "gamedev_workspace",
+    match = { class = "Godot" },
+    workspace = 8
+})
+
+hl.window_rule({
     name = "vivaldi_workspace",
     match = {class = "vivaldi-stable" },
     workspace = 9
