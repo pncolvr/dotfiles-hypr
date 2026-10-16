@@ -52,6 +52,8 @@ shared registry in Quickshell's `shell.qml`. This includes launchers, recording,
 Vault, notification DND, the modules submap, window cycling/group selection and
 the tools-submap shell reload. Key combinations and submap behavior are preserved.
 Meta+Escape opens the native Power menu through `quickshell:launcher-power`.
+Meta+B opens native Bookmarks through `quickshell:launcher-bookmarks`, preserving
+the existing bookmark source and browser policy.
 Hypridle retains direct `provider power Lock` execution, including when the bar is
 unavailable. Other shell-backed menu workflows remain pending their native-service migration.
 External scripts retain Quickshell IPC when they need arguments, status or results;

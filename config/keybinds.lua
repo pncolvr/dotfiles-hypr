@@ -6,7 +6,7 @@ local mainMod = "SUPER"
 -- general
 hl.bind(mainMod .. " + SHIFT + SLASH",   hl.dsp.exec_cmd("ghostty --title=Keybinds -e " .. scripts .. "/keybinds/display.sh --keybinds"), { desc = "show keybinds" })
 
-hl.bind(mainMod .. " + B",         hl.dsp.exec_cmd(picker .. " provider bookmarks"),          { desc = "open bookmarks" })
+hl.bind(mainMod .. " + B",         hl.dsp.global("quickshell:launcher-bookmarks"),          { desc = "open bookmarks" })
 hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("xdg-open https://www.monday.com"),               { desc = "open monday.com" })
 
 hl.bind(mainMod .. " + D",         hl.dsp.global("quickshell:launcher-apps"),                               { desc = "app launcher" })
