@@ -17,7 +17,7 @@ hl.bind(mainMod .. " + E",         hl.dsp.global("quickshell:launcher-webapps"),
 
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.global("quickshell:launcher-expose-current"), { desc = "window overview" })
 
-hl.bind(mainMod .. " + ESCAPE",       hl.dsp.exec_cmd(picker .. " provider power"),                   { desc = "power menu" })
+hl.bind(mainMod .. " + ESCAPE",       hl.dsp.global("quickshell:launcher-power"),                   { desc = "power menu" })
 hl.bind(mainMod .. " + SHIFT + ESCAPE", hl.dsp.global("quickshell:notifications-toggle-dnd"),         { desc = "toggle notifications" })
 
 hl.bind(mainMod .. " + F",         hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle"}), { desc = "toggle fullscreen" })

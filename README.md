@@ -51,6 +51,8 @@ Service-backed Quickshell keybinds use `hl.dsp.global("quickshell:NAME")` and th
 shared registry in Quickshell's `shell.qml`. This includes launchers, recording,
 Vault, notification DND, the modules submap, window cycling/group selection and
 the tools-submap shell reload. Key combinations and submap behavior are preserved.
-The existing shell-backed menu workflows remain pending their native-service migration.
+Meta+Escape opens the native Power menu through `quickshell:launcher-power`.
+Hypridle retains direct `provider power Lock` execution, including when the bar is
+unavailable. Other shell-backed menu workflows remain pending their native-service migration.
 External scripts retain Quickshell IPC when they need arguments, status or results;
 full process restart/recovery remains external.
