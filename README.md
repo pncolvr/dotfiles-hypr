@@ -59,6 +59,10 @@ its noninteractive tool worker never calls back into a picker.
 Tools-submap W opens native Wallpaper through `quickshell:launcher-wallpaper`,
 reusing image browsing and separate mode/monitor choices. Offline wallpaper
 restore and direct setting remain available through the retained executor.
+Screenshot shortcuts use `quickshell:launcher-screenshot` and the fixed
+`quickshell:screenshot-region/output/window` actions. Tools O/Q use
+`quickshell:screenshot-ocr/qrcode`. Quickshell owns choices and waits for its
+picker/submap closing animations before starting the prepared capture tools.
 Hypridle retains direct `provider power Lock` execution, including when the bar is
 unavailable. Other shell-backed menu workflows remain pending their native-service migration.
 External scripts retain Quickshell IPC when they need arguments, status or results;

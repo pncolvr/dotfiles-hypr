@@ -1,6 +1,5 @@
 local home = os.getenv("HOME")
 local scripts = home .. "/.config/hypr/scripts"
-local picker = "bash " .. home .. "/.config/quickshell/src/services/launcher/launcher.sh"
 
 hl.define_submap("modules", "reset", function()
     local modules = {
@@ -58,9 +57,9 @@ hl.define_submap("tools", "reset", function()
     hl.bind("k", hl.dsp.exec_cmd('ghostty -e ncdu --group-directories-first'),{ desc = "disk usage" })
     hl.bind("m", hl.dsp.exec_cmd(scripts .. "/tools/mikkaa.sh"),     { desc = "mikkaa path" })
     hl.bind("n", hl.dsp.exec_cmd(scripts .. "/tools/ptvatid/create.sh"),  { desc = "create PT VAT id" })
-    hl.bind("o", hl.dsp.exec_cmd(picker .. " provider screenshot ocr"),       { desc = "ocr from screen region" })
+    hl.bind("o", hl.dsp.global("quickshell:screenshot-ocr"),       { desc = "ocr from screen region" })
     hl.bind("p", hl.dsp.window.pin(),                                     { desc = "pin active window" })
-    hl.bind("q", hl.dsp.exec_cmd(picker .. " provider screenshot qrcode"),    { desc = "qrcode from screen region" })
+    hl.bind("q", hl.dsp.global("quickshell:screenshot-qrcode"),    { desc = "qrcode from screen region" })
     hl.bind("r", hl.dsp.global("quickshell:shell-reload"), { desc = "reload Quickshell" })
     hl.bind("s", hl.dsp.exec_cmd(scripts .. "/tools/open-clipboard-in-browser.sh"), { desc = "open clipboard entry in browser" })
     hl.bind("t", hl.dsp.exec_cmd(scripts .. "/tools/comms.sh"), { desc = "open Discord and Teams" })

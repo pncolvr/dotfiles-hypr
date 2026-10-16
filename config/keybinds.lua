@@ -1,6 +1,5 @@
 local home = os.getenv("HOME")
 local scripts = home .. "/.config/hypr/scripts"
-local picker = "bash " .. home .. "/.config/quickshell/src/services/launcher/launcher.sh"
 
 local mainMod = "SUPER"
 -- general
@@ -33,10 +32,10 @@ hl.bind(mainMod .. " + SHIFT + N", hl.dsp.global("quickshell:launcher-n8n"),    
 
 hl.bind(mainMod .. " + P",         hl.dsp.global("quickshell:launcher-projects"),                              { desc = "open project code" })
 
-hl.bind(mainMod .. " + PRINT",         hl.dsp.exec_cmd(picker .. " provider screenshot"),                { desc = "screenshot" })
-hl.bind(mainMod .. " + SHIFT + S",     hl.dsp.exec_cmd(picker .. " provider screenshot region"),         { desc = "screenshot region" })
-hl.bind("SHIFT + PRINT",               hl.dsp.exec_cmd(picker .. " provider screenshot window"),         { desc = "screenshot window" })
-hl.bind("PRINT",                       hl.dsp.exec_cmd(picker .. " provider screenshot output"),         { desc = "screenshot output" })
+hl.bind(mainMod .. " + PRINT",         hl.dsp.global("quickshell:launcher-screenshot"),                { desc = "screenshot" })
+hl.bind(mainMod .. " + SHIFT + S",     hl.dsp.global("quickshell:screenshot-region"),         { desc = "screenshot region" })
+hl.bind("SHIFT + PRINT",               hl.dsp.global("quickshell:screenshot-window"),         { desc = "screenshot window" })
+hl.bind("PRINT",                       hl.dsp.global("quickshell:screenshot-output"),         { desc = "screenshot output" })
 
 hl.bind(mainMod .. " + Q",         hl.dsp.exec_cmd("hyprctl kill"),                                  { desc = "kill (pick)" })
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close(),                                            { desc = "close window" })
