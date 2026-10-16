@@ -6,7 +6,6 @@ local mainMod = "SUPER"
 -- general
 hl.bind(mainMod .. " + SHIFT + PERIOD",  hl.dsp.exec_cmd(picker .. " provider books --pick"), { desc = "pick a book to read" })
 hl.bind(mainMod .. " + SHIFT + SLASH",   hl.dsp.exec_cmd("ghostty --title=Keybinds -e " .. scripts .. "/keybinds/display.sh --keybinds"), { desc = "show keybinds" })
-hl.bind(mainMod .. " + SHIFT + A",       hl.dsp.exec_cmd(picker .. " provider azure --pick"),                                              { desc = "open azure" })
 
 hl.bind(mainMod .. " + B",         hl.dsp.exec_cmd(picker .. " provider bookmarks"),          { desc = "open bookmarks" })
 hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("xdg-open https://www.monday.com"),               { desc = "open monday.com" })
