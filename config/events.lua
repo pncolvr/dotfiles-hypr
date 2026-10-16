@@ -141,26 +141,18 @@ hl.on("window.urgent", function (w)
     hl.dispatch(hl.dsp.focus({  window = "address:" .. w.address  }))
 end)
 
-hl.on("screenshare.state", function (active, type, name)
-    hl.config({animations = { enabled = not active}})
-    -- HideApplications(active)
-end)
-
 hl.on("window.open", function(w)
     if windowOpen[w.class] then
         windowOpen[w.class](w)
     end
 end)
 
-function HideApplications (active)
+function HideApplications(active, animationsEnabled)
     NotificationsHidden:set_enabled(active)
-    hl.config({animations = { enabled = not active}})
     CommAppsHidden:set_enabled(active)
     VaultHidden:set_enabled(active)
+    hl.config({animations = {enabled = animationsEnabled}})
 end
--- hl.on("config.reloaded", function ()
-    
--- end)
 
 -- hl.on("keybinds.submap", function(s)
 --     if not is_empty(s) then

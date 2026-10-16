@@ -66,7 +66,8 @@ CommAppsHidden = hl.window_rule({
     match = { class = comms },
     no_screen_share = true
 })
-CommAppsHidden:set_enabled(false)
+-- Quickshell reconciles capture state once discovery is ready.
+CommAppsHidden:set_enabled(true)
 
 hl.window_rule({
     name = "code_workspace",
@@ -197,7 +198,7 @@ VaultHidden = hl.window_rule({
     match = { class = vaultClass },
     no_screen_share = true,
 })
-VaultHidden:set_enabled(false)
+VaultHidden:set_enabled(true)
 
 hl.window_rule({
     name = "center_webapps",
@@ -242,7 +243,7 @@ NotificationsHidden = hl.layer_rule({
     match = { namespace = "quickshell-private" },
     no_screen_share = true,
 })
-NotificationsHidden:set_enabled(false)
+NotificationsHidden:set_enabled(true)
 
 -- --------------------------------------------------------------------------
 -- smart gaps (black magic)

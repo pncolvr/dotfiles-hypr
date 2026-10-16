@@ -85,7 +85,8 @@ hl.config({
         fullscreen_opacity = 1.0
     },
     animations = {
-        enabled = true
+        -- Quickshell applies Config.qml and current sharing state after discovery.
+        enabled = false
     },
     dwindle = {
         preserve_split = true,

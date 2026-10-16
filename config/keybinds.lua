@@ -63,8 +63,6 @@ hl.bind(mainMod .. " + V",         hl.dsp.exec_cmd("qs ipc call launcher clipboa
 
 hl.bind(mainMod .. " + W",         hl.dsp.exec_cmd("qs ipc call vault toggle"),                                     { desc = "vault" })
 
-hl.bind(mainMod .. " + X",         hl.dsp.exec_cmd(scripts .. "/toggle/animations.sh"),              { desc = "toggle animations" })
-
 hl.bind(mainMod .. " + SHIFT + Y", hl.dsp.focus({ last = true }),                                    { desc = "focus last window" })
 hl.bind(mainMod .. " + Y", hl.dsp.focus({ workspace = "previous_per_monitor" }),                     { desc = "focus last workspace" })
 
