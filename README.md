@@ -56,6 +56,9 @@ Meta+B opens native Bookmarks through `quickshell:launcher-bookmarks`, preservin
 the existing bookmark source and browser policy.
 Tools-submap E opens native QR encoding through `quickshell:launcher-encode-qr`;
 its noninteractive tool worker never calls back into a picker.
+Tools-submap W opens native Wallpaper through `quickshell:launcher-wallpaper`,
+reusing image browsing and separate mode/monitor choices. Offline wallpaper
+restore and direct setting remain available through the retained executor.
 Hypridle retains direct `provider power Lock` execution, including when the bar is
 unavailable. Other shell-backed menu workflows remain pending their native-service migration.
 External scripts retain Quickshell IPC when they need arguments, status or results;
