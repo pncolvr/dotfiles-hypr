@@ -54,6 +54,8 @@ the tools-submap shell reload. Key combinations and submap behavior are preserve
 Meta+Escape opens the native Power menu through `quickshell:launcher-power`.
 Meta+B opens native Bookmarks through `quickshell:launcher-bookmarks`, preserving
 the existing bookmark source and browser policy.
+Tools-submap E opens native QR encoding through `quickshell:launcher-encode-qr`;
+its noninteractive tool worker never calls back into a picker.
 Hypridle retains direct `provider power Lock` execution, including when the bar is
 unavailable. Other shell-backed menu workflows remain pending their native-service migration.
 External scripts retain Quickshell IPC when they need arguments, status or results;
