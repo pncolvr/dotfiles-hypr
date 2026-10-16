@@ -4,7 +4,6 @@ local picker = "bash " .. home .. "/.config/quickshell/src/services/launcher/lau
 
 local mainMod = "SUPER"
 -- general
-hl.bind(mainMod .. " + SHIFT + PERIOD",  hl.dsp.exec_cmd(picker .. " provider books --pick"), { desc = "pick a book to read" })
 hl.bind(mainMod .. " + SHIFT + SLASH",   hl.dsp.exec_cmd("ghostty --title=Keybinds -e " .. scripts .. "/keybinds/display.sh --keybinds"), { desc = "show keybinds" })
 
 hl.bind(mainMod .. " + B",         hl.dsp.exec_cmd(picker .. " provider bookmarks"),          { desc = "open bookmarks" })
