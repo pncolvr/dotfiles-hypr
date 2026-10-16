@@ -10,29 +10,29 @@ hl.bind(mainMod .. " + SHIFT + SLASH",   hl.dsp.exec_cmd("ghostty --title=Keybin
 hl.bind(mainMod .. " + B",         hl.dsp.exec_cmd(picker .. " provider bookmarks"),          { desc = "open bookmarks" })
 hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("xdg-open https://www.monday.com"),               { desc = "open monday.com" })
 
-hl.bind(mainMod .. " + D",         hl.dsp.exec_cmd("qs ipc call launcher apps"),                               { desc = "app launcher" })
-hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd(picker .. " provider remotes"),                      { desc = "pick remote" })
+hl.bind(mainMod .. " + D",         hl.dsp.global("quickshell:launcher-apps"),                               { desc = "app launcher" })
+hl.bind(mainMod .. " + SHIFT + D", hl.dsp.global("quickshell:launcher-remotes"),                      { desc = "pick remote" })
 
-hl.bind(mainMod .. " + E",         hl.dsp.exec_cmd(picker .. " provider webapps"),                       { desc = "open web app" })
+hl.bind(mainMod .. " + E",         hl.dsp.global("quickshell:launcher-webapps"),                       { desc = "open web app" })
 
-hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("qs ipc call launcher expose current"), { desc = "window overview" })
+hl.bind(mainMod .. " + SHIFT + E", hl.dsp.global("quickshell:launcher-expose-current"), { desc = "window overview" })
 
 hl.bind(mainMod .. " + ESCAPE",       hl.dsp.exec_cmd(picker .. " provider power"),                   { desc = "power menu" })
-hl.bind(mainMod .. " + SHIFT + ESCAPE", hl.dsp.exec_cmd("qs ipc call notifications toggle"),         { desc = "toggle notifications" })
+hl.bind(mainMod .. " + SHIFT + ESCAPE", hl.dsp.global("quickshell:notifications-toggle-dnd"),         { desc = "toggle notifications" })
 
 hl.bind(mainMod .. " + F",         hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle"}), { desc = "toggle fullscreen" })
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle"}),  { desc = "toggle maximized" })
 
-hl.bind(mainMod .. " + G",         hl.dsp.exec_cmd(picker .. " provider github"),                        { desc = "open project on github" })
+hl.bind(mainMod .. " + G",         hl.dsp.global("quickshell:launcher-project-urls"),                        { desc = "open project on github" })
 
 hl.bind(mainMod .. " + I",         hl.dsp.submap("modules"), { desc = "open bar modules" })
 hl.bind(mainMod .. " + SHIFT + I", hl.dsp.exec_cmd(scripts .. "/rnd.sh " .. home .. "/Pictures/streamers/"), { desc = "random image" })
 
 hl.bind(mainMod .. " + M",         hl.dsp.exec_cmd(scripts .. "/toggle/noscreenshare.sh"),           { desc = "toggle screenshare" })
 
-hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd(picker .. " provider n8n"),                          { desc = "open flow on n8n" })
+hl.bind(mainMod .. " + SHIFT + N", hl.dsp.global("quickshell:launcher-n8n"),                          { desc = "open flow on n8n" })
 
-hl.bind(mainMod .. " + P",         hl.dsp.exec_cmd(picker .. " provider code"),                              { desc = "open project code" })
+hl.bind(mainMod .. " + P",         hl.dsp.global("quickshell:launcher-projects"),                              { desc = "open project code" })
 
 hl.bind(mainMod .. " + PRINT",         hl.dsp.exec_cmd(picker .. " provider screenshot"),                { desc = "screenshot" })
 hl.bind(mainMod .. " + SHIFT + S",     hl.dsp.exec_cmd(picker .. " provider screenshot region"),         { desc = "screenshot region" })
@@ -42,25 +42,25 @@ hl.bind("PRINT",                       hl.dsp.exec_cmd(picker .. " provider scre
 hl.bind(mainMod .. " + Q",         hl.dsp.exec_cmd("hyprctl kill"),                                  { desc = "kill (pick)" })
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close(),                                            { desc = "close window" })
 
-hl.bind(mainMod .. " + R",         hl.dsp.exec_cmd(picker .. " provider recording"),                 { desc = "screen record" })
+hl.bind(mainMod .. " + R",         hl.dsp.global("quickshell:recording-toggle"),                 { desc = "screen record" })
 hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd(scripts .. "/reload.sh"),                         { desc = "reload config" })
 
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd("ghostty"),                                  { desc = "new tiled terminal" })
 hl.bind(mainMod .. " + SHIFT + RETURN",         hl.dsp.exec_cmd(scripts .. "/toggle/terminal.sh"),           { desc = "toggle floating terminal" })
 
-hl.bind(mainMod .. " + T",         hl.dsp.exec_cmd(picker .. " provider directories"),                 { desc = "pick directory" })
+hl.bind(mainMod .. " + T",         hl.dsp.global("quickshell:launcher-directories"),                 { desc = "pick directory" })
 
-hl.bind("ALT + TAB",         hl.dsp.exec_cmd("qs ipc call launcher windows all"),                             { desc = "switch window" })
-hl.bind("ALT + SHIFT + TAB", hl.dsp.exec_cmd("qs ipc call launcher windows current"),                { desc = "switch window (workspace)" })
+hl.bind("ALT + TAB",         hl.dsp.global("quickshell:launcher-windows-all"),                             { desc = "switch window" })
+hl.bind("ALT + SHIFT + TAB", hl.dsp.global("quickshell:launcher-windows-current"),                { desc = "switch window (workspace)" })
 
-hl.bind(mainMod .. " + TAB",         hl.dsp.exec_cmd("qs ipc call windows next"),                    { desc = "next window" })
-hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.exec_cmd("qs ipc call windows prev"),                    { desc = "prev window" })
+hl.bind(mainMod .. " + TAB",         hl.dsp.global("quickshell:windows-next"),                    { desc = "next window" })
+hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.global("quickshell:windows-prev"),                    { desc = "prev window" })
 
 hl.bind(mainMod .. " + U",         hl.dsp.focus({ urgent_or_last = true }),                          { desc = "focus urgent/last" })
 
-hl.bind(mainMod .. " + V",         hl.dsp.exec_cmd("qs ipc call launcher clipboard"),                                    { desc = "clipboard manager" })
+hl.bind(mainMod .. " + V",         hl.dsp.global("quickshell:launcher-clipboard"),                                    { desc = "clipboard manager" })
 
-hl.bind(mainMod .. " + W",         hl.dsp.exec_cmd("qs ipc call vault toggle"),                                     { desc = "vault" })
+hl.bind(mainMod .. " + W",         hl.dsp.global("quickshell:vault-toggle"),                                     { desc = "vault" })
 
 hl.bind(mainMod .. " + SHIFT + Y", hl.dsp.focus({ last = true }),                                    { desc = "focus last window" })
 hl.bind(mainMod .. " + Y", hl.dsp.focus({ workspace = "previous_per_monitor" }),                     { desc = "focus last workspace" })
@@ -110,7 +110,7 @@ hl.bind("XF86Eject",      hl.dsp.exec_cmd("amixer set Master toggle"),          
 -- workspaces
 for i = 1, 10 do
     local key = i % 10
-    hl.bind(mainMod .. " + ALT + " .. key,   hl.dsp.exec_cmd("qs ipc call windows focus ".. key), { desc = "focus grouped window " .. key })
+    hl.bind(mainMod .. " + ALT + " .. key,   hl.dsp.global("quickshell:windows-focus-" .. key), { desc = "focus grouped window " .. key })
     hl.bind(mainMod .. " + " .. key,         hl.dsp.focus({ workspace = i}),                       { desc = "focus workspace " .. i })
     hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i, follow = false}), { desc = "move to workspace " .. i })
 end

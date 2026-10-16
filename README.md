@@ -44,3 +44,13 @@ git submodule update --init --recursive
 ```shell
 git submodule sync --recursive
 ```
+
+## Quickshell shortcuts
+
+Service-backed Quickshell keybinds use `hl.dsp.global("quickshell:NAME")` and the
+shared registry in Quickshell's `shell.qml`. This includes launchers, recording,
+Vault, notification DND, the modules submap, window cycling/group selection and
+the tools-submap shell reload. Key combinations and submap behavior are preserved.
+The existing shell-backed menu workflows remain pending their native-service migration.
+External scripts retain Quickshell IPC when they need arguments, status or results;
+full process restart/recovery remains external.

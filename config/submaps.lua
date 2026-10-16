@@ -20,7 +20,7 @@ hl.define_submap("modules", "reset", function()
         { "h", "sharing", "screen sharing" },
     }
     for _, module in ipairs(modules) do
-        hl.bind(module[1], hl.dsp.exec_cmd("qs ipc call bar open " .. module[2]), { desc = module[3] })
+        hl.bind(module[1], hl.dsp.global("quickshell:bar-" .. module[2]), { desc = module[3] })
     end
     hl.bind("escape", hl.dsp.submap("reset"))
     hl.bind("catchall", hl.dsp.submap("reset"))
@@ -61,7 +61,7 @@ hl.define_submap("tools", "reset", function()
     hl.bind("o", hl.dsp.exec_cmd(picker .. " provider screenshot ocr"),       { desc = "ocr from screen region" })
     hl.bind("p", hl.dsp.window.pin(),                                     { desc = "pin active window" })
     hl.bind("q", hl.dsp.exec_cmd(picker .. " provider screenshot qrcode"),    { desc = "qrcode from screen region" })
-    hl.bind("r", hl.dsp.exec_cmd("qs ipc -p " .. home .. "/.config/quickshell call shell reload"), { desc = "reload Quickshell" })
+    hl.bind("r", hl.dsp.global("quickshell:shell-reload"), { desc = "reload Quickshell" })
     hl.bind("s", hl.dsp.exec_cmd(scripts .. "/tools/open-clipboard-in-browser.sh"), { desc = "open clipboard entry in browser" })
     hl.bind("t", hl.dsp.exec_cmd(scripts .. "/tools/comms.sh"), { desc = "open Discord and Teams" })
     hl.bind("u", hl.dsp.exec_cmd(scripts .. "/tools/phone-screen.sh"),     { desc = "share phone screen" })
