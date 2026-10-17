@@ -75,7 +75,18 @@ function Open_floating_note(path)
     local mon = hl.get_active_monitor()
     if not mon then return end
 
+    -- Mapping the note can select it in an existing group before window.open.
+    -- Remember each group's visible member before launching, even from the bar.
+    local group_selections = {}
+    for _, window in ipairs(hl.get_windows()) do
+        local group = window.group
+        if group and group.current and group.current.address == window.address then
+            group_selections[window.address] = group
+        end
+    end
+
     Pending_floating_note = {
+        group_selections = group_selections,
         workspace_id = hl.get_active_workspace().id,
         resize_x     = math.floor(mon.width * 0.25),
         resize_y     = math.floor(mon.height * 0.66),
@@ -96,13 +107,28 @@ local windowOpen = {
             local d = Pending_floating_note
             Pending_floating_note = nil
             local addr = "address:" .. w.address
+            local note_group = w.group
             hl.dispatch(hl.dsp.window.move({ out_of_group = true, window = addr }))
             hl.dispatch(hl.dsp.window.float({ action = "enable", window = addr }))
             hl.dispatch(hl.dsp.window.resize({ x = d.resize_x, y = d.resize_y, window = addr }))
-            hl.dispatch(hl.dsp.window.move({ workspace = d.workspace_id, window = addr }))
             hl.dispatch(hl.dsp.window.move({ x = d.move_x, y = d.move_y, window = addr }))
             hl.dispatch(hl.dsp.window.pin({ window = addr }))
+            -- Restore only the group the note left, and only if its old visible
+            -- member still exists in that group. Final focus remains on Notes.
+            if note_group then
+                for _, window in ipairs(hl.get_windows()) do
+                    if window.mapped and window.group == note_group
+                        and d.group_selections[window.address] == note_group then
+                        hl.dispatch(hl.dsp.focus({ window = "address:" .. window.address }))
+                        break
+                    end
+                end
+            end
+            -- Restoring the Code selection can switch workspaces. A pinned
+            -- note won't switch back just by receiving focus.
+            hl.dispatch(hl.dsp.focus({ workspace = d.workspace_id }))
             hl.dispatch(hl.dsp.cursor.move({ x = d.cursor_x, y = d.cursor_y }))
+            hl.dispatch(hl.dsp.focus({ window = addr }))
         else
             if_parent_pinned_pin(w)
             if_floating_move_to_mouse(w)
