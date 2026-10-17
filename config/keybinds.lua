@@ -48,8 +48,7 @@ hl.bind(mainMod .. " + SHIFT + RETURN",         hl.dsp.exec_cmd(scripts .. "/tog
 
 hl.bind(mainMod .. " + T",         hl.dsp.global("quickshell:launcher-directories"),                 { desc = "pick directory" })
 
-hl.bind("ALT + TAB",         hl.dsp.global("quickshell:launcher-windows-all"),                             { desc = "switch window" })
-hl.bind("ALT + SHIFT + TAB", hl.dsp.global("quickshell:launcher-windows-current"),                { desc = "switch window (workspace)" })
+hl.bind("ALT + TAB", hl.dsp.global("quickshell:window-switch"), { desc = "switch window" })
 
 hl.bind(mainMod .. " + TAB",         hl.dsp.global("quickshell:windows-next"),                    { desc = "next window" })
 hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.global("quickshell:windows-prev"),                    { desc = "prev window" })
