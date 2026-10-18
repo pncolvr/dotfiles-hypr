@@ -138,7 +138,7 @@ local windowOpen = {
     ["com.freerdp.client.sdl3"] = force_tile
 }
 
--- shared "auto focus" toggle, also read by the default-browser script (zsh)
+-- shared "auto focus" toggle, also read by the Quickshell browser router
 local AutoFocusStateFile = (os.getenv("XDG_RUNTIME_DIR") or "/tmp") .. "/hypr-autofocus"
 
 local function auto_focus_enabled()
