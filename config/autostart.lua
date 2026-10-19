@@ -7,7 +7,7 @@ hl.on("hyprland.start", function ()
   hl.exec_cmd("udiskie --no-automount --tray")
   hl.exec_cmd("nm-applet")
   hl.exec_cmd("firewall-applet")
-  hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+  hl.exec_cmd("dbus-update-activation-environment --systemd PATH WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 end)
 
 
