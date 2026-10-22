@@ -31,6 +31,15 @@ hl.define_submap("resize", function()
     hl.bind("k", hl.dsp.window.resize({ x = 0,   y = 10,  relative = true}), { repeating = true, desc = "down" })
     hl.bind("j", hl.dsp.window.resize({ x = 0,   y = -10, relative = true}), { repeating = true, desc = "up" })
 
+    hl.bind("f", function()
+        local window = hl.get_active_window()
+        if window and window.floating then
+            -- Floating sizes describe the client area, excluding Hyprland borders.
+            hl.dispatch(hl.dsp.window.resize({ window = "address:" .. window.address, x = 1920, y = 1080, relative = false }))
+        end
+        hl.dispatch(hl.dsp.submap("reset"))
+    end, { desc = "floating window: 1920x1080 content" })
+
     hl.bind("escape",   hl.dsp.submap("reset"))
     hl.bind("catchall", hl.dsp.submap("reset"))
 end)
