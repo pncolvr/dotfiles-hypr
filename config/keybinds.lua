@@ -41,7 +41,7 @@ hl.bind(mainMod .. " + Q",         hl.dsp.exec_cmd("hyprctl kill"),             
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close(),                                            { desc = "close window" })
 
 hl.bind(mainMod .. " + R",         hl.dsp.global("quickshell:recording-toggle"),                 { desc = "screen record" })
-hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd(scripts .. "/reload.sh"),                         { desc = "reload config" })
+hl.bind(mainMod .. " + SHIFT + R", hl.dsp.submap("resize"),                                    { desc = "open submap: resize" })
 
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd("ghostty"),                                  { desc = "new tiled terminal" })
 hl.bind(mainMod .. " + SHIFT + RETURN",         hl.dsp.exec_cmd(scripts .. "/toggle/terminal.sh"),           { desc = "toggle floating terminal" })
