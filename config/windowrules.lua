@@ -202,17 +202,17 @@ VaultHidden:set_enabled(true)
 
 hl.window_rule({
     name = "center_webapps",
-    match = { class = "^(qutebrowser-webapp|.*-.*\\.(com|org|tv).*|vivaldi-localhost__.*)$" },
+    match = { class = "^(qutebrowser-(webapp|hobby)|.*-.*\\.(com|org|tv).*|vivaldi-localhost__.*)$" },
     float = true,
     center = true,
     size = "1500 900"
 })
 
-hl.window_rule({
-    name = "webapps_rollback_tile_twitch",
-    match = { class = "^(qutebrowser-twitch.*)$" },
-    float = false
-})
+-- hl.window_rule({
+--     name = "webapps_rollback_tile_twitch",
+--     match = { class = "^(qutebrowser-twitch.*)$" },
+--     float = false
+-- })
 
 hl.window_rule({
     name = "position_imv_rnd",
