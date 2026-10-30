@@ -67,3 +67,8 @@ Hypridle retains direct `provider power Lock` execution, including when the bar 
 unavailable. Other shell-backed menu workflows remain pending their native-service migration.
 External scripts retain Quickshell IPC when they need arguments, status or results;
 full process restart/recovery remains external.
+
+The microphone mute and Eject keys use `quickshell:audio-mic-mute` and
+`quickshell:audio-speaker-mute`. Quickshell owns the audio scripts, Discord
+mute/deafen synchronization, and microphone-state restoration; its panel controls
+and these keys invoke the same actions. These bindings require Quickshell to run.

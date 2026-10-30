@@ -101,8 +101,8 @@ hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"),              
 hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),                              { locked = true, desc = "next track" })
 hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),                          { locked = true, desc = "prev track" })
 hl.bind("XF86AudioStop",  hl.dsp.exec_cmd("playerctl --all-players stop"),                { locked = true, desc = "stop" })
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("bash " .. scripts .. "/toggle/mic.sh"), { locked = true, desc = "toggle mic and Discord mute" })
-hl.bind("XF86Eject", hl.dsp.exec_cmd("bash " .. scripts .. "/toggle/speakers.sh"), { locked = true, desc = "toggle speakers and Discord deafen" })
+hl.bind("XF86AudioMute", hl.dsp.global("quickshell:audio-mic-mute"), { locked = true, desc = "toggle mic and Discord mute" })
+hl.bind("XF86Eject", hl.dsp.global("quickshell:audio-speaker-mute"), { locked = true, desc = "toggle speakers and Discord deafen" })
 
 -- workspaces
 for i = 1, 10 do
