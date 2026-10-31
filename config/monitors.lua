@@ -4,6 +4,8 @@ hl.monitor({
     mode     = "2560x1440@144",
     position = "0x0",
     scale    = 1,
+    bitdepth = 10,
+    cm       = "srgb",
     -- vrr      = 1,
 })
 

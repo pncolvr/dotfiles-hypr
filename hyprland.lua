@@ -36,6 +36,9 @@ hl.config({
         background_color = theme.inactiveColor,
         vrr = 3 -- 0 - off, 1 - on, 2 - fullscreen only, 3 - fullscreen with video or game content type
     },
+    render = {
+        cm_auto_hdr = 0
+    },
     binds = {
         allow_pin_fullscreen = true
     },
@@ -81,6 +84,9 @@ hl.config({
     decoration = {
         rounding = 0,
         blur = { 
+            enabled = false
+        },
+        wobble = {
             enabled = false
         },
         active_opacity = 1.0,
