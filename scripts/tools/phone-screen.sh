@@ -11,6 +11,11 @@ for dependency in adb scrcpy avahi-browse timeout; do
     command -v "$dependency" >/dev/null || fail "Missing dependency: $dependency"
 done
 
+# Use a dedicated adb server so a forwarded default port (5037), such as from a
+# dev container, cannot capture the scrcpy tunnel on another host.
+export ANDROID_ADB_SERVER_PORT=5038
+pair_hint="If this computer is not paired, use Wireless debugging > Pair device with pairing code, then run: ANDROID_ADB_SERVER_PORT=$ANDROID_ADB_SERVER_PORT adb pair IP:PORT CODE"
+
 adb start-server >/dev/null 2>&1 || fail "Unable to start ADB."
 
 # Discover the current wireless debugging port rather than saving a stale one.
@@ -25,18 +30,18 @@ if (( ${#endpoints[@]} > 1 )); then
 elif (( ${#endpoints[@]} == 1 )); then
     endpoint=${endpoints[0]}
     timeout 10s adb connect "$endpoint" >/dev/null 2>&1 ||
-        fail "Unable to connect to the phone. Check Wireless debugging and pairing."
+        fail "Unable to connect to the phone. $pair_hint"
 else
     # An existing connection still works when multicast discovery is unavailable.
     mapfile -t endpoints < <(adb devices |
         awk '$2 == "device" && $1 ~ /:[0-9]+$/ { print $1 }')
     (( ${#endpoints[@]} == 1 )) ||
-        fail "No unique wireless phone found. Enable Wireless debugging on the same local network and ensure this computer is paired."
+        fail "No unique wireless phone found. Enable Wireless debugging on the same local network and ensure this computer is paired. $pair_hint"
     endpoint=${endpoints[0]}
 fi
 
 [[ $(timeout 5s adb -s "$endpoint" get-state 2>/dev/null || true) == device ]] ||
-    fail "The phone is unavailable. Check Wireless debugging and pairing."
+    fail "The phone is unavailable. $pair_hint"
 
 log_file=$(mktemp)
 trap 'rm -f "$log_file"' EXIT
