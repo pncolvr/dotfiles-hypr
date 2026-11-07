@@ -91,7 +91,7 @@ hl.window_rule({
 
 hl.window_rule({
     name = "tools_workspace",
-    match = { class = "^(Bazecor|bruno|gimp|com\\.shellyorg\\.shelly)$" },
+    match = { class = "^(Bazecor|gimp|Locally-uncensored)$" },
     workspace = 6
 })
 
